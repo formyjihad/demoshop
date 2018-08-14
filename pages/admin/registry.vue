@@ -32,7 +32,7 @@ export default {
                 formData.append("price", this.price);
                 console.log("post 대기");
             
-            let data = await axios.post('http://27.255.88.77/api/v1.0/admin/goods/registry',formData,{
+            let data = await axios.post('http://localhost:3000/api/v1.0/admin/goods/registry',formData,{
                 headers:{
                     'Content-Type':'multipart/form-data'
                 }

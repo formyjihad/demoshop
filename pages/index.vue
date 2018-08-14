@@ -3,7 +3,7 @@
     <ul>
       <li v-for ="good in goods" :key="good['_id']">
         <nuxt-link :to='{path:"/goods/"+good["_id"]}'>
-          <img :src="'http://27.255.88.77/uploads/' + good['img']">
+          <img :src="'http://localhost:3000/uploads/' + good['img']">
           <h3>{{good['name']}}</h3>
           <h3>{{good['price']}}</h3>
         </nuxt-link>
@@ -30,7 +30,7 @@ function getPagination ({currentPage, totalCount, limit}){
 
 export default {
     async asyncData(){
-        let data = await axios.get('http://27.255.88.77/api/v1.0/goods')
+        let data = await axios.get('http://localhost:3000/api/v1.0/goods')
         return{
             goods: data.data.good,
             totalCount:data.data.totalCount,
@@ -45,7 +45,7 @@ export default {
     },
     methods : {
         async getPage(page){
-            let url = `http://27.255.88.77/api/v1.0/goods?page=${page}`
+            let url = `http://localhost:3000/api/v1.0/goods?page=${page}`
             let data = await axios.get(url)
             
             this.goods = data.data.good
