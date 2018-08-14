@@ -1,5 +1,6 @@
 const express = require('express');
 let app = express();
+let cors = require('cors');
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -21,6 +22,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors());
 
 //const {good, order, purchase, user} = require('./models')
 
