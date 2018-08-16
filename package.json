@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "demosite",
   "author": "formyjihad <40414984+formyjihad@users.noreply.github.com>",
-  "private": false,
+  "private": true,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
