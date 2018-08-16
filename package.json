@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "demosite",
   "author": "formyjihad <40414984+formyjihad@users.noreply.github.com>",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "cors": "^2.8.4",
     "cross-env": "^5.2.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
@@ -23,7 +24,6 @@
     "nuxt": "^1.0.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^4.38.0",
     "source-map-support": "^0.5.6",
     "vuex": "^3.0.1",
     "vuex-persist": "^1.4.3"
