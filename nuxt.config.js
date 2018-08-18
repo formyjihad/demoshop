@@ -13,6 +13,9 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  modules: [
+    'bootstrap-vue/nuxt',
+  ],
   /*
   ** Customize the progress bar color
   */
@@ -30,7 +33,10 @@ module.exports = {
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /(node_modules)/
+          exclude: /(node_modules)/,
+          options:{
+            fix: true
+          }
         })
       }
     }

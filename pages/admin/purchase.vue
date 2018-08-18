@@ -1,11 +1,12 @@
 <template>
     <div class="container">
         <table>
-            <tr v-for="purchase in purchases" :key="purchase['id']">
-                <td>{{purchase['uid']}}</td>
-                <td>{{purchase['name']}}</td>
-                <td>{{purchase['price']}}원</td>
-                <td>{{purchase['count']}}개</td>
+            <tr v-for="order in orders" :key="order['id']">
+                <td>{{order['uid']}}</td>
+                <td>{{order['name']}}</td>
+                <td>{{order['price']}}원</td>
+                <td>{{order['count']}}개</td>
+                <td id="orderDetail" @mouseover="detail(order)">주문상세</td>
             </tr>
         </table>
         <div class="pagination">
@@ -30,9 +31,8 @@ function getPagination ({currentPage, totalCount, limit}){
 export default {
     async asyncData(){
         let data = await axios.get('http://localhost:3000/api/v1.0/admin/purchase')
-        //console.log(data.data)
         return{
-            purchases: data.data.purchase,
+            orders: data.data.order,
             totalCount:data.data.totalCount,
             limit : data.data.limit,
             currentPage: data.data.currentPage,
@@ -48,7 +48,7 @@ export default {
             let url = `http://localhost:3000/api/v1.0/admin/purchase?page=${page}`
             let data = await axios.get(url)
             
-            this.purchases = data.data.purchase
+            this.orders = data.data.order
             this.totalCount = data.data.totalCount
             this.limit = data.data.limit
             this.currentPage = data.data.currentPage
@@ -57,6 +57,13 @@ export default {
                 totalCount:data.data.totalCount,
                 limit:data.data.limit
             })
+        },
+        async detail(id){
+            let detail = document.getElementById('orderDetail')
+            console.log(id)
+            
+           detail.title = "사이즈 : "+id.xSize+"*"+id.ySize+"\n"+"두께 : "+id.thick+"\n포장 : "+id.packing+"\n부자재 : "+id.subItem+"\n인쇄면 : "+id.prinside
+            
         }
     },
     layout:'admin'

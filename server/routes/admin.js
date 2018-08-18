@@ -4,7 +4,7 @@ let router = express.Router();
 const goods = require('../models/good.js');
 const file = require('../utils/fileUpload');
 const users = require('../models/user.js');
-const purchases = require('../models/purchase.js');
+const orders = require('../models/order.js');
 
 
 router.get('/',(req,res,next)=>{
@@ -14,14 +14,14 @@ router.get('/purchase', (req, res) => {
     let page = req.query.page || 0;
     let limit = 5;
     let offset = page * limit
-    purchases.find()
+    orders.find()
     .select({})
     .limit(limit)
     .skip(offset)
-    .exec(function(err, purchase){
-        purchases.countDocuments().exec(function(err, count){
+    .exec(function(err, order){
+        orders.countDocuments().exec(function(err, count){
             res.json({
-                purchase:purchase,
+                order:order,
                 limit:limit,
                 currentPage:page,
                 totalCount:count

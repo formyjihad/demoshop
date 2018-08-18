@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let orderSchema = new Schema({
-    _id : Number,
     name: String,
+    uid: String,
     xSize: {
         type: Number,
         default: 4,
