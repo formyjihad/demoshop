@@ -2578,12 +2578,19 @@ const fs = __webpack_require__(20);
 const session = __webpack_require__(115);
 const passport = __webpack_require__(116);
 
+process.env.PORT = 3000;
+
+const host = process.env.HOST || '127.0.0.1';
+const port = process.env.PORT || 3000;
+
 app.use(session({
     secret: '#123#123#asd#qwe#zxc#qwer#128*(*&asdjkwhereareyoufrom',
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 }
 }));
+
+config.dev = !("development" === 'production');
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -2607,15 +2614,17 @@ app.get('/uploads/:filename', (req, res) => {
     });
 });
 
+app.set('port', port);
+
+if (config.dev) {
+    let builder = new Builder(nuxt);
+    builder.build();
+}
+
 app.use('/api/v1.0', routes);
 app.use(nuxt.render);
 
-let builder = new Builder(nuxt);
-builder.build();
-
-server.listen(3000, () => {
-    console.log('server is now online on 3000 Port');
-});
+server.listen(port, host);
 
 let db = mongoose.connection;
 
