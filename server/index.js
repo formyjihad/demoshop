@@ -51,12 +51,9 @@ app.get('/uploads/:filename',(req,res)=>{
 
 app.set('port', port)
 
+let builder = new Builder(nuxt);
+builder.build();
 
-
-if(config.dev){
-    let builder = new Builder(nuxt);
-    builder.build();
-}
 
 app.use('/api/v1.0', routes);
 app.use(nuxt.render);
