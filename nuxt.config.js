@@ -24,9 +24,9 @@ module.exports = {
   ** Build configuration
   */
   axios:{
-    baseURL: `http://${process.env.HOST || 'localhost'}:${process.env.PORT || 3000}`,
-    proxyHeaders:false,
-    credentials:false,
+    baseURL: `http://${process.env.HOST || 'localhost'}:${process.env.PORT || 80}`,
+ //   proxyHeaders:false,
+ //   credentials:false,
   },
   build: {
     /*

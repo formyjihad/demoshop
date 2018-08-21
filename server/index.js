@@ -1,6 +1,6 @@
 const express = require('express');
 let app = express();
-//let CORS = require('cors')();
+let CORS = require('cors')();
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -13,10 +13,10 @@ const fs = require('fs');
 const session = require('express-session');
 const passport = require('./utils/passport');
 
-process.env.PORT = 3000
+process.env.PORT = 80
 
 const host = process.env.HOST || '127.0.0.1'
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 80
 
 app.set('port', port)
 
@@ -42,7 +42,7 @@ config.dev = !(process.env.NODE_ENV === 'production');
 
 app.use(passport.initialize());
 app.use(passport.session());
-//app.use(CORS);
+app.use(CORS);
 
 //const {good, order, purchase, user} = require('./models')
 
@@ -70,8 +70,8 @@ if(config.dev){
 app.use('/api', routes);
 app.use(nuxt.render);
 
-server.listen(port, ()=>{
-    console.log("server is now on 3000 port")
+server.listen(port, host, () =>{
+    console.log("server is now on 80 port")
 });
 
 let db = mongoose.connection;

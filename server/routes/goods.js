@@ -6,11 +6,7 @@ router.get('/', (req,res,next)=>{
     let page = req.query.page || 0
     let limit = 5;
     let offset = page * limit
-    /*let totalCount;
-    good.count(function(err,count){
-        if(err) return res.status(500).send({error: 'database failure'});
-        totalCount = count;
-    });*/
+
     goods.find()
     .select({})
     .limit(limit)
