@@ -1,14 +1,18 @@
 const express = require('express');
 let app = express();
 let cors = require('cors');
+import Vue from 'vue'
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const {Nuxt, Builder} = require('nuxt');
-const config = require('../nuxt.config.js');
+let config = require('../nuxt.config.js');
 const routes = require('./routes');
 const fs = require('fs');
+const bootStarpVue = 'bootstrap-vue';
+
+Vue.use(bootStarpVue);
 
 const session = require('express-session');
 const passport = require('./utils/passport');
@@ -25,7 +29,7 @@ app.use(session({
     cookie:{ maxAge: 1000*60*60*24*7 }
 }));
 
-config.dev = !(process.env.NODE_ENV === 'production');
+//config.dev = !(process.env.NODE_ENV === 'production');
 
 app.use(passport.initialize());
 app.use(passport.session());
