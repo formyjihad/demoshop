@@ -1,6 +1,6 @@
 <template>
     <div class = "detail">
-        <img class = "item-image" :src='"http://localhost:3000/uploads/" + img'>
+        <img class = "item-image" :src='"/uploads/" + img'>
         <h3>{{name}}</h3>
         <h3>{{price}}</h3>
         <section id="form-section">

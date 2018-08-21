@@ -3,7 +3,7 @@
     <ul>
       <li v-for ="good in goods" :key="good['_id']">
         <nuxt-link :to='{path:"/goods/"+good["_id"]}'>
-          <img :src="'http://localhost:3000/uploads/' + good['img']">
+          <img :src="'/uploads/' + good['img']">
           <h3>{{good['name']}}</h3>
           <h3>{{good['price']}}</h3>
         </nuxt-link>
