@@ -2,9 +2,9 @@ const express = require('express');
 let router = express.Router();
 const users = require('../models/user.js')
 const orders = require('../models/order.js');
-const cors = require('cors')
+
 let order = new orders();
-router.post('/', cors(), (req, res, next)=>{
+router.post('/', (req, res, next)=>{
     if(!req.body){
         return res.status(200).json({msg:"비로그인입니다"});
     }

@@ -2565,7 +2565,7 @@ module.exports = require("passport");
 
 /* WEBPACK VAR INJECTION */(function(__dirname) {const express = __webpack_require__(1);
 let app = express();
-let CORS = __webpack_require__(119)();
+//let CORS = require('cors')();
 
 const bodyParser = __webpack_require__(33);
 const mongoose = __webpack_require__(8);
@@ -2578,10 +2578,12 @@ const fs = __webpack_require__(20);
 const session = __webpack_require__(114);
 const passport = __webpack_require__(115);
 
-//process.env.PORT = 3000
+process.env.PORT = 3000;
 
-//const host = process.env.HOST || '127.0.0.1'
-//const port = process.env.PORT || 3000
+const host = process.env.HOST || '127.0.0.1';
+const port = process.env.PORT || 3000;
+
+app.set('port', port);
 
 app.use(session({
     secret: '#123#123#asd#qwe#zxc#qwer#128*(*&asdjkwhereareyoufrom',
@@ -2597,11 +2599,13 @@ let allowCORS = function (req, res, next) {
     req.method === 'OPTIONS' ? res.send(200) : next();
 };
 
-//config.dev = !(process.env.NODE_ENV === 'production');
+//app.use(allowCORS)
+
+config.dev = !("development" === 'production');
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(CORS);
+//app.use(CORS);
 
 //const {good, order, purchase, user} = require('./models')
 
@@ -2621,15 +2625,15 @@ app.get('/uploads/:filename', (req, res) => {
     });
 });
 
-//app.set('port', port)
-
-let builder = new Builder(nuxt);
-builder.build();
+if (config.dev) {
+    let builder = new Builder(nuxt);
+    builder.build();
+}
 
 app.use('/api', routes);
 app.use(nuxt.render);
 
-server.listen(3000, () => {
+server.listen(port, host, () => {
     console.log("server is now on 3000 port");
 });
 
@@ -12716,6 +12720,11 @@ module.exports = {
   /*
   ** Build configuration
   */
+  axios: {
+    baseURL: `http://${process.env.HOST || 'localhost'}:${process.env.PORT || 3000}`,
+    proxyHeaders: false,
+    credentials: false
+  },
   build: {
     /*
     ** Run ESLint on save
@@ -13129,12 +13138,6 @@ module.exports = require("passport-local");
 /***/ (function(module, exports) {
 
 module.exports = require("http");
-
-/***/ }),
-/* 119 */
-/***/ (function(module, exports) {
-
-module.exports = require("cors");
 
 /***/ })
 /******/ ]);

@@ -1,6 +1,6 @@
 const express = require('express');
 let app = express();
-let CORS = require('cors')();
+//let CORS = require('cors')();
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -15,7 +15,7 @@ const passport = require('./utils/passport');
 
 process.env.PORT = 3000
 
-//const host = process.env.HOST || '127.0.0.1'
+const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
 
 app.set('port', port)
@@ -36,13 +36,13 @@ let allowCORS = function(req, res, next){
     next();
 }
 
-app.use(allowCORS)
+//app.use(allowCORS)
 
-//config.dev = !(process.env.NODE_ENV === 'production');
+config.dev = !(process.env.NODE_ENV === 'production');
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(CORS);
+//app.use(CORS);
 
 //const {good, order, purchase, user} = require('./models')
 
@@ -62,14 +62,15 @@ app.get('/uploads/:filename',(req,res)=>{
     });
 });
 
-let builder = new Builder(nuxt);
-builder.build();
-
+if(config.dev){
+    let builder = new Builder(nuxt);
+    builder.build();
+}
 
 app.use('/api', routes);
 app.use(nuxt.render);
 
-server.listen(port, ()=>{
+server.listen(port, host, ()=>{
     console.log("server is now on 3000 port")
 });
 
