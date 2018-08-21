@@ -2565,7 +2565,7 @@ module.exports = require("passport");
 
 /* WEBPACK VAR INJECTION */(function(__dirname) {const express = __webpack_require__(1);
 let app = express();
-//let cors = require('cors');
+let CORS = __webpack_require__(119)();
 
 const bodyParser = __webpack_require__(33);
 const mongoose = __webpack_require__(8);
@@ -2590,11 +2590,18 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 }
 }));
 
+let allowCORS = function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    req.method === 'OPTIONS' ? res.send(200) : next();
+};
+
 //config.dev = !(process.env.NODE_ENV === 'production');
 
 app.use(passport.initialize());
 app.use(passport.session());
-//app.use(cors());
+app.use(CORS);
 
 //const {good, order, purchase, user} = require('./models')
 
@@ -13122,6 +13129,12 @@ module.exports = require("passport-local");
 /***/ (function(module, exports) {
 
 module.exports = require("http");
+
+/***/ }),
+/* 119 */
+/***/ (function(module, exports) {
+
+module.exports = require("cors");
 
 /***/ })
 /******/ ]);
