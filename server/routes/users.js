@@ -1,13 +1,13 @@
 const express = require('express');
 let router = express.Router();
 const users = require('../models/user.js')
-
-router.get('/',(req,res,next)=>{
+const cors = require('cors')
+router.get('/', cors(), (req,res,next)=>{
     res.send('/users');
 });
 
 let user = new users();
-router.post('/signup',(req,res,next)=>{
+router.post('/signup', cors(), (req,res,next)=>{
     user.uid = req.body.uid;
     user.password = req.body.password;
     user.price = req.body.price;
@@ -33,7 +33,7 @@ router.post('/signup',(req,res,next)=>{
 
 const passport = require('passport');
 
-router.post('/signin', (req, res, next) =>{
+router.post('/signin',cors(), (req, res, next) =>{
         passport.authenticate('local',{
             successRedirect:'/api/users/signin/success',
             failureRedirect:'/api/users/signin/fail'
@@ -41,22 +41,22 @@ router.post('/signin', (req, res, next) =>{
     }
 );
 
-router.get('/session-check', (req, res, next) =>{
+router.get('/session-check',cors(), (req, res, next) =>{
     //console.log(req.user);
     res.status(200).json(req.user);
 });
 
-router.get('/signin/success',(req,res, next)=>{
+router.get('/signin/success',cors(), (req,res, next)=>{
     console.log("Sign in Success")
     res.status(200).json({});
 });
 
-router.get('/signin/fail',(req,res, next)=>{
+router.get('/signin/fail',cors(), (req,res, next)=>{
     console.log("Sign in Fail")
     res.status(204).json({});
 });
 
-router.put('/signout', (req,res, next)=>{
+router.put('/signout',cors(), (req,res, next)=>{
     req.logout();
     res.status(201).json({});
 });

@@ -23,11 +23,6 @@ module.exports = {
   /*
   ** Build configuration
   */
-  axios:{
-    baseURL:'http://api.github.com',
-    proxyHeaders:false,
-    credentials:false,
-  },
   build: {
     /*
     ** Run ESLint on save

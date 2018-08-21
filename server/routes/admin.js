@@ -1,5 +1,6 @@
 const express = require('express');
 let router = express.Router();
+const cors = require('cors')
 
 const goods = require('../models/good.js');
 const file = require('../utils/fileUpload');
@@ -7,10 +8,10 @@ const users = require('../models/user.js');
 const orders = require('../models/order.js');
 
 
-router.get('/',(req,res,next)=>{
+router.get('/', cors(), (req,res,next)=>{
     res.send('/admin');
 });
-router.get('/purchase', (req, res, next) => {
+router.get('/purchase', cors(), (req, res, next) => {
     let page = req.query.page || 0;
     let limit = 5;
     let offset = page * limit
@@ -41,7 +42,7 @@ router.get('/purchase', (req, res, next) => {
     });*/
 });
 //let users = new user();
-router.get('/users', (req, res, next)=>{
+router.get('/users', cors(), (req, res, next)=>{
     let page = req.query.page || 0;
     let limit = 5;
     let offset = page*limit
@@ -72,7 +73,7 @@ router.get('/users', (req, res, next)=>{
     });*/
 });
 let good = new goods()
-router.post('/goods/registry', file.single('img'), (req,res,next)=>{
+router.post('/goods/registry', file.single('img'), cors(), (req,res,next)=>{
     
     console.log(req.body.name)
     console.log(req.body.price)
@@ -93,7 +94,7 @@ router.post('/goods/registry', file.single('img'), (req,res,next)=>{
     });
 });
 
-router.get('/goods', (req,res, next)=>{
+router.get('/goods', cors(), (req,res, next)=>{
     let page = req.query.page || 0
     let limit = 5;
     let offset = page * limit

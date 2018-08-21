@@ -1,8 +1,8 @@
 const express = require('express');
 let router = express.Router();
 const goods = require('../models/good.js');
-
-router.get('/', (req,res,next)=>{
+const cors = require('cors')
+router.get('/',cors(), (req,res,next)=>{
     let page = req.query.page || 0
     let limit = 5;
     let offset = page * limit
@@ -27,7 +27,7 @@ router.get('/', (req,res,next)=>{
     });
 });
 
-router.get('/detail', (req,res, next) => {
+router.get('/detail', cors(), (req,res, next) => {
     let id = req.query.goodsId;
     //console.log(req.query)
 
