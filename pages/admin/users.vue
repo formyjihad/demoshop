@@ -30,7 +30,7 @@ function getPagination ({currentPage, totalCount, limit}){
 
 export default {
     async asyncData(){
-        let data = await axios.get('http://localhost:3000/api/v1.0/admin/users')
+        let data = await axios.get('http://localhost:3000/api/admin/users')
         //console.log(data.data)
         return{
             users: data.data.user,
@@ -46,7 +46,7 @@ export default {
     },
     methods : {
         async getPage(page){
-            let url = `http://localhost:3000/api/v1.0/admin/users?page=${page}`
+            let url = `http://localhost:3000/api/admin/users?page=${page}`
             let data = await axios.get(url)
             
             this.users = data.data.user

@@ -35,8 +35,8 @@ const passport = require('passport');
 
 router.post('/signin',
     passport.authenticate('local',{
-        successRedirect:'/api/v1.0/users/signin/success',
-        failureRedirect:'/api/v1.0/users/signin/fail'
+        successRedirect:'/api/users/signin/success',
+        failureRedirect:'/api/users/signin/fail'
     })
 );
 

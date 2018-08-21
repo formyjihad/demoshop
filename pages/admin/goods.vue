@@ -28,7 +28,7 @@ function getPagination ({currentPage, totalCount, limit}){
 
 export default {
     async asyncData(){
-        let data = await axios.get('http://localhost:3000/api/v1.0/admin/goods')
+        let data = await axios.get('http://localhost:3000/api/admin/goods')
         //console.log(data.data)
         return{
             goods: data.data.good,
@@ -44,7 +44,7 @@ export default {
     },
     methods : {
         async getPage(page){
-            let url = `http://localhost:3000/api/v1.0/admin/goods?page=${page}`
+            let url = `http://localhost:3000/api/admin/goods?page=${page}`
             let data = await axios.get(url)
             
             this.goods = data.data.good

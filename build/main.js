@@ -2626,7 +2626,7 @@ app.get('/uploads/:filename', (req, res) => {
 let builder = new Builder(nuxt);
 builder.build();
 
-app.use('/api/v1.0', routes);
+app.use('/api', routes);
 app.use(nuxt.render);
 
 server.listen(3000, () => {
@@ -13023,8 +13023,8 @@ router.post('/signup', (req, res, next) => {
 const passport = __webpack_require__(31);
 
 router.post('/signin', passport.authenticate('local', {
-    successRedirect: '/api/v1.0/users/signin/success',
-    failureRedirect: '/api/v1.0/users/signin/fail'
+    successRedirect: '/api/users/signin/success',
+    failureRedirect: '/api/users/signin/fail'
 }));
 
 router.get('/session-check', (req, res) => {
