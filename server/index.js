@@ -36,7 +36,7 @@ let allowCORS = function(req, res, next){
     next();
 }
 
-//app.use(allowCORS)
+app.use(allowCORS)
 
 config.dev = !(process.env.NODE_ENV === 'production');
 

@@ -2599,7 +2599,7 @@ let allowCORS = function (req, res, next) {
     req.method === 'OPTIONS' ? res.send(200) : next();
 };
 
-//app.use(allowCORS)
+app.use(allowCORS);
 
 config.dev = !("development" === 'production');
 
@@ -12721,7 +12721,7 @@ module.exports = {
   ** Build configuration
   */
   axios: {
-    baseURL: `http://27.255.88.77:${process.env.PORT || 3000}`,
+    baseURL: `http://${process.env.HOST || 'localhost'}:${process.env.PORT || 3000}`,
     proxyHeaders: false,
     credentials: false
   },
