@@ -2633,7 +2633,7 @@ if (config.dev) {
 app.use('/api', routes);
 app.use(nuxt.render);
 
-server.listen(port, host, () => {
+server.listen(port, () => {
     console.log("server is now on 3000 port");
 });
 
