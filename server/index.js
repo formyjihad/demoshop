@@ -13,10 +13,10 @@ const fs = require('fs');
 const session = require('express-session');
 const passport = require('./utils/passport');
 
-process.env.PORT = 3000
+//process.env.PORT = 3000
 
-const host = process.env.HOST || '127.0.0.1'
-const port = process.env.PORT || 3000
+//const host = process.env.HOST || '127.0.0.1'
+//const port = process.env.PORT || 3000
 
 app.use(session({
     secret : '#123#123#asd#qwe#zxc#qwer#128*(*&asdjkwhereareyoufrom', 
@@ -49,7 +49,7 @@ app.get('/uploads/:filename',(req,res)=>{
     });
 });
 
-app.set('port', port)
+//app.set('port', port)
 
 let builder = new Builder(nuxt);
 builder.build();
@@ -58,7 +58,9 @@ builder.build();
 app.use('/api/v1.0', routes);
 app.use(nuxt.render);
 
-server.listen(port, host);
+server.listen(3000, ()=>{
+    console.log("server is now on 3000 port")
+});
 
 let db = mongoose.connection;
 
