@@ -14,7 +14,7 @@ export default {
         console.log("확인 결과 "+confirmed)
         if (confirmed == true){
             console.log("try to sign out")
-            let url = 'http://localhost:3000/api/users/signout'
+            let url = '/api/users/signout'
             let data = await axios.put(url)
             this.logout();
             this.$nuxt.$router.replace({path:'/'})

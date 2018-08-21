@@ -23,7 +23,7 @@ export default {
     methods:{
         async signup (){
             if(this.uid && this.password){
-                let url ='http://localhost:3000/api/users/signup'
+                let url ='/api/users/signup'
                 let data = await axios.post(url, data={
                     uid:this.uid,
                     password:this.password,

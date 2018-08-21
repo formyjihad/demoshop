@@ -112,14 +112,14 @@ export default {
         }
     },
     /*async created() {
-        let url = `http://localhost:3000/api/goods/detail?goodsId=${this.goodsId}`
+        let url = `/api/goods/detail?goodsId=${this.goodsId}`
         let data = await axios.get(url);
         this.name = data.data.name;
         this.price = data.data.price;
     },*/
     methods:{
         async buy(){
-            let url = 'http://localhost:3000/api/purchase'
+            let url = '/api/purchase'
             let data = await axios.post(url, {
                 name:this.name,
                 price:this.price,

@@ -23,7 +23,7 @@ export default {
     },
     methods:{
         async signin(){
-            let url='http://localhost:3000/api/users/signin'
+            let url='/api/users/signin'
             let data = await axios.post(url, data={
                 uid: this.uid,
                 password:this.password
