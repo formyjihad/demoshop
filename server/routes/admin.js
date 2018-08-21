@@ -10,7 +10,7 @@ const orders = require('../models/order.js');
 router.get('/',(req,res,next)=>{
     res.send('/admin');
 });
-router.get('/purchase', (req, res) => {
+router.get('/purchase', (req, res, next) => {
     let page = req.query.page || 0;
     let limit = 5;
     let offset = page * limit
@@ -41,7 +41,7 @@ router.get('/purchase', (req, res) => {
     });*/
 });
 //let users = new user();
-router.get('/users', (req, res)=>{
+router.get('/users', (req, res, next)=>{
     let page = req.query.page || 0;
     let limit = 5;
     let offset = page*limit
@@ -93,7 +93,7 @@ router.post('/goods/registry', file.single('img'), (req,res,next)=>{
     });
 });
 
-router.get('/goods', (req,res)=>{
+router.get('/goods', (req,res, next)=>{
     let page = req.query.page || 0
     let limit = 5;
     let offset = page * limit

@@ -27,7 +27,7 @@ router.get('/', (req,res,next)=>{
     });
 });
 
-router.get('/detail', (req,res) => {
+router.get('/detail', (req,res, next) => {
     let id = req.query.goodsId;
     //console.log(req.query)
 

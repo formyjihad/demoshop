@@ -33,29 +33,30 @@ router.post('/signup',(req,res,next)=>{
 
 const passport = require('passport');
 
-router.post('/signin',
-    passport.authenticate('local',{
-        successRedirect:'/api/users/signin/success',
-        failureRedirect:'/api/users/signin/fail'
-    })
+router.post('/signin', (req, res, next) =>{
+        passport.authenticate('local',{
+            successRedirect:'/api/users/signin/success',
+            failureRedirect:'/api/users/signin/fail'
+        })
+    }
 );
 
-router.get('/session-check', (req, res) =>{
+router.get('/session-check', (req, res, next) =>{
     //console.log(req.user);
     res.status(200).json(req.user);
 });
 
-router.get('/signin/success',(req,res)=>{
+router.get('/signin/success',(req,res, next)=>{
     console.log("Sign in Success")
     res.status(200).json({});
 });
 
-router.get('/signin/fail',(req,res)=>{
+router.get('/signin/fail',(req,res, next)=>{
     console.log("Sign in Fail")
     res.status(204).json({});
 });
 
-router.put('/signout', (req,res)=>{
+router.put('/signout', (req,res, next)=>{
     req.logout();
     res.status(201).json({});
 });
