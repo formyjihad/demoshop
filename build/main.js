@@ -12721,7 +12721,7 @@ module.exports = {
   ** Build configuration
   */
   axios: {
-    baseURL: `http://${process.env.HOST || 'localhost'}:${process.env.PORT || 3000}`,
+    baseURL: `http://27.255.88.77:${process.env.PORT || 3000}`,
     proxyHeaders: false,
     credentials: false
   },
