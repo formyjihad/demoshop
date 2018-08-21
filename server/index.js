@@ -1,7 +1,6 @@
 const express = require('express');
 let app = express();
-let cors = require('cors');
-import Vue from 'vue'
+//let cors = require('cors');
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -10,9 +9,6 @@ const {Nuxt, Builder} = require('nuxt');
 let config = require('../nuxt.config.js');
 const routes = require('./routes');
 const fs = require('fs');
-const bootStarpVue = 'bootstrap-vue';
-
-Vue.use(bootStarpVue);
 
 const session = require('express-session');
 const passport = require('./utils/passport');
@@ -33,7 +29,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cors());
+//app.use(cors());
 
 //const {good, order, purchase, user} = require('./models')
 
