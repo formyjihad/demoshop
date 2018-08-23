@@ -7,7 +7,7 @@ const users = require('../models/user.js');
 const orders = require('../models/order.js');
 
 
-router.get('/',(req,res,next)=>{
+router.get('/', (req,res,next)=>{
     res.send('/admin');
 });
 router.get('/purchase', (req, res) => {

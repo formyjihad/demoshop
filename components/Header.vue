@@ -5,6 +5,7 @@
         <nuxt-link to="/signin" v-if="! isLogin">로그인</nuxt-link>
         <nuxt-link to="/mypage" v-if="isLogin">마이페이지</nuxt-link>
         <nuxt-link to="/signout" v-if="isLogin">로그아웃</nuxt-link>
+        <nuxt-link to="/cart"> 장바구니 </nuxt-link>
     </div>
 </template>
 

@@ -2575,14 +2575,16 @@ let config = __webpack_require__(107);
 const routes = __webpack_require__(108);
 const fs = __webpack_require__(20);
 
-const session = __webpack_require__(115);
-const passport = __webpack_require__(116);
+const session = __webpack_require__(117);
+const passport = __webpack_require__(118);
 
 process.env.PORT = 80;
 
 const host = process.env.HOST || '127.0.0.1';
 const port = process.env.PORT || 80;
+//const cookieParser = require('cookie-parser');
 
+//app.use(cookieParser());
 app.set('port', port);
 
 app.use(session({
@@ -2612,7 +2614,7 @@ app.use(CORS);
 
 let nuxt = new Nuxt(config);
 
-const http = __webpack_require__(119);
+const http = __webpack_require__(121);
 let server = http.createServer(app);
 
 app.use(bodyParser.json());
@@ -12762,11 +12764,13 @@ const admin = __webpack_require__(109);
 const goods = __webpack_require__(112);
 const purchase = __webpack_require__(113);
 const users = __webpack_require__(114);
+const cart = __webpack_require__(115);
 
 router.use('/admin', admin);
 router.use('/goods', goods);
 router.use('/purchase', purchase);
 router.use('/users', users);
+router.use('/cart', cart);
 
 module.exports = router;
 
@@ -12962,6 +12966,7 @@ router.post('/', (req, res, next) => {
     order.uid = req.user.uid;
     order.name = req.body.name;
     order.price = req.body.price;
+    order.quantity = req.body.quantity;
     order.xsize = req.body.xsize;
     order.ysize = req.body.ysize;
     order.thick = req.body.thick;
@@ -13062,16 +13067,56 @@ module.exports = router;
 
 /***/ }),
 /* 115 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const express = __webpack_require__(1);
+let router = express.Router();
+let cookieParser = __webpack_require__(116);
+
+router.post('/', (req, res, next) => {
+    console.log('put in a box');
+    console.log(req.body.id);
+    let cart = req.body;
+
+    req.session.cart = cart;
+
+    req.session.save(err => {
+        if (err) {
+            throw err;
+        };
+
+        res.json(req.session.cart);
+    });
+});
+
+router.get('/', (req, res) => {
+    if (typeof req.session.cart !== 'undefined') {
+        res.json(req.session.cart);
+    } else {
+        res.send('no data');
+    }
+});
+
+module.exports = router;
+
+/***/ }),
+/* 116 */
+/***/ (function(module, exports) {
+
+module.exports = require("cookie-parser");
+
+/***/ }),
+/* 117 */
 /***/ (function(module, exports) {
 
 module.exports = require("express-session");
 
 /***/ }),
-/* 116 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const passport = __webpack_require__(31);
-const local = __webpack_require__(117);
+const local = __webpack_require__(119);
 
 passport.serializeUser(function (user, done) {
     done(null, user);
@@ -13085,10 +13130,10 @@ passport.use(local);
 module.exports = passport;
 
 /***/ }),
-/* 117 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const LocalStrategy = __webpack_require__(118).Strategy;
+const LocalStrategy = __webpack_require__(120).Strategy;
 
 const users = __webpack_require__(9);
 
@@ -13130,13 +13175,13 @@ module.exports = new LocalStrategy({
 });
 
 /***/ }),
-/* 118 */
+/* 120 */
 /***/ (function(module, exports) {
 
 module.exports = require("passport-local");
 
 /***/ }),
-/* 119 */
+/* 121 */
 /***/ (function(module, exports) {
 
 module.exports = require("http");

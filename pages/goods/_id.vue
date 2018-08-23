@@ -70,6 +70,9 @@
             <br>
             <span>선택 : {{ printside }}</span>
             <br>
+            <span> 갯수 : </span>
+            <input type="number" id="quantity" v-model="quantity">
+            <br>
             <button type="button" @click="buy">구매하기</button>
         </section>
     </div>
@@ -77,6 +80,7 @@
 
 <script>
 import axios from "axios";
+import { mapActions, mapGetters } from 'vuex';
 export default {
     vaildate({params}){
         return true
@@ -96,7 +100,6 @@ export default {
         this.name = data.data.name;
         this.price = data.data.price;
         this.img = data.data.img;
-        console.log(this.img)
     },
     props: {
         xsize: {
@@ -135,13 +138,27 @@ export default {
             type: String,
             default: "front",
             required: true
+        },
+        quantity: {
+            type: Number,
+            default: 1,
+            required: true
         }
     },
+    computed:{
+        cart(){
+            return this.cart()
+        },
+        ...mapGetters({
+            cart : 'carts/cart'
+        })
+    },
     methods:{
-        async buy(){
-            let url = '/api/purchase'
-            let data = await axios.post(url, {
+        buy(){
+            const goods = [{
+                id:this.goodsId,
                 name:this.name,
+                quantity:this.quantity,
                 price:this.price,
                 xsize:this.xsize,
                 ysize:this.ysize,
@@ -149,14 +166,42 @@ export default {
                 stand:this.stand,
                 packing:this.packing,
                 printside:this.printside
-            })
+            }]
+            //console.log(this.cart)
+            if(this.cart.length>0){
+                let id = this.id
+                let cartIndex = this.cart.findIndex(cart => {
+                    return cart.id == id
+                })
+                if (cartIndex == -1){
+                    this.addToCart(goods);
+                    alert("장바구니에 추가되었습니다.")
+                    this.$nuxt.$router.replace({path:'/'})
+                } else {
+                    this.updateCart({
+                        id,
+                        unit:1,
+                        cart:this.cart
+                    })
+                    alert("장바구니에 추가되었습니다.")
+                    this.$nuxt.$router.replace({path:'/'})
+                } 
+            }else {
+                alert("장바구니에 추가되었습니다.")
+                this.addToCart(goods)
+                this.$nuxt.$router.replace({path:'/'})
+            }/*
             if(data.status == 201){
                 alert('해당 제품 구매를 완료했습니다.');
             }else if(data.status == 204){
                 alert('결제에 실패하였습니다.');
-            }
-        }
-    }
+            }*/
+        },
+        ...mapActions({
+            addToCart : 'carts/addToCart',
+            updateCart : 'carts/updateCart',
+        })
+    },
 }
 </script>
 

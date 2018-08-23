@@ -12,13 +12,13 @@ router.post('/', (req, res, next)=>{
     order.uid = req.user.uid;
     order.name = req.body.name;
     order.price = req.body.price;
+    order.quantity = req.body.quantity;
     order.xsize = req.body.xsize;
     order.ysize = req.body.ysize; 
     order.thick = req.body.thick;
     order.stand = req.body.stand;
     order.packing = req.body.packing;
     order.printside = req.body.printside;
-    
     
     let leftPrice = 0;
 

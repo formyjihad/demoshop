@@ -17,7 +17,9 @@ process.env.PORT = 80
 
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 80
+//const cookieParser = require('cookie-parser');
 
+//app.use(cookieParser());
 app.set('port', port)
 
 app.use(session({
