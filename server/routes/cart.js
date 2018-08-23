@@ -1,6 +1,5 @@
 const express = require('express');
 let router = express.Router();
-let cookieParser = require('cookie-parser');
 
 router.post('/', (req,res,next)=>{
     console.log('put in a box')
