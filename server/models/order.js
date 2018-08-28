@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-let orderSchema = new Schema({
-    name: String,
-    uid: String,
+let orderDetailSchema = new Schema({
     xSize: {
         type: Number,
         default: 4,
@@ -17,7 +15,7 @@ let orderSchema = new Schema({
         default: 4,
         required: true,
         validator: function(value) {
-          return value >= 0;
+        return value >= 0;
         }
     },
     thick: {
@@ -27,6 +25,7 @@ let orderSchema = new Schema({
     },
 
     stand : Number,
+
     subItem: {
         type: String,
         default: "oppOnly",
@@ -44,15 +43,21 @@ let orderSchema = new Schema({
         default: "front",
         required: true
     },
+    price:Number,
+    quantity:Number
+});
 
+let orderSchema = new Schema({
+    name: String,
+    uid: String,
+    totalAmount:Number,
     orderDate : {
         type: Date,
         default:Date.now
     },
-
-    address : String,
-    price : Number,
-    img : String
+    address:String,
+    orderDetail:{type:[orderDetailSchema], default:[]}
 });
 
 module.exports = mongoose.model('order', orderSchema);
+

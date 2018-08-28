@@ -2497,9 +2497,7 @@ module.exports = mongoose.model('good', goodSchema);
 const mongoose = __webpack_require__(8);
 let Schema = mongoose.Schema;
 
-let orderSchema = new Schema({
-    name: String,
-    uid: String,
+let orderDetailSchema = new Schema({
     xSize: {
         type: Number,
         default: 4,
@@ -2523,6 +2521,7 @@ let orderSchema = new Schema({
     },
 
     stand: Number,
+
     subItem: {
         type: String,
         default: "oppOnly",
@@ -2540,15 +2539,20 @@ let orderSchema = new Schema({
         default: "front",
         required: true
     },
+    price: Number,
+    quantity: Number
+});
 
+let orderSchema = new Schema({
+    name: String,
+    uid: String,
+    totalAmount: Number,
     orderDate: {
         type: Date,
         default: Date.now
     },
-
     address: String,
-    price: Number,
-    img: String
+    orderDetail: { type: [orderDetailSchema], default: [] }
 });
 
 module.exports = mongoose.model('order', orderSchema);
@@ -2575,8 +2579,8 @@ let config = __webpack_require__(107);
 const routes = __webpack_require__(108);
 const fs = __webpack_require__(20);
 
-const session = __webpack_require__(117);
-const passport = __webpack_require__(118);
+const session = __webpack_require__(116);
+const passport = __webpack_require__(117);
 
 process.env.PORT = 80;
 
@@ -2614,7 +2618,7 @@ app.use(CORS);
 
 let nuxt = new Nuxt(config);
 
-const http = __webpack_require__(121);
+const http = __webpack_require__(120);
 let server = http.createServer(app);
 
 app.use(bodyParser.json());
@@ -12802,19 +12806,29 @@ router.get('/purchase', (req, res) => {
                 totalCount: count
             });
         });
-    }); /*
-        purchase.find(function(err, purchase){
-         //limit = limit;
-         offset = page * limit;
-         if(err) return res.status(500).send({error: 'database failure'});
-         res.json({
-             totalCount: purchaseCount,
-             purchase: purchase,
-             limit:limit,
-             currentPage : page
-         });
-        });*/
+    });
 });
+
+router.get('/purchase/update', (req, res) => {
+    let page = req.query.page || 0;
+    let limit = 5;
+    let offset = page * limit;
+
+    let id = req.query.orderid;
+    console.log(id);
+    orders.findOne({ '_id': id }).select({}).limit(limit).skip(offset).exec(function (err, order) {
+        //console.log(order);
+        orders.countDocuments().exec(function (err, count) {
+            res.json({
+                order: order,
+                limit: limit,
+                currentPage: page,
+                totalCount: count
+            });
+        });
+    });
+});
+
 //let users = new user();
 router.get('/users', (req, res) => {
     let page = req.query.page || 0;
@@ -12964,21 +12978,20 @@ router.post('/', (req, res, next) => {
     }
 
     order.uid = req.user.uid;
-    order.name = req.body.name;
-    order.price = req.body.price;
-    order.quantity = req.body.quantity;
-    order.xsize = req.body.xsize;
-    order.ysize = req.body.ysize;
-    order.thick = req.body.thick;
-    order.stand = req.body.stand;
-    order.packing = req.body.packing;
-    order.printside = req.body.printside;
+    order.totalAmount = req.body.totalAmount;
+    order.address = req.body.address;
+    order.addressDetail = req.body.addressDetail;
+
+    for (let i = 0; i < req.body.cart.length; i++) {
+        //console.log(order.orderDetail[i].xSize)
+        order.orderDetail[i] = req.body.cart[i];
+    }
 
     let leftPrice = 0;
 
     users.findOne({ 'uid': order.uid }).then(result => {
-        if (result['price'] >= order.price) {
-            leftPrice = result['price'] - order.price;
+        if (result['price'] >= order.totalAmount) {
+            leftPrice = result['price'] - order.totalAmount;
             return order.save(function (err, order) {
                 if (err) {
                     console.error(err);
@@ -12995,6 +13008,40 @@ router.post('/', (req, res, next) => {
         return users.update({ 'uid': order.uid }, {
             price: leftPrice
         });
+    });
+});
+
+router.post('/editOrder', (req, res, next) => {
+    if (!req.body) {
+        return res.status(200).json({ msg: "비로그인입니다" });
+    }
+    /*
+        order.uid = req.user.uid;
+        order.name = req.body.name;
+        order.price = req.body.price;
+        order.quantity = req.body.quantity;
+        order.xsize = req.body.xsize;
+        order.ysize = req.body.ysize; 
+        order.thick = req.body.thick;
+        order.stand = req.body.stand;
+        order.packing = req.body.packing;
+        order.printside = req.body.printside;
+        order.goodsid = req.body.goodsid;*/
+
+    users.findOne({ 'uid': order.uid }).then(result => {
+        if (result['price'] >= order.price) {
+            return order.update(function (err, order) {
+                if (err) {
+                    console.error(err);
+                    res.json({ result: 0 });
+                    return;
+                }
+                console.log(result);
+                res.status(201).json({ order });
+            });
+        } else {
+            res.status(204).json({});
+        }
     });
 });
 
@@ -13071,11 +13118,10 @@ module.exports = router;
 
 const express = __webpack_require__(1);
 let router = express.Router();
-let cookieParser = __webpack_require__(116);
 
 router.post('/', (req, res, next) => {
-    console.log('put in a box');
-    console.log(req.body.id);
+    //console.log('put in a box')
+    //console.log(req.body.id);
     let cart = req.body;
 
     req.session.cart = cart;
@@ -13103,20 +13149,14 @@ module.exports = router;
 /* 116 */
 /***/ (function(module, exports) {
 
-module.exports = require("cookie-parser");
-
-/***/ }),
-/* 117 */
-/***/ (function(module, exports) {
-
 module.exports = require("express-session");
 
 /***/ }),
-/* 118 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const passport = __webpack_require__(31);
-const local = __webpack_require__(119);
+const local = __webpack_require__(118);
 
 passport.serializeUser(function (user, done) {
     done(null, user);
@@ -13130,10 +13170,10 @@ passport.use(local);
 module.exports = passport;
 
 /***/ }),
-/* 119 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const LocalStrategy = __webpack_require__(120).Strategy;
+const LocalStrategy = __webpack_require__(119).Strategy;
 
 const users = __webpack_require__(9);
 
@@ -13175,13 +13215,13 @@ module.exports = new LocalStrategy({
 });
 
 /***/ }),
-/* 120 */
+/* 119 */
 /***/ (function(module, exports) {
 
 module.exports = require("passport-local");
 
 /***/ }),
-/* 121 */
+/* 120 */
 /***/ (function(module, exports) {
 
 module.exports = require("http");

@@ -27,19 +27,34 @@ router.get('/purchase', (req, res) => {
                 totalCount:count
             });
         });
-    });/*
-    purchase.find(function(err, purchase){
-        //limit = limit;
-        offset = page * limit;
-        if(err) return res.status(500).send({error: 'database failure'});
-        res.json({
-            totalCount: purchaseCount,
-            purchase: purchase,
-            limit:limit,
-            currentPage : page
-        });
-    });*/
+    });
 });
+
+router.get('/purchase/update', (req, res) => {
+    let page = req.query.page || 0;
+    let limit = 5;
+    let offset = page * limit;
+    
+    let id = req.query.orderid;
+    console.log(id)
+    orders.findOne({'_id':id})
+    .select({})
+    .limit(limit)
+    .skip(offset)
+    .exec(function(err, order){
+        //console.log(order);
+        orders.countDocuments().exec(function(err, count){
+            res.json({
+                order:order,
+                limit:limit,
+                currentPage:page,
+                totalCount:count
+            });
+        });
+    });
+});
+
+
 //let users = new user();
 router.get('/users', (req, res)=>{
     let page = req.query.page || 0;

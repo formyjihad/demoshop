@@ -1,12 +1,12 @@
 <template>
     <div class="container">
         <table>
-            <tr v-for="order in orders" :key="order['id']">
-                <td>{{order['uid']}}</td>
-                <td>{{order['name']}}</td>
-                <td>{{order['price']}}원</td>
-                <td>{{order['count']}}개</td>
-                <td id="orderDetail" @mouseover="detail(order)">주문상세</td>
+            <tr v-for="order in orders" :key="order['_id']">
+                <nuxt-link :to='{path:"./orders/"+order["_id"]}'>
+                    <td>{{order['uid']}}</td>
+                    <td>{{order['totalAmount']}}원</td>
+                    <td>{{order.orderDetail.length}} 주문</td>
+                </nuxt-link>
             </tr>
         </table>
         <div class="pagination">
@@ -49,6 +49,7 @@ export default {
             let data = await axios.get(url)
             
             this.orders = data.data.order
+            this.orderDetail = data.data.order.orderDetail
             this.totalCount = data.data.totalCount
             this.limit = data.data.limit
             this.currentPage = data.data.currentPage
@@ -57,14 +58,15 @@ export default {
                 totalCount:data.data.totalCount,
                 limit:data.data.limit
             })
-        },
+            console.log(orderDetail);
+            
+        },/*
         async detail(id){
+            console.log(id);
             let detail = document.getElementById('orderDetail')
-            console.log(id)
             
-           detail.title = "사이즈 : "+id.xSize+"*"+id.ySize+"\n"+"두께 : "+id.thick+"\n포장 : "+id.packing+"\n부자재 : "+id.subItem+"\n인쇄면 : "+id.prinside
-            
-        }
+            detail.title = "사이즈 : "+id.xSize+"*"+id.ySize+"\n"+"두께 : "+id.thick+"\n포장 : "+id.packing+"\n부자재 : "+id.subItem+"\n인쇄면 : "+id.printside 
+        }*/
     },
     layout:'admin'
 }

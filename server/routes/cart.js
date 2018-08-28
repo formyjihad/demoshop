@@ -2,8 +2,8 @@ const express = require('express');
 let router = express.Router();
 
 router.post('/', (req,res,next)=>{
-    console.log('put in a box')
-    console.log(req.body.id);
+    //console.log('put in a box')
+    //console.log(req.body.id);
     let cart = req.body;
 
     req.session.cart = cart;
