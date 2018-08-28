@@ -32,7 +32,7 @@ router.post('/', (req, res, next)=>{
                     res.json({result:0});
                     return;
                 }
-                console.log(result)
+                //console.log(result)
                 res.status(201).json({order});
             });
         }else{
@@ -50,37 +50,28 @@ router.post('/editOrder', (req, res, next)=>{
     if(!req.body){
         return res.status(200).json({msg:"비로그인입니다"});
     }
-/*
-    order.uid = req.user.uid;
-    order.name = req.body.name;
-    order.price = req.body.price;
-    order.quantity = req.body.quantity;
-    order.xsize = req.body.xsize;
-    order.ysize = req.body.ysize; 
-    order.thick = req.body.thick;
-    order.stand = req.body.stand;
-    order.packing = req.body.packing;
-    order.printside = req.body.printside;
-    order.goodsid = req.body.goodsid;*/
+    let index = req.body.index;
+    let id = req.body.id;
     
+    let orderData = order.orderDetail;
+    console.log(orderData[index]);
+    
+    orderData.quantity = req.body.quantity;
+    orderData.thick = req.body.thick;
+    orderData.packing = req.body.packing;
+    orderData.printside = req.body.printside;
+    orderData.price = req.body.price;
 
-    users.findOne({'uid':order.uid})
-    .then((result)=>{
-        if(result['price'] >= order.price){
-            return order.update(function(err, order){
-                if(err){
-                    console.error(err);
-                    res.json({result:0});
-                    return;
-                }
-                console.log(result)
-                res.status(201).json({order});
-            });
-        }else{
-            res.status(204).json({});
+    console.log(order.orderDetail)
+/*
+    order.update(function(err, order){
+        if(err){
+            console.error(err);
+            res.json({result:0});
+            return;
         }
-    })
+        //res.status(201).json({order});
+    });*/
 });
-
 
 module.exports = router;

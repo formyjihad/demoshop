@@ -31,26 +31,10 @@ router.get('/purchase', (req, res) => {
 });
 
 router.get('/purchase/update', (req, res) => {
-    let page = req.query.page || 0;
-    let limit = 5;
-    let offset = page * limit;
-    
     let id = req.query.orderid;
-    console.log(id)
     orders.findOne({'_id':id})
-    .select({})
-    .limit(limit)
-    .skip(offset)
-    .exec(function(err, order){
-        //console.log(order);
-        orders.countDocuments().exec(function(err, count){
-            res.json({
-                order:order,
-                limit:limit,
-                currentPage:page,
-                totalCount:count
-            });
-        });
+    .then((result) =>{
+        res.json({order:result});
     });
 });
 
