@@ -13041,28 +13041,6 @@ router.post('/editOrder', (req, res, next) => {
             res.status(201).json({ order });
         });
     });
-    //.then((result) => {
-    /*result.orderDetail[index].set({
-        "xSize":xSize, 
-        "ySize":ySize, 
-        "subItem":subItem, 
-        "quantity":quantity,
-        "thick":thick,
-        "packing":packing,
-        "printside":printside,
-        "price":price
-    });
-    console.log(result);
-    order.save({_id:id}, {$set:{result}}, function(err){
-        if(err){
-            console.error(err);
-            res.status(204).json();
-            return;
-        }
-        console.log(order)
-        res.status(201).json({});
-    });*/
-    // });
 });
 
 module.exports = router;

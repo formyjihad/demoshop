@@ -73,12 +73,12 @@ router.post('/editOrder', (req, res, next)=>{
         }
         order.orderDetail[index].xSize = xSize;
         order.orderDetail[index].ySize = ySize; 
-        order.orderDetail[index].subItem=subItem;
-        order.orderDetail[index].quantity=quantity;
-        order.orderDetail[index].thick=thick;
-        order.orderDetail[index].packing=packing;
-        order.orderDetail[index].printside=printside;
-        order.orderDetail[index].price=price;
+        order.orderDetail[index].subItem = subItem;
+        order.orderDetail[index].quantity = quantity;
+        order.orderDetail[index].thick = thick;
+        order.orderDetail[index].packing = packing;
+        order.orderDetail[index].printside = printside;
+        order.orderDetail[index].price = price;
 
         return order.save(function(err, order){
             if(err){
@@ -89,29 +89,7 @@ router.post('/editOrder', (req, res, next)=>{
             //console.log(result)
             res.status(201).json({order});
         });
-    })
-    //.then((result) => {
-        /*result.orderDetail[index].set({
-            "xSize":xSize, 
-            "ySize":ySize, 
-            "subItem":subItem, 
-            "quantity":quantity,
-            "thick":thick,
-            "packing":packing,
-            "printside":printside,
-            "price":price
-        });
-        console.log(result);
-        order.save({_id:id}, {$set:{result}}, function(err){
-            if(err){
-                console.error(err);
-                res.status(204).json();
-                return;
-            }
-            console.log(order)
-            res.status(201).json({});
-        });*/
-   // });
+    });
 });
 
 module.exports = router;
