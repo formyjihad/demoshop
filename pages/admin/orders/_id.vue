@@ -43,6 +43,9 @@ export default {
                 quantity: '',
                 printside: '',
                 packing:'',
+                subItem:'',
+                stand:'',
+                thick:'',
             }
         }
     },
@@ -56,12 +59,13 @@ export default {
                 id:this.orderid,
                 index:index,
                 quantity:this.updateForm.quantity,
-                xsize:this.updateForm.xsize,
-                ysize:this.updateForm.ysize,
+                xSize:this.updateForm.xSize,
+                ySize:this.updateForm.ySize,
                 thick:this.updateForm.thick,
                 stand:this.updateForm.stand,
                 packing:this.updateForm.packing,
-                printside:this.updateForm.printside,
+                subItem:this.updateForm.subItem,
+                printSide:this.updateForm.printside,
                 price:this.updateForm.price
             })
             if(data.status == 201){

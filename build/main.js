@@ -12999,31 +12999,70 @@ router.post('/', (req, res, next) => {
 });
 
 router.post('/editOrder', (req, res, next) => {
-    if (!req.body) {
-        return res.status(200).json({ msg: "비로그인입니다" });
-    }
+    /*if(!req.body){
+        return res.status(200).json({msg:"비로그인입니다"});
+    }*/
     let index = req.body.index;
     let id = req.body.id;
 
-    let orderData = order.orderDetail;
-    console.log(orderData[index]);
+    let xSize = req.body.xSize;
+    let ySize = req.body.ySize;
+    let quantity = req.body.quantity;
+    let thick = req.body.thick;
+    let packing = req.body.packing;
+    let subItem = req.body.subItem;
+    let printside = req.body.printSide;
+    let price = req.body.price;
 
-    orderData.quantity = req.body.quantity;
-    orderData.thick = req.body.thick;
-    orderData.packing = req.body.packing;
-    orderData.printside = req.body.printside;
-    orderData.price = req.body.price;
+    //console.log(req.body);
 
-    console.log(order.orderDetail);
-    /*
-        order.update(function(err, order){
-            if(err){
+    orders.findById(id, function (err, order) {
+        if (err) {
+            console.error(err);
+            res.status(204).json();
+            return;
+        }
+        order.orderDetail[index].xSize = xSize;
+        order.orderDetail[index].ySize = ySize;
+        order.orderDetail[index].subItem = subItem;
+        order.orderDetail[index].quantity = quantity;
+        order.orderDetail[index].thick = thick;
+        order.orderDetail[index].packing = packing;
+        order.orderDetail[index].printside = printside;
+        order.orderDetail[index].price = price;
+
+        return order.save(function (err, order) {
+            if (err) {
                 console.error(err);
-                res.json({result:0});
+                res.json({ result: 0 });
                 return;
             }
-            //res.status(201).json({order});
-        });*/
+            //console.log(result)
+            res.status(201).json({ order });
+        });
+    });
+    //.then((result) => {
+    /*result.orderDetail[index].set({
+        "xSize":xSize, 
+        "ySize":ySize, 
+        "subItem":subItem, 
+        "quantity":quantity,
+        "thick":thick,
+        "packing":packing,
+        "printside":printside,
+        "price":price
+    });
+    console.log(result);
+    order.save({_id:id}, {$set:{result}}, function(err){
+        if(err){
+            console.error(err);
+            res.status(204).json();
+            return;
+        }
+        console.log(order)
+        res.status(201).json({});
+    });*/
+    // });
 });
 
 module.exports = router;
