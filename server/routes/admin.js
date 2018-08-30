@@ -70,9 +70,9 @@ router.get('/users', (req, res)=>{
         });
     });*/
 });
-let good = new goods()
-router.post('/goods/registry', file.single('img'), (req,res,next)=>{
-    
+
+router.post('/goods/registry', file.single('img'), (req,res)=>{
+    let good = new goods()
     console.log(req.body.name)
     console.log(req.body.price)
     console.log(req.file.filename)
@@ -82,13 +82,14 @@ router.post('/goods/registry', file.single('img'), (req,res,next)=>{
     good.img = req.file.filename;
 
     console.log("this is working?")
-    good.save(function(err){
+    good.save(function(err, good){
         if(err){
             console.error(err);
-            res.json({result:0});
+            res.status(204).json();
             return;
         }
-        res.json({result:1});
+        console.log(good)
+        res.status(200).json({});
     });
 });
 

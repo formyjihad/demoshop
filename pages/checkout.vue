@@ -60,19 +60,12 @@ export default {
             return this.totalAmount()
         },
         ...mapGetters({
+            //isLogin:'users/isLogin',
             cart:'carts/cart',
             totalAmount:'carts/totalAmount'
         }),
     },
     props:{
-        /*xsize: {
-            type: Number,
-            default: 4,
-            required: true,
-            validator: function(value) {
-                return value >= 0;
-            }
-        },*/
         delivery:{
             defalut: "postoffice",
             required: true
@@ -95,21 +88,32 @@ export default {
     },
     methods:{
         async checkout(){
-            console.log(this.totalAmount)
+            //console.log(this.totalAmount)
 //order 정보 post -> purchase
-            let url = 'api/purchase'
+            let url = '/api/purchase'/*
+            if(this.isLogin==null){
+                console.log("비로그인 감지");
+                let tempid = "DN"+Date.now;
+            }// 비로그인 주문 코드. DN + 현재 시간.
+            */
+            console.log("post 시작");
             const data = await axios.post(url, {
+                //tempid:this.tempid,
                 address:this.addressInput,
                 addressDetail:this.addressDetail,
                 cart:this.cart,
                 totalAmount:this.totalAmount
             });
+            console.log("post 종료");
             if(data.status == 201){
                 alert('테스트, 구매하였습니다.')
                 this.$nuxt.$router.replace({path:'/'})
             }else if(data.status == 204){
                 alert('잘못된 정보입니다.');
-            }
+            }/*else if(data.status == 205){
+                alert('비로그인 입니다. 로그인 페이지로 이동합니다.');
+                this.$nuxt.$router.replace({path:'/signin'})
+            }*/
         },
         ...mapActions({
             addToCart : 'carts/addToCart',

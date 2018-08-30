@@ -3,12 +3,15 @@ let router = express.Router();
 const users = require('../models/user.js')
 const orders = require('../models/order.js');
 
-let order = new orders();
 router.post('/', (req, res, next)=>{
+    let order = new orders();
     if(!req.body){
         return res.status(200).json({msg:"비로그인입니다"});
     }
-
+    /*
+    if(req.user.uid==null){
+        order.uid = "DN"+Date.now
+    }*/
     order.uid = req.user.uid;
     order.totalAmount = req.body.totalAmount;
     order.address = req.body.address;
@@ -18,7 +21,6 @@ router.post('/', (req, res, next)=>{
         //console.log(order.orderDetail[i].xSize)
         order.orderDetail[i] = req.body.cart[i]
     }
-    
 
     let leftPrice = 0;
 
@@ -50,6 +52,7 @@ router.post('/editOrder', (req, res, next)=>{
     /*if(!req.body){
         return res.status(200).json({msg:"비로그인입니다"});
     }*/
+    let order = new orders();
     let index = req.body.index;
     let id = req.body.id;
 

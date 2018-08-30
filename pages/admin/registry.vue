@@ -38,7 +38,11 @@ export default {
                 }
             })
             console.log("post 종료");
-            alert('제품이 정상적으로 등록되었습니다.');
+            if(data.status == 200){
+                alert('제품이 정상적으로 등록되었습니다.');
+            }else if(data.status == 204){
+                alert('제품 등록을 실패 하였습니다.');
+            }
             this.$nuxt.$router.replace({ path: '/admin' });
             }else{
                 alert ('빈 양식이 있습니다.')

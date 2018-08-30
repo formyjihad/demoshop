@@ -12843,9 +12843,9 @@ router.get('/users', (req, res) => {
          });
         });*/
 });
-let good = new goods();
-router.post('/goods/registry', file.single('img'), (req, res, next) => {
 
+router.post('/goods/registry', file.single('img'), (req, res) => {
+    let good = new goods();
     console.log(req.body.name);
     console.log(req.body.price);
     console.log(req.file.filename);
@@ -12855,13 +12855,14 @@ router.post('/goods/registry', file.single('img'), (req, res, next) => {
     good.img = req.file.filename;
 
     console.log("this is working?");
-    good.save(function (err) {
+    good.save(function (err, good) {
         if (err) {
             console.error(err);
-            res.json({ result: 0 });
+            res.status(204).json();
             return;
         }
-        res.json({ result: 1 });
+        console.log(good);
+        res.status(200).json({});
     });
 });
 
@@ -12958,12 +12959,15 @@ let router = express.Router();
 const users = __webpack_require__(9);
 const orders = __webpack_require__(30);
 
-let order = new orders();
 router.post('/', (req, res, next) => {
+    let order = new orders();
     if (!req.body) {
         return res.status(200).json({ msg: "비로그인입니다" });
     }
-
+    /*
+    if(req.user.uid==null){
+        order.uid = "DN"+Date.now
+    }*/
     order.uid = req.user.uid;
     order.totalAmount = req.body.totalAmount;
     order.address = req.body.address;
@@ -13002,6 +13006,7 @@ router.post('/editOrder', (req, res, next) => {
     /*if(!req.body){
         return res.status(200).json({msg:"비로그인입니다"});
     }*/
+    let order = new orders();
     let index = req.body.index;
     let id = req.body.id;
 
@@ -13057,8 +13062,8 @@ router.get('/', (req, res, next) => {
     res.send('/users');
 });
 
-let user = new users();
 router.post('/signup', (req, res, next) => {
+    let user = new users();
     user.uid = req.body.uid;
     user.password = req.body.password;
     user.price = req.body.price;

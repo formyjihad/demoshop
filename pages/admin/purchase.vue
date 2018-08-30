@@ -7,6 +7,7 @@
                     <td>{{order['totalAmount']}}원</td>
                     <td>{{order.orderDetail.length}} 주문</td>
                 </nuxt-link>
+                <td id="orderDetail" @mouseover="detail(order)">미리보기</td>
             </tr>
         </table>
         <div class="pagination">
@@ -58,15 +59,24 @@ export default {
                 totalCount:data.data.totalCount,
                 limit:data.data.limit
             })
-            console.log(orderDetail);
+            //console.log(orderDetail);
             
-        },/*
+        },
         async detail(id){
-            console.log(id);
+            //console.log(id);
             let detail = document.getElementById('orderDetail')
-            
-            detail.title = "사이즈 : "+id.xSize+"*"+id.ySize+"\n"+"두께 : "+id.thick+"\n포장 : "+id.packing+"\n부자재 : "+id.subItem+"\n인쇄면 : "+id.printside 
-        }*/
+            let detailData
+            for(let i = 0; i<id.orderDetail.length; i++){
+                if(!detailData){
+                    detailData = "사이즈 : "+id.orderDetail[i].xSize+"*"+id.orderDetail[i].ySize+"\n"+"두께 : "+id.orderDetail[i].thick+"\n포장 : "+id.orderDetail[i].packing+"\n부자재 : "+id.orderDetail[i].subItem+"\n인쇄면 : "+id.orderDetail[i].printside
+                }
+                else{
+                    detailData = detailData + "\n\n" + "사이즈 : "+id.orderDetail[i].xSize+"*"+id.orderDetail[i].ySize+"\n"+"두께 : "+id.orderDetail[i].thick+"\n포장 : "+id.orderDetail[i].packing+"\n부자재 : "+id.orderDetail[i].subItem+"\n인쇄면 : "+id.orderDetail[i].printside
+                }
+            }
+            console.log(detailData)
+            detail.title = detailData
+        }
     },
     layout:'admin'
 }
