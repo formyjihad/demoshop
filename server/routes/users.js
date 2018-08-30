@@ -6,8 +6,8 @@ router.get('/',(req,res,next)=>{
     res.send('/users');
 });
 
-let user = new users();
 router.post('/signup',(req,res,next)=>{
+    let user = new users();
     user.uid = req.body.uid;
     user.password = req.body.password;
     user.price = req.body.price;
