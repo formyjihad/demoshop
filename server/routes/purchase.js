@@ -8,10 +8,7 @@ router.post('/', (req, res, next)=>{
     if(!req.body){
         return res.status(200).json({msg:"비로그인입니다"});
     }
-    /*
-    if(req.user.uid==null){
-        order.uid = "DN"+Date.now
-    }*/
+
     order.uid = req.user.uid;
     order.totalAmount = req.body.totalAmount;
     order.address = req.body.address;
@@ -48,6 +45,29 @@ router.post('/', (req, res, next)=>{
     })
 });
 
+router.post('/noSign', (req, res)=>{
+    let order = new orders();
+
+    order.uid = "DN"+Date.now   // 고유 ID api 호출
+    order.totalAmount = req.body.totalAmount;
+    order.address = req.body.address;
+    order.addressDetail = req.body.addressDetail;
+
+    for(let i=0; i<req.body.cart.length; i++){
+        //console.log(order.orderDetail[i].xSize)
+        order.orderDetail[i] = req.body.cart[i]
+    }
+
+    order.save(function(err, order){
+        if(err){
+            console.error(err);
+            res.json({result:0});
+            return;
+        }
+        res.status(201).json({order});
+    });
+});
+
 router.post('/editOrder', (req, res, next)=>{
     /*if(!req.body){
         return res.status(200).json({msg:"비로그인입니다"});
@@ -82,6 +102,11 @@ router.post('/editOrder', (req, res, next)=>{
         order.orderDetail[index].packing = packing;
         order.orderDetail[index].printside = printside;
         order.orderDetail[index].price = price;
+        let totalAmountCalc=0
+        for(let i=0; i<order.orderDetail.length;i++){
+            totalAmountCalc = totalAmountCalc+order.orderDetail[i].price;
+        }
+        order.totalAmount = totalAmountCalc;
 
         return order.save(function(err, order){
             if(err){

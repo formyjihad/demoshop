@@ -60,7 +60,7 @@ export default {
             return this.totalAmount()
         },
         ...mapGetters({
-            //isLogin:'users/isLogin',
+            isLogin:'users/isLogin',
             cart:'carts/cart',
             totalAmount:'carts/totalAmount'
         }),
@@ -90,12 +90,17 @@ export default {
         async checkout(){
             //console.log(this.totalAmount)
 //order 정보 post -> purchase
-            let url = '/api/purchase'/*
+            let url;
             if(this.isLogin==null){
                 console.log("비로그인 감지");
-                let tempid = "DN"+Date.now;
+                //let tempid = "DN"+Date.now;
+                url = '/api/purchase/noSign'
             }// 비로그인 주문 코드. DN + 현재 시간.
-            */
+            else{
+                url = '/api/purchase'
+            }
+            
+
             console.log("post 시작");
             const data = await axios.post(url, {
                 //tempid:this.tempid,

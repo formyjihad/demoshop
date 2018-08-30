@@ -4,7 +4,7 @@ import {GET_CART, ADD_TO_CART, DELETE_CART, UPDATE_CART} from './mutation-types'
 
 export const totals = (payloadArr)=>{
     const totalAmount = payloadArr.map(cartArr =>{
-        return cartArr.price * cartArr.quantity;
+        return cartArr.price;
     }).reduce((a,b)=>a+b,0);
 
     const totalQuantity = payloadArr.map(cartArr =>{

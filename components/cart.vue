@@ -3,7 +3,7 @@
         <div class = "panel panel-primary" v-if="cart.length >0">
             <div class = "panel-heading">장바구니</div>
             <div class = "panel-body">
-                <div class = "panel" v-for="cart in cart" :key="cart.id">
+                <div class = "panel" v-for="cart in cart" :key="cart._id">
                     <div class = "panel-body">
                         <div class = "row">
                             <div class = "col-xs-12 col-sm-4">
@@ -66,20 +66,23 @@ export default {
                 cart:this.cart
             })
         },
-        onDecrement(_id){
-            this.updateCart({
-                _id,
-                unit:-1,
-                cart:this.cart
-            })
+        onDecrement(_id, quantity){
+            if(quantity > 1){
+                this.updateCart({
+                    _id,
+                    unit:-1,
+                    cart:this.cart
+                })
+            }
         },
         onCheckout(){
+            alert("주문 페이지로 이동합니다.")
             this.$nuxt.$router.replace({path:'/checkout'})
         },
         ...mapActions({
-        addToCart : 'carts/addToCart',
-        updateCart : 'carts/updateCart',
-        deleteCart : 'carts/deleteCart'
+            addToCart : 'carts/addToCart',
+            updateCart : 'carts/updateCart',
+            deleteCart : 'carts/deleteCart'
         })
     }    
 }

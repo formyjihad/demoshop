@@ -159,7 +159,7 @@ export default {
                 id:this.goodsId,
                 name:this.name,
                 quantity:this.quantity,
-                price:this.price,
+                price:this.price*this.quantity,
                 xsize:this.xsize,
                 ysize:this.ysize,
                 thick:this.thick,
@@ -167,7 +167,7 @@ export default {
                 packing:this.packing,
                 printside:this.printside
             }]
-            //console.log(this.cart)
+            console.log(this.cart)
             if(this.cart.length>0){
                 let id = this.id
                 let cartIndex = this.cart.findIndex(cart => {

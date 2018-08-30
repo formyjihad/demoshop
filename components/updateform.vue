@@ -36,8 +36,10 @@
                     <option value="both"> 양면 </option>
                 </select>,
             </td>
-            <td><input class="input" type="number" :value="orderDetail.quantity" @input="updateFormValue('quantity', $event.target.value)" /></td>
-            <td>가격 : {{orderDetail.price}}</td>
+            <td><input class="input" type="number" min="1" :value="orderDetail.quantity" @input="updateFormValue('quantity', $event.target.value)" /></td>
+            <td>가격 : {{orderDetail.price}}</td> 
+            <!--<td v-if="!calc">가격 : {{orderDetail.price}}</td>
+            <td v-else>가격 : {{calc}}</td>-->
             <td>
                 <button class="button is-danger" @click="toggleEdit">Cancel</button>
                 <button class="button is-light" @click="updateOrderDetail">Update</button>
@@ -53,8 +55,16 @@ export default {
             let form = this.form;
             for (let field in this.orderDetail){
                 form[field] = this.orderDetail[field];
+                console.log(field)
             }
+            
             return form;
+        }
+    },
+    data(){
+        return {
+            calc:null,
+            price:this.orderDetail.price
         }
     },
     methods:{
@@ -64,11 +74,17 @@ export default {
         updateFormValue(field, value){
             this.editForm[field] = value;
             this.$emit('form-update', this.editForm);
+            this.priceCalc('price', value, this.price);
         },
         updateOrderDetail(){
             this.$emit('update-orderdetail');
+        },
+        
+        priceCalc(field, value, price){
+            this.editForm[field] = value*price;
+            this.$emit('form-update', this.editForm)
         }
-    }
+    },
 }
 </script>
 

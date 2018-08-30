@@ -46,6 +46,7 @@ export default {
                 subItem:'',
                 stand:'',
                 thick:'',
+                price:'',
             }
         }
     },
@@ -70,6 +71,7 @@ export default {
             })
             if(data.status == 201){
                 alert('수정하였습니다.');
+                this.$nuxt.$router.replace({path:'/admin/purchase'})
             }else if(data.status == 204){
                 alert('수정에 실패하였습니다.');
             }
