@@ -156,7 +156,7 @@ export default {
     methods:{
         buy(){
             const goods = [{
-                id:this.goodsId,
+                _id:this.goodsId,
                 name:this.name,
                 quantity:this.quantity,
                 price:this.price*this.quantity,
@@ -167,11 +167,11 @@ export default {
                 packing:this.packing,
                 printside:this.printside
             }]
-            console.log(this.cart)
+            //console.log(this.cart)
             if(this.cart.length>0){
-                let id = this.id
+                let _id = this._id
                 let cartIndex = this.cart.findIndex(cart => {
-                    return cart.id == id
+                    return cart._id == _id
                 })
                 if (cartIndex == -1){
                     this.addToCart(goods);
@@ -179,7 +179,7 @@ export default {
                     this.$nuxt.$router.replace({path:'/'})
                 } else {
                     this.updateCart({
-                        id,
+                        _id,
                         unit:1,
                         cart:this.cart
                     })

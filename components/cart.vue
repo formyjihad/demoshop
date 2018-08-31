@@ -3,7 +3,7 @@
         <div class = "panel panel-primary" v-if="cart.length >0">
             <div class = "panel-heading">장바구니</div>
             <div class = "panel-body">
-                <div class = "panel" v-for="cart in cart" :key="cart._id">
+                <div class = "panel" v-for="(cart, index) in cart" :key="cart._id">
                     <div class = "panel-body">
                         <div class = "row">
                             <div class = "col-xs-12 col-sm-4">
@@ -17,9 +17,9 @@
                             </div>
                             <div class = "col-xs-12 col-sm-4">
                                 <div class = "btn-group" style = "min-width:300px">
-                                    <button type="button" class="btn btn-sm btn-default" @click="onDecrement(cart._id, cart.quantity)">-</button>
-                                    <button type="button" class="btn btn-sm btn-defalut" @click="onIncrement(cart._id)">+</button>
-                                    <button type="button" class="btn btn-sm btn-danger" @click="deleteCart(cart._id)">삭제</button>
+                                    <button type="button" class="btn btn-sm btn-default" @click="onDecrement(index, cart.quantity)">-</button>
+                                    <button type="button" class="btn btn-sm btn-defalut" @click="onIncrement(index)">+</button>
+                                    <button type="button" class="btn btn-sm btn-danger" @click="deleteCart(index)">삭제</button>
                                 </div>
                             </div>
                         </div>
@@ -56,20 +56,21 @@ export default {
         this.$store.dispatch('carts/getCart')
     },
     methods:{
-        deleteCart(_id){
-            this.deleteCart(_id)
+        deleteCart(index){
+            this.deleteCart(index)
         },
-        onIncrement(_id){
+        onIncrement(index){
             this.updateCart({
-                _id,
+                index,
                 unit:1,
                 cart:this.cart
             })
         },
-        onDecrement(_id, quantity){
+        onDecrement(index, quantity){
+            console.log(this)
             if(quantity > 1){
                 this.updateCart({
-                    _id,
+                    index,
                     unit:-1,
                     cart:this.cart
                 })
