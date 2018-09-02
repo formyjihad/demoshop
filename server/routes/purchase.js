@@ -102,6 +102,7 @@ router.post('/editOrder', (req, res, next)=>{
         order.orderDetail[index].packing = packing;
         order.orderDetail[index].printside = printside;
         order.orderDetail[index].price = price;
+        
         let totalAmountCalc=0
         for(let i=0; i<order.orderDetail.length;i++){
             totalAmountCalc = totalAmountCalc+order.orderDetail[i].price;

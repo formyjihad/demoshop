@@ -73,6 +73,7 @@
             <span> 갯수 : </span>
             <input type="number" id="quantity" v-model="quantity">
             <br>
+            <input type="file" id="uploadImg"><br>
             <button type="button" @click="buy">구매하기</button>
         </section>
     </div>
@@ -155,19 +156,23 @@ export default {
     },
     methods:{
         buy(){
+            let formData = new FormData();
+            let fileDom = document.querySelector('#uploadImg');
+            let uploadImg = fileDom.files[0];
             const goods = [{
                 _id:this.goodsId,
                 name:this.name,
                 quantity:this.quantity,
-                price:this.price*this.quantity,
+                price:this.price,
                 xsize:this.xsize,
                 ysize:this.ysize,
                 thick:this.thick,
                 stand:this.stand,
                 packing:this.packing,
-                printside:this.printside
-            }]
-            //console.log(this.cart)
+                printside:this.printside,
+                img:uploadImg
+            }];
+            
             if(this.cart.length>0){
                 let _id = this._id
                 let cartIndex = this.cart.findIndex(cart => {
@@ -190,12 +195,7 @@ export default {
                 alert("장바구니에 추가되었습니다.")
                 this.addToCart(goods)
                 this.$nuxt.$router.replace({path:'/'})
-            }/*
-            if(data.status == 201){
-                alert('해당 제품 구매를 완료했습니다.');
-            }else if(data.status == 204){
-                alert('결제에 실패하였습니다.');
-            }*/
+            }
         },
         ...mapActions({
             addToCart : 'carts/addToCart',

@@ -56,7 +56,8 @@ let orderSchema = new Schema({
         default:Date.now
     },
     address:String,
-    orderDetail:{type:[orderDetailSchema], default:[]}
+    orderDetail:{type:[orderDetailSchema], default:[]},
+    img:String
 });
 
 module.exports = mongoose.model('order', orderSchema);

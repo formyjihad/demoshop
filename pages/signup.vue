@@ -1,10 +1,24 @@
 <template>
     <div class = "container">
         <form @submit.prevent="signup">
-            <label for="아이디">아이디</label>
-            <input type="text" v-model="uid"><br>
-            <label for="패스워드">패스워드</label>
-            <input type="password" v-model="password"><br>
+            <label for="uid">아이디</label>
+            <input id="uid" type="text" v-model="uid"><br>
+            <label for="password">비밀번호 확인</label>
+            <input id="password" type="password" v-model="password"><br>
+            <input id="passwordConfirm" type="password" v-model="passwordConfirm" @input="passwordCheck($event.target.value)">
+            <label for="passwordConfirm">비밀번호 확인</label>
+            <input id="name" type="name">
+            <label for="name">이름</label>
+            <input id="postCode" @click="callPostOffice" v-model="postCode">
+            <label for="postCode">우편번호</label>
+            <input id="address" type="text" v-model="address">
+            <label for="address">주소</label>
+            <input id="addressDetail" type="text" v-model="addressDetail">
+            <label id="addressDetail">상세주소</label>
+            <input id="phoneNumber" type="tel" v-model="phoneNumber" pattern="(010)-\d{4}-d{4}" placeholder="010-0000-0000">
+            <label id="phoneNumber">핸드폰 번호</label>
+            <input id="email" type="email" v-model="email">
+            <label id="email">이메일 주소</label>
             <button type="submit">회원가입</button>
         </form>
     </div>
@@ -21,6 +35,14 @@ export default {
         }
     },
     methods:{
+        passwordCheck(value){
+            if(vaule != this.password){
+                alert("패스워드가 잘못되었습니다");
+            }
+        },
+        async callPostOffice(){
+            alert("우체국 api 호출");
+        },
         async signup (){
             if(this.uid && this.password){
                 let url ='/api/users/signup'

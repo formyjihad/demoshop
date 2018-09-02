@@ -1,8 +1,9 @@
 
-import axios from 'axios'
-import {GET_CART, ADD_TO_CART, DELETE_CART, UPDATE_CART} from './mutation-types'
+import axios from 'axios';
+import {GET_CART, ADD_TO_CART, DELETE_CART, UPDATE_CART} from './mutation-types';
 
 export const totals = (payloadArr)=>{
+    console.log(payloadArr)
     const totalAmount = payloadArr.map(cartArr =>{
         return cartArr.price * cartArr.quantity;
     }).reduce((a,b)=>a+b,0);
@@ -25,7 +26,9 @@ export const state = () =>({
 
 export const mutations = {
     GET_CART(state, payload){
-        state.cart = payload;
+        console.log('payload confirm')
+        console.log(payload)
+        state.cart = payload.cart;
         state.totalAmount = totals(payload).amount;
         state.totalQuantity = totals(payload).qty;
     },
@@ -34,12 +37,18 @@ export const mutations = {
         state.totalAmount = totals(state.cart).amount;
         state.totalQuantity = totals(state.cart).qty;
         
-        axios.post('/api/cart', state.cart).then(res => res.data);
+        //console.log(state.cart)
+        let formData = new FormData()
+
+        formData.append("cart", JSON.stringify(state.cart));
+        formData.append("totalAmount", state.totalAmount);
+        formData.append("totalQuantity",state.totalQuantity);
+        
+        axios.post('/api/cart', formData).then(res => res.data);
     },
     DELETE_CART(state, index){
         const currentCartToDelete = state.cart;
         const indexToDelete=index;
-        //console.log(cart._id)
 
         state.cart = [...currentCartToDelete.slice(0,indexToDelete), ...currentCartToDelete.slice(indexToDelete+1)];
         state.totalAmount = totals(state.cart).amount;
@@ -51,7 +60,7 @@ export const mutations = {
         state.cart = payload;
         state.totalAmount = totals(payload).amount;
         state.totalQuantity = totals(payload).qty;
-    }
+    },
 }
 
 export const actions ={
@@ -71,11 +80,8 @@ export const actions ={
     },
     updateCart({ commit }, payload){
         const currentCartToUpdate = payload.cart;
-        console.log(payload)
+        //console.log(payload)
 		const indexToUpdate = payload.index;
-
-        //바꿔야 될 cart의 인덱스를 받아오는 식의 개선이 필요.
-        //현재 같은 상품의 id 를 받아와 수정하기 때문에 재대로 작동하지 않음
 
 		const newCart = {
 			...currentCartToUpdate[indexToUpdate],
@@ -86,7 +92,6 @@ export const actions ={
 
 		axios.post('/api/cart', cartUpdate)
 			.then(res => {
-				//console.log(res.data)
 				commit(UPDATE_CART, res.data)
 			});
 	}

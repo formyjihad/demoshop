@@ -81,6 +81,7 @@ export default {
         },
         
         priceCalc(field, value, price){
+            //주문에 따라 가격이 변하는 함수. 계산식이 필요함. 수정 필요.
             this.editForm[field] = value*price;
             this.$emit('form-update', this.editForm)
         }
