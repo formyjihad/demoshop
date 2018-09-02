@@ -6,19 +6,19 @@
             <label for="password">비밀번호 확인</label>
             <input id="password" type="password" v-model="password"><br>
             <input id="passwordConfirm" type="password" v-model="passwordConfirm" @input="passwordCheck($event.target.value)">
-            <label for="passwordConfirm">비밀번호 확인</label>
+            <label for="passwordConfirm">비밀번호 확인</label><br>
             <input id="name" type="name">
-            <label for="name">이름</label>
+            <label for="name">이름</label><br>
             <input id="postCode" @click="callPostOffice" v-model="postCode">
-            <label for="postCode">우편번호</label>
+            <label for="postCode">우편번호</label><br>
             <input id="address" type="text" v-model="address">
-            <label for="address">주소</label>
+            <label for="address">주소</label><br>
             <input id="addressDetail" type="text" v-model="addressDetail">
-            <label id="addressDetail">상세주소</label>
+            <label id="addressDetail">상세주소</label><br>
             <input id="phoneNumber" type="tel" v-model="phoneNumber" pattern="(010)-\d{4}-d{4}" placeholder="010-0000-0000">
-            <label id="phoneNumber">핸드폰 번호</label>
+            <label id="phoneNumber">핸드폰 번호</label><br>
             <input id="email" type="email" v-model="email">
-            <label id="email">이메일 주소</label>
+            <label id="email">이메일 주소</label><br>
             <button type="submit">회원가입</button>
         </form>
     </div>
