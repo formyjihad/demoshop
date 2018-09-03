@@ -3,7 +3,7 @@
         <form @submit.prevent="signup">
             <label for="uid">아이디</label>
             <input id="uid" type="text" v-model="uid"><br>
-            <label for="password">비밀번호 확인</label>
+            <label for="password">비밀번호</label>
             <input id="password" type="password" v-model="password"><br>
             <input id="passwordConfirm" type="password" v-model="passwordConfirm" @input="passwordCheck($event.target.value)">
             <label for="passwordConfirm">비밀번호 확인</label><br>
