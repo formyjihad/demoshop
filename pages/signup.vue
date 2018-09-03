@@ -5,7 +5,7 @@
             <input id="uid" type="text" v-model="uid"><br>
             <label for="password">비밀번호</label>
             <input id="password" type="password" v-model="password"><br>
-            <input id="passwordConfirm" type="password" v-model="passwordConfirm" @input="passwordCheck($event.target.value)">
+            <input id="passwordConfirm" type="password" v-model="passwordConfirm" @change="passwordCheck($event.target.value)">
             <label for="passwordConfirm">비밀번호 확인</label><br>
             <input id="name" type="name">
             <label for="name">이름</label><br>
@@ -36,8 +36,10 @@ export default {
     },
     methods:{
         passwordCheck(value){
-            if(vaule != this.password){
+            if(value != this.password){
                 alert("패스워드가 잘못되었습니다");
+                let passwordFocus = document.getElementById('password')
+                passwordFocus.focus();
             }
         },
         async callPostOffice(){
