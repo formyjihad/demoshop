@@ -38,7 +38,7 @@ export const mutations = {
         state.totalQuantity = totals(state.cart).qty;
         
         //console.log(state.cart)
-        let formData = new FormData()
+        let formData = new FormData();
 
         formData.append("cart", JSON.stringify(state.cart));
         formData.append("totalAmount", state.totalAmount);

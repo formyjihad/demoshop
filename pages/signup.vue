@@ -5,20 +5,20 @@
             <input id="uid" type="text" v-model="uid"><br>
             <label for="password">비밀번호</label>
             <input id="password" type="password" v-model="password"><br>
-            <input id="passwordConfirm" type="password" v-model="passwordConfirm" @change="passwordCheck($event.target.value)">
-            <label for="passwordConfirm">비밀번호 확인</label><br>
-            <input id="name" type="name">
-            <label for="name">이름</label><br>
-            <input id="postCode" @click="callPostOffice" v-model="postCode">
-            <label for="postCode">우편번호</label><br>
-            <input id="address" type="text" v-model="address">
-            <label for="address">주소</label><br>
-            <input id="addressDetail" type="text" v-model="addressDetail">
-            <label id="addressDetail">상세주소</label><br>
-            <input id="phoneNumber" type="tel" v-model="phoneNumber" pattern="(010)-\d{4}-d{4}" placeholder="010-0000-0000">
-            <label id="phoneNumber">핸드폰 번호</label><br>
-            <input id="email" type="email" v-model="email">
-            <label id="email">이메일 주소</label><br>
+            <label for="passwordConfirm">비밀번호 확인</label>
+            <input id="passwordConfirm" type="password" v-model="passwordConfirm" @change="passwordCheck($event.target.value)"><br>
+            <label for="name">이름</label>
+            <input id="name" type="name"><br>
+            <label for="postCode">우편번호</label>
+            <input id="postCode" type="text" v-model="postCode" @click="callPostOffice"><br>
+            <label for="address">주소</label>
+            <input id="address" type="text" v-model="address"><br>
+            <label id="addressDetail">상세주소</label>
+            <input id="addressDetail" type="text" v-model="addressDetail"><br>
+            <label id="phoneNumber">핸드폰 번호</label>
+            <input id="phoneNumber" type="tel" v-model="phoneNumber" pattern="(010)-\d{4}-d{4}" placeholder="010-0000-0000"><br>
+            <label id="email">이메일 주소</label>
+            <input id="email" type="email" v-model="email"><br>
             <button type="submit">회원가입</button>
         </form>
     </div>
@@ -26,7 +26,11 @@
 
 <script>
 import axios from 'axios'
+import postOffice from '../components/modals/postOffice.vue'
 export default {
+    components:{
+        postOffice
+    },
     data(){
         return{
             uid:'',
@@ -42,8 +46,11 @@ export default {
                 passwordFocus.focus();
             }
         },
-        async callPostOffice(){
-            alert("우체국 api 호출");
+        async callPostOffice(){/*
+            let regkey = '401652aa7e13e7f751535698618290'
+            let url = `http://biz.epost.go.kr/KpostPortal/openapi?regkey=${regkey}target=postNew&query=${value}countPerPage=20`
+            let data = await axios.get(url)
+*/          this.$modal.show(postOffice)
         },
         async signup (){
             if(this.uid && this.password){

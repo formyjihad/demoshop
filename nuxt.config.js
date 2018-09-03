@@ -16,6 +16,9 @@ module.exports = {
   modules: [
     'bootstrap-vue/nuxt',
   ],
+  plugins: [
+    { src: '~/plugins/modal.js', ssr: false}
+  ],
   /*
   ** Customize the progress bar color
   */
@@ -28,10 +31,12 @@ module.exports = {
  //   proxyHeaders:false,
  //   credentials:false,
   },
+  
   build: {
     /*
     ** Run ESLint on save
     */
+    vendor:['vue-js-modal'],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
@@ -41,7 +46,8 @@ module.exports = {
           exclude: /(node_modules)/,
           options:{
             fix: true
-          }
+          },
+          
         })
       }
     }
