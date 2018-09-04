@@ -50,7 +50,10 @@ export default {
             let regkey = '401652aa7e13e7f751535698618290'
             let url = `http://biz.epost.go.kr/KpostPortal/openapi?regkey=${regkey}target=postNew&query=${value}countPerPage=20`
             let data = await axios.get(url)
-*/          this.$modal.show(postOffice)
+*/          this.$modal.show(postOffice,{},{
+                height:'auto',
+                scrollable:"true"
+            })
         },
         async signup (){
             if(this.uid && this.password){
