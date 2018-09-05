@@ -52,7 +52,7 @@ export default {
     },
     methods:{
         async updateOrderDetail(index){
-            console.log(this)
+            //console.log(this)
 
             //비회원 결제 - orderid 를 추가하여 uid에 추가.
             let url = '/api/purchase/editOrder'

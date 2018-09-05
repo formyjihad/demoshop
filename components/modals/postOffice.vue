@@ -6,14 +6,18 @@
     
         <div class="addressList">
             <table>
-                <tr v-for="address in address" :key="address">
+                <tr v-for="address in address" :key="address" @click="sendToConfirm(address)">
                     <td>{{address.zipNo}}</td>
                     <td>{{address.jibunAddr}}</td>
                     <td>{{address.roadAddr}}</td>
                 </tr>
-                
-               <a href="#" @click='getPage(arg, page)' v-for="page in pagination" :key="page">{{page+1}}</a>
             </table>
+            <a href="#" @click='getPage(arg, page)' v-for="page in pagination" :key="page">{{page+1}}</a>
+        </div>
+        <div class="addressData">
+            <input type="text" v-model="postCode" placeholder="우편번호">
+            <input type="text" v-model="addressData" placeholder="주소">
+            <button type="submit" @click="sendToParent(postCode, addressData)">입력</button>
         </div>
     </div>
 </template>
@@ -36,11 +40,28 @@ export default {
     data(){
         return{
             address:[],
+            postCode:'',
+            addressData:''
           //  pagenation:[]
         }
     },
+    props:{
+        arg:'',
+        pagination:'',
+    },
     
     methods:{
+        sendToConfirm(data){
+            this.postCode = data.zipNo
+            this.addressData = data.jibunAddr
+            //console.log(this.postCode)
+            //console.log(this.addressData)
+        },
+        sendToParent(code, addr){
+            this.$nuxt.$emit('post-code',code);
+            this.$nuxt.$emit('address-data',addr);
+            this.$emit('close');
+        },
         async callPostOffice(value){
             let regkey = 'U01TX0FVVEgyMDE4MDkwNDExNDgxNzEwODExMTI='
             let currentPage = 1;
@@ -53,7 +74,7 @@ export default {
                 this.address = axiosData.data.results.juso
                 this.currentPage = axiosData.data.results.common.currentPage
                 this.pagination = getPagination(currentPage, totalCount, countPerPage)
-                console.log(this.address)
+                //console.log(this.address)
             }
             else{
                 alert("오류 발생")
@@ -62,7 +83,7 @@ export default {
         async getPage(value, page){
             let regkey = 'U01TX0FVVEgyMDE4MDkwNDExNDgxNzEwODExMTI='
             let currentPage = page+1;
-            console.log(currentPage)
+          //  console.log(currentPage)
             let countPerPage = 10;
             let url = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=${currentPage}&countPerPage=${countPerPage}&keyword=${value}&confmKey=${regkey}&resultType=json`
             let axiosData = await axios.get(url)
@@ -71,7 +92,7 @@ export default {
                 this.address = axiosData.data.results.juso;
                 this.currentPage = axiosData.data.results.common.currentPage;
                 this.pagination = getPagination(currentPage, totalCount, countPerPage);
-                console.log(this.address)
+              //  console.log(this.address)
             }
             else{
                 alert("오류 발생")

@@ -24,18 +24,19 @@
             </div>
         </div>
         <div class = "delivery">
-            <input type="radio" id = "poradio" value="postoffice" v-model="delivery">
+            <input type="radio" id = "poradio" :value="postoffice" v-model="delivery">
             <label for = "poradio">우체국 택배</label>
-            <input type="radio" id = "toradio" value="takeout" v-model="delivery">
+            <input type="radio" id = "toradio" :value="takeout" v-model="delivery">
             <label for = "toradio">직접 수령</label>
         </div>
         <div class = "address" v-if="delivery === 'postoffice'">
                 <!-- 우체국 API는 이곳에 위치 -->
-            <p>주소를 입력하세요</p>
-            <input type="text" v-model="addressInput">
-                <!-- <input type="text" v-model="addressInput" readonly> -->
-            <p>상세 주소를 입력하세요</p>
-            <input type="text" v-model="addressDetail">
+            <label for="postCode">우편번호</label>
+            <input id="postCode" type="text" v-model="postCode" @click="callPostOffice"><br>
+            <label for="address">주소</label>
+            <input id="address" type="text" v-model="addressData"><br>
+            <label id="addressDetail">상세주소</label>
+            <input id="addressDetail" type="text" v-model="addressDetail"><br>
         </div>
         <div class = "payment">
             <p> 결제 방식 </p>
@@ -87,6 +88,15 @@ export default {
         this.$store.dispatch('carts/getCart')
     },
     methods:{
+        async callPostOffice(){/*
+            let regkey = '401652aa7e13e7f751535698618290'
+            let url = `http://biz.epost.go.kr/KpostPortal/openapi?regkey=${regkey}target=postNew&query=${value}countPerPage=20`
+            let data = await axios.get(url)
+*/          this.$modal.show(postOffice,{},{
+                height:'auto',
+                scrollable:"true"
+            })
+        },
         async checkout(){
             //console.log(this.totalAmount)
 //order 정보 post -> purchase

@@ -12,7 +12,7 @@
             <label for="postCode">우편번호</label>
             <input id="postCode" type="text" v-model="postCode" @click="callPostOffice"><br>
             <label for="address">주소</label>
-            <input id="address" type="text" v-model="address"><br>
+            <input id="address" type="text" v-model="addressData"><br>
             <label id="addressDetail">상세주소</label>
             <input id="addressDetail" type="text" v-model="addressDetail"><br>
             <label id="phoneNumber">핸드폰 번호</label>
@@ -33,6 +33,8 @@ export default {
     },
     data(){
         return{
+            postCode:'',
+            addressData:'',
             uid:'',
             password:'',
             price:1000
@@ -52,7 +54,13 @@ export default {
             let data = await axios.get(url)
 */          this.$modal.show(postOffice,{},{
                 height:'auto',
-                scrollable:"true"
+                scrollable:true
+            });
+            this.$nuxt.$on('post-code', data=>{
+                this.postCode = data
+            })
+            this.$nuxt.$on('address-data', data=>{
+                this.addressData = data
             })
         },
         async signup (){
