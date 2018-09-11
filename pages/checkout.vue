@@ -106,6 +106,9 @@ export default {
     },
     created(){
         this.$store.dispatch('carts/getCart')
+        
+    },
+    beforeMount() {
         IMP.init(IMP_CODE)
     },
     methods:{
