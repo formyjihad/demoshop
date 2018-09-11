@@ -1,18 +1,65 @@
+const axios = require('axios');
+const {IMP_KEY,IMP_SECRET,IMP_CODE} = require('../../config/constants');
+
 const express = require('express');
 let router = express.Router();
 const users = require('../models/user.js')
 const orders = require('../models/order.js');
+const file = require('../utils/fileUpload');
 
-router.post('/', (req, res, next)=>{
+
+router.post('/', file.single('img'), (req, res)=>{
     let order = new orders();
     if(!req.body){
         return res.status(200).json({msg:"비로그인입니다"});
-    }
+    }/*
+    const config = {
+        headers:{
+            'Access-Control-Allow-Origin' : '*',
+            //'Access-Control-Allow-Headers': 'Content-Type, Authorization, Content-Length, X-Requested-With'
+        }
+    }*/
+    //let formData = new FormData();
+
+    //formData.append("imp_key","6265854440697143")
+    //formData.append("imp_secret", "kOlyqI840OAOk2fO7SMP2gcaqGy50clk0GTrp1wpQ6db9tZhlL7n2jytZ6y0jTkkAeLZghp6oChx5hPr")
+//    let restUrl = 'https://api.iamport.kr/users/getToken';
+    //const restData = await axios.post(restUrl,{},config)
+    axios({
+        url: "https://api.iamport.kr/users/getToken",
+        method: "post", // POST method
+        headers: { "Content-Type": "application/json" }, // "Content-Type": "application/json"
+        data: {
+            imp_key: IMP_KEY, // REST API키
+            imp_secret: IMP_SECRET // REST API Secret
+        }
+    }).then((result) =>{
+        if(result.status == 200){
+            axios({
+                url:`https://api.iamport.kr/payments/${IMP_CODE}`,
+                method:'GET',
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization": `Bearer ${result.access_token}`
+                }
+            }).then((result) => {
+
+            })
+        }else{
+            res.status(204).json({});
+            //alert("결제 창 불러오기 실패")
+        }
+    })
+    
+    //console.log(restData.status)
+    
+
 
     order.uid = req.user.uid;
     order.totalAmount = req.body.totalAmount;
     order.address = req.body.address;
     order.addressDetail = req.body.addressDetail;
+    //order.img = req.file.filename;
 
     for(let i=0; i<req.body.cart.length; i++){
         //console.log(order.orderDetail[i].xSize)

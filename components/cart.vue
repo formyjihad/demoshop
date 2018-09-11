@@ -67,7 +67,7 @@ export default {
             })
         },
         onDecrement(index, quantity){
-            console.log(this)
+            //console.log(this)
             if(quantity > 1){
                 this.updateCart({
                     index,

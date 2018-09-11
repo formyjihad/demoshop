@@ -1,6 +1,6 @@
 const express = require('express');
 let app = express();
-let CORS = require('cors')();
+//let CORS = require('cors')();
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -29,22 +29,21 @@ app.use(session({
     cookie:{ maxAge: 1000*60*60*24*7 }
 }));
 
-let allowCORS = function(req, res, next){
+app.use((req, res, next)=>{
     res.header('Access-Control-Allow-Origin','*');
-    res.header('Access-Control-Allow-Methods','GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-    (req.method === 'OPTIONS') ?
-    res.send(200) :
+    if(req.method === 'OPTIONS'){
+        res.header('Access-Control-Allow-Methods','PUT, POST, PATCH, DELETE, GET');
+        return res.send(200).json({});
+    }
     next();
-}
-
-app.use(allowCORS)
+});
 
 config.dev = !(process.env.NODE_ENV === 'production');
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(CORS);
+//app.use(CORS);
 
 //const {good, order, purchase, user} = require('./models')
 

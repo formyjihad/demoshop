@@ -24,10 +24,10 @@
             </div>
         </div>
         <div class = "delivery">
-            <input type="radio" id = "poradio" :value="postoffice" v-model="delivery">
-            <label for = "poradio">우체국 택배</label>
-            <input type="radio" id = "toradio" :value="takeout" v-model="delivery">
-            <label for = "toradio">직접 수령</label>
+            <input type="radio" id = "postoffice" value="postoffice" v-model="delivery">
+            <label for = "postoffice">우체국 택배</label>
+            <input type="radio" id = "self" value="self" v-model="delivery">
+            <label for = "self">직접 수령</label>
         </div>
         <div class = "address" v-if="delivery === 'postoffice'">
                 <!-- 우체국 API는 이곳에 위치 -->
@@ -38,11 +38,19 @@
             <label id="addressDetail">상세주소</label>
             <input id="addressDetail" type="text" v-model="addressDetail"><br>
         </div>
+        <div class = "userInfo">
+            <label for="name"> 주문자명</label>
+            <input id="name" type="text" v-model="name">
+            <label for="email"> 주문자 이메일</label>
+            <input id="email" type="email" v-model="email">
+            <label for="phone"> 전화번호</label>
+            <input id="phone" type="tel" v-model="phone">
+        </div>
         <div class = "payment">
             <p> 결제 방식 </p>
             <input type="radio" id = "card" value="card" v-model="paymentType">
             <label for="card">카드결제</label>
-            <input type="radio" id = "cash" value="cash" v-model="paymentType">
+            <input type="radio" id = "cash" value="vbank" v-model="paymentType">
             <label for="cash">현금결제</label>
         </div>
         <button type="button" @click="checkout">결제</button>    
@@ -52,7 +60,19 @@
 <script>
 import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex';
+import postOffice from '../components/modals/postOffice.vue'
+import {IMP_CODE} from '../config/constants'
+
 export default {
+    components:{
+        postOffice
+    },
+    data(){
+        return{
+            postCode:'',
+            addressData:'',
+        }
+    },
     computed:{
         cart(){
             return this.cart()
@@ -86,15 +106,19 @@ export default {
     },
     created(){
         this.$store.dispatch('carts/getCart')
+        IMP.init(IMP_CODE)
     },
     methods:{
-        async callPostOffice(){/*
-            let regkey = '401652aa7e13e7f751535698618290'
-            let url = `http://biz.epost.go.kr/KpostPortal/openapi?regkey=${regkey}target=postNew&query=${value}countPerPage=20`
-            let data = await axios.get(url)
-*/          this.$modal.show(postOffice,{},{
+        async callPostOffice(){
+          this.$modal.show(postOffice,{},{
                 height:'auto',
                 scrollable:"true"
+            })
+            this.$nuxt.$on('post-code', data=>{
+                this.postCode = data
+            })
+            this.$nuxt.$on('address-data', data=>{
+                this.addressData = data
             })
         },
         async checkout(){
@@ -109,26 +133,48 @@ export default {
             else{
                 url = '/api/purchase'
             }
-            
-
-            console.log("post 시작");
-            const data = await axios.post(url, {
+            let date = new Date()
+            let buyerAddress = this.addressInput +' '+ this.addressDetail
+            let amount = Number(this.totalAmount)
+            console.log(this.paymentType)
+            IMP.request_pay({
+                pg:'html5inicis',
+                pay_method:this.paymentType,
+                merchant_uid:'merchant_'+ date.getTime(),
+                name:'주문명:결제테스트',
+                amount:amount,
+                buyer_email:this.email,
+                buyer_name:this.name,
+                buyer_tel:this.phone,
+                buyer_address:buyerAddress,
+                buyer_postcode:this.postCode
+            }, function(res){
+                if(res.success){
+                    alert("구매 완료");
+                    const data = axios.post(url, {
                 //tempid:this.tempid,
-                address:this.addressInput,
-                addressDetail:this.addressDetail,
-                cart:this.cart,
-                totalAmount:this.totalAmount
-            });
-            console.log("post 종료");
-            if(data.status == 201){
-                alert('테스트, 구매하였습니다.')
-                this.$nuxt.$router.replace({path:'/'})
-            }else if(data.status == 204){
-                alert('잘못된 정보입니다.');
-            }/*else if(data.status == 205){
+                        address:this.addressInput,
+                        addressDetail:this.addressDetail,
+                        cart:this.cart,
+                        totalAmount:this.totalAmount
+                    });
+                    console.log("post 종료");
+                    if(data.status == 201){
+                        alert('테스트, 구매하였습니다.')
+                        this.$nuxt.$router.replace({path:'/'})
+                    }else if(data.status == 204){
+                        alert('잘못된 정보입니다.');
+                    }/*else if(data.status == 205){
                 alert('비로그인 입니다. 로그인 페이지로 이동합니다.');
                 this.$nuxt.$router.replace({path:'/signin'})
             }*/
+                }else{
+                    alert("구매 실패");
+                }
+            })
+/*
+            console.log("post 시작");
+            */
         },
         ...mapActions({
             addToCart : 'carts/addToCart',

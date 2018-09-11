@@ -33,18 +33,28 @@ export const mutations = {
         state.totalQuantity = totals(payload).qty;
     },
     ADD_TO_CART(state, payload){
-        state.cart = [...state.cart, ...payload];
+        state.cart = [...state.cart, ...payload.goods];
         state.totalAmount = totals(state.cart).amount;
         state.totalQuantity = totals(state.cart).qty;
         
-        //console.log(state.cart)
+        console.log(payload.uploadImg)
+
+        let uploadImg = payload.uploadImg
         let formData = new FormData();
 
         formData.append("cart", JSON.stringify(state.cart));
+        formData.append("uploadImg", uploadImg)
         formData.append("totalAmount", state.totalAmount);
         formData.append("totalQuantity",state.totalQuantity);
         
-        axios.post('/api/cart', formData).then(res => res.data);
+        axios.post('/api/cart', formData, {
+            headers:{
+                'Content-Type':'multipart/form-data'
+            }
+        })
+        .then(res => {
+            console.log(res)})
+        //.then(console.log(res))
     },
     DELETE_CART(state, index){
         const currentCartToDelete = state.cart;

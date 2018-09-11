@@ -170,8 +170,9 @@ export default {
                 stand:this.stand,
                 packing:this.packing,
                 printside:this.printside,
-                img:uploadImg
+                //img:uploadImg
             }];
+            //console.log(this.quantity)
             
             if(this.cart.length>0){
                 let _id = this._id
@@ -179,7 +180,7 @@ export default {
                     return cart._id == _id
                 })
                 if (cartIndex == -1){
-                    this.addToCart(goods);
+                    this.addToCart({goods, uploadImg});
                     alert("장바구니에 추가되었습니다.")
                     this.$nuxt.$router.replace({path:'/'})
                 } else {
@@ -193,7 +194,7 @@ export default {
                 } 
             }else {
                 alert("장바구니에 추가되었습니다.")
-                this.addToCart(goods)
+                this.addToCart({goods, uploadImg})
                 this.$nuxt.$router.replace({path:'/'})
             }
         },
