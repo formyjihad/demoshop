@@ -3,7 +3,7 @@ import axios from 'axios';
 import {GET_CART, ADD_TO_CART, DELETE_CART, UPDATE_CART} from './mutation-types';
 
 export const totals = (payloadArr)=>{
-    console.log(payloadArr)
+    //console.log(payloadArr)
     const totalAmount = payloadArr.map(cartArr =>{
         return cartArr.price * cartArr.quantity;
     }).reduce((a,b)=>a+b,0);
@@ -26,35 +26,16 @@ export const state = () =>({
 
 export const mutations = {
     GET_CART(state, payload){
-        console.log('payload confirm')
-        console.log(payload)
-        state.cart = payload.cart;
+        state.cart = payload;
         state.totalAmount = totals(payload).amount;
         state.totalQuantity = totals(payload).qty;
     },
     ADD_TO_CART(state, payload){
-        state.cart = [...state.cart, ...payload.goods];
+        state.cart = [...state.cart, ...payload];
         state.totalAmount = totals(state.cart).amount;
         state.totalQuantity = totals(state.cart).qty;
-        
-        console.log(payload.uploadImg)
-
-        let uploadImg = payload.uploadImg
-        let formData = new FormData();
-
-        formData.append("cart", JSON.stringify(state.cart));
-        formData.append("uploadImg", uploadImg)
-        formData.append("totalAmount", state.totalAmount);
-        formData.append("totalQuantity",state.totalQuantity);
-        
-        axios.post('/api/cart', formData, {
-            headers:{
-                'Content-Type':'multipart/form-data'
-            }
-        })
-        .then(res => {
-            console.log(res)})
-        //.then(console.log(res))
+   
+        axios.post('/api/cart', state.cart).then(res => res.data);
     },
     DELETE_CART(state, index){
         const currentCartToDelete = state.cart;
@@ -77,6 +58,7 @@ export const actions ={
     getCart({ commit }){
         axios.get('/api/cart').then(res =>{
             if(res.data == 'no data'){
+                console.log("no data")
                 return [];
             }
             commit(GET_CART, res.data);

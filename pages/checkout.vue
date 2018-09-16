@@ -136,14 +136,13 @@ export default {
             else{
                 url = '/api/purchase'
             }
-            let date = new Date()
             let buyerAddress = this.addressInput +' '+ this.addressDetail
             let amount = Number(this.totalAmount)
             console.log(this.paymentType)
             IMP.request_pay({
                 pg:'html5inicis',
                 pay_method:this.paymentType,
-                merchant_uid:'merchant_'+ date.getTime(),
+                merchant_uid:'merchant_'+ Date.now(),
                 name:'주문명:결제테스트',
                 amount:amount,
                 buyer_email:this.email,
@@ -153,14 +152,18 @@ export default {
                 buyer_postcode:this.postCode
             }, function(res){
                 if(res.success){
-                    alert("구매 완료");
+                    alert("구매 완료 \n" + res.vbank_num+ "\t" +res.vbank_holder +"\n"+res.vbank_name);
                     const data = axios.post(url, {
-                //tempid:this.tempid,
+                //tempid:this.tempid,?
+                /*
                         address:this.addressInput,
                         addressDetail:this.addressDetail,
                         cart:this.cart,
                         totalAmount:this.totalAmount
+                */
+                        imp_uid:res.imp_uid
                     });
+
                     console.log("post 종료");
                     if(data.status == 201){
                         alert('테스트, 구매하였습니다.')
