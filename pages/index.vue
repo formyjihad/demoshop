@@ -65,3 +65,8 @@ export default {
 }
 </script>
 
+<style scoped>
+/*
+메인페이지.
+*/
+</style>

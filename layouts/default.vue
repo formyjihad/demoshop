@@ -14,3 +14,8 @@ export default {
 }
 </script>
 
+<style scoped>
+/*
+  타이틀 바
+*/
+</style>

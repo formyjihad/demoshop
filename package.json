@@ -21,6 +21,7 @@
     "cross-env": "^5.2.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "iamporter": "^1.4.2",
     "jquery": "^3.3.1",
     "mongoose": "^5.2.8",
     "mongoose-id-autoinc": "^2013.7.14-4",

@@ -2,17 +2,26 @@ const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let purchaseSchema = new Schema({
-    count:{
-        type:Number,
-        default:1
+    bankName:{
+        type:String
+    },
+    bankNum:{
+        type:Number
+    },
+    bankHolder:{
+        type:String
+    },
+    orderId:{
+        type:Number
+    },
+    orderDate:{
+        type:String
     },
     uid:{
         type:String,
-        ref: 'user'
     },
     name:{
         type:String,
-        ref: 'good'
     },
     price:{
         type:Number

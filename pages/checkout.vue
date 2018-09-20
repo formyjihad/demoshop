@@ -34,7 +34,7 @@
             <label for="postCode">우편번호</label>
             <input id="postCode" type="text" v-model="postCode" @click="callPostOffice"><br>
             <label for="address">주소</label>
-            <input id="address" type="text" v-model="addressData"><br>
+            <input id="address" type="text" v-model="addressData" @click="callPostOffice"><br>
             <label id="addressDetail">상세주소</label>
             <input id="addressDetail" type="text" v-model="addressDetail"><br>
         </div>
@@ -70,7 +70,7 @@ export default {
     data(){
         return{
             postCode:'',
-            addressData:'',
+            addressData:'self',
         }
     },
     computed:{
@@ -88,19 +88,19 @@ export default {
     },
     props:{
         delivery:{
-            defalut: "postoffice",
+            default: "self",
             required: true
         },
-        addressInput:{
-            defalut : "직접수령",
+        address:{
+            default : "self",
             required : true
         },
         addressDetail:{
-            defalut : "직접수령",
+            default : "self",
             required: true
         },
         paymentType:{
-            defalut:"Card",
+            default:"card",
             required:true
         }
     },
@@ -128,6 +128,7 @@ export default {
             //console.log(this.totalAmount)
 //order 정보 post -> purchase
             let url;
+            //console.log(this.cart)
             if(this.isLogin==null){
                 console.log("비로그인 감지");
                 //let tempid = "DN"+Date.now;
@@ -136,11 +137,17 @@ export default {
             else{
                 url = '/api/purchase'
             }
-            let buyerAddress = this.addressInput +' '+ this.addressDetail
+            let buyerAddress = this.addressData +' '+ this.addressDetail
             let amount = Number(this.totalAmount)
-            console.log(this.paymentType)
+            const orderData = {
+                address:buyerAddress,
+                cart:this.cart,
+                totalAmount:amount,
+            }
+            
+            //console.log(this.paymentType)
             IMP.request_pay({
-                pg:'html5inicis',
+                pg:'html5_inicis.INIpayTest',
                 pay_method:this.paymentType,
                 merchant_uid:'merchant_'+ Date.now(),
                 name:'주문명:결제테스트',
@@ -149,31 +156,41 @@ export default {
                 buyer_name:this.name,
                 buyer_tel:this.phone,
                 buyer_address:buyerAddress,
-                buyer_postcode:this.postCode
-            }, function(res){
+                buyer_postcode:this.postCode,
+                custom_data:orderData
+            }, async function(res){
+                
                 if(res.success){
-                    alert("구매 완료 \n" + res.vbank_num+ "\t" +res.vbank_holder +"\n"+res.vbank_name);
-                    const data = axios.post(url, {
+                    //alert("구매 완료");
+                    let postData = await axios.post(url, {
                 //tempid:this.tempid,?
                 /*
                         address:this.addressInput,
                         addressDetail:this.addressDetail,
                         cart:this.cart,
-                        totalAmount:this.totalAmount
-                */
+                        totalAmount:this.totalAmount,
+                        */
                         imp_uid:res.imp_uid
                     });
 
                     console.log("post 종료");
-                    if(data.status == 201){
+                    //console.log(postData)
+                    if(postData.status == 201){
                         alert('테스트, 구매하였습니다.')
-                        this.$nuxt.$router.replace({path:'/'})
-                    }else if(data.status == 204){
+                        url = '/api/purchase/save'
+                        console.log(postData)
+                        let saveData = await axios.post(url, {
+                            address:res.custom_data.address,
+                            cart:res.custom_data.cart,
+                            totalAmount:res.custom_data.totalAmount,
+                            orderId:postData.data.purchase.orderId
+                        })
+                        //location.href = "/checkConfirm/"+postData.data.purchase._id
+                    }else if(postData.status == 204){
                         alert('잘못된 정보입니다.');
-                    }/*else if(data.status == 205){
-                alert('비로그인 입니다. 로그인 페이지로 이동합니다.');
-                this.$nuxt.$router.replace({path:'/signin'})
-            }*/
+                    }else if(postData.status == 206){
+                        alert('error');
+                    }
                 }else{
                     alert("구매 실패");
                 }

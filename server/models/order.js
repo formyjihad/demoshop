@@ -50,6 +50,7 @@ let orderDetailSchema = new Schema({
 let orderSchema = new Schema({
     name: String,
     uid: String,
+    orderId:Number,
     totalAmount:Number,
     orderDate : {
         type: Date,
