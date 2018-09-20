@@ -1,16 +1,12 @@
 <template>
   <section class = "container">
-    <ul>
-      <li class="item-box" v-for ="good in goods" :key="good['_id']">
+    <div class="item-box" v-for ="good in goods" :key="good['_id']">
         <nuxt-link :to='{path:"/goods/"+good["_id"]}'>
-          <img class="thumbnail" :src="'/uploads/' + good['img']">
-          <h3>{{good['name']}}</h3>
-          <h3>{{good['price']}} 원</h3>
+            <img class="thumbnail" :src="'/uploads/' + good['img']">
+            <h3>{{good['name']}}</h3>
+            <h3>{{good['price']}} 원</h3>
         </nuxt-link>
-      </li>
-    </ul>
-
-    
+    </div>
     <div class = "pagination">
       <a href="#" @click='getPage(p)' v-for="p in pagination" :key="p">{{p+1}}</a>
     </div>
