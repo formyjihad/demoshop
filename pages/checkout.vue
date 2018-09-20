@@ -185,7 +185,7 @@ export default {
                             totalAmount:res.custom_data.totalAmount,
                             orderId:postData.data.purchase.orderId
                         })
-                        //location.href = "/checkConfirm/"+postData.data.purchase._id
+                        location.href = "/checkConfirm/"+postData.data.purchase.orderId
                     }else if(postData.status == 204){
                         alert('잘못된 정보입니다.');
                     }else if(postData.status == 206){

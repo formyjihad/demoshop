@@ -9,7 +9,6 @@ const { IMP_KEY, IMP_SECRET } = require('../../config/constants');
 const axios = require('axios');
 
 router.post('/', (req, res)=>{
-    
     const impUid = req.body.imp_uid;
     axios({
         url: "https://api.iamport.kr/users/getToken",
@@ -59,37 +58,52 @@ router.post('/', (req, res)=>{
             //purchase.orderId = result.data.response.imp_uid;    
             // 주문번호 필요. 주문번호는 몽고DB에서 만들어주는 ID 말고 다른 ID를 지정해줄 필요성 발생.
             //setTimeout(400);
-            counts.findOne({"id":id})
-            .then((result)=>{
-                //console.log(result)
-                if(!result){
-                    res.status(206).json({});
-                }else{
-                    //console.log(result);
-                    counts.update({'id':id}, {$inc:{'purchaseCount':1}},function(err){
-                        if(err){
-                            console.error(err)
-                        }
-                        else{
-                            console.log("success");
-                            purchase.orderId = result.purchaseCount;
-                        }
-                    });
+            counts.findOneAndUpdate({"id":id},{$inc:{"purchaseCount":1}},function(err, count){
+                console.log(count)
+                if(err){
+                    console.error(err)
                 }
-            })
-            .then((result) =>{
-                return purchase.save(function(err, purchase){
-                    if(err){
-                        console.error(err);
-                        res.status(204).json();
-                        return;
-                    }
-                    res.status(201).json({purchase});
-                })
+                else{
+                    console.log("success");
+                    purchase.orderId = count.purchaseCount;
+                    console.log(purchase)
+                    return purchase.save(function(err, purchase){
+                        if(err){
+                            console.error(err);
+                            res.status(204).json();
+                            return;
+                        }
+                        res.status(201).json({purchase});
+                    })
+                }
             })
             // purchase.orderDate =  결제 날짜 필요.
         }
     })
+})
+
+router.get('/',(req,res,next)=>{
+    console.log(req)
+    let userId = req.user.uid;
+    console.log(userId)
+    let page = req.query.page || 0
+    let limit = 5;
+    let offset = page * limit;
+
+    orders.find({"uid":userId})
+    .select({})
+    .limit(limit)
+    .skip(offset)
+    .exec(function(err, order){
+        orders.countDocuments().exec(function(err, count){
+            res.json({
+                order:order,
+                limit:limit,
+                currentPage:page,
+                totalCount:count
+            });
+        });
+    });
 })
 
 router.post('/save', (req, res)=>{

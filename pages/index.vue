@@ -1,14 +1,16 @@
 <template>
   <section class = "container">
     <ul>
-      <li v-for ="good in goods" :key="good['_id']">
+      <li class="item-box" v-for ="good in goods" :key="good['_id']">
         <nuxt-link :to='{path:"/goods/"+good["_id"]}'>
-          <img :src="'/uploads/' + good['img']">
+          <img class="thumbnail" :src="'/uploads/' + good['img']">
           <h3>{{good['name']}}</h3>
-          <h3>{{good['price']}}</h3>
+          <h3>{{good['price']}} 원</h3>
         </nuxt-link>
       </li>
     </ul>
+
+    
     <div class = "pagination">
       <a href="#" @click='getPage(p)' v-for="p in pagination" :key="p">{{p+1}}</a>
     </div>
@@ -69,4 +71,24 @@ export default {
 /*
 메인페이지.
 */
+.item-box{
+  text-decoration: none;
+  box-sizing: border-box;
+  width: 280px;
+  padding: 8px;
+  border: 1px solid #cccccc;
+  box-shadow: 0 2px 2px #aaa;
+  margin: 10px;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.thumbnail {
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 300px;
+}
 </style>
