@@ -1,7 +1,9 @@
 <template>
   <div>
     <Header/>
-    <nuxt/>
+    <section class="nuxt">
+      <nuxt/>
+    </section>
     <Footer/>
   </div>
 </template>
@@ -19,6 +21,8 @@ export default {
 
 <style scoped>
 
-
+.nuxt{
+  height: 100%
+}
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <footer class = "footer">
+    <footer class="footer">
         <div class="company">
             <h3>COMPANY INFO</h3>
         </div>
@@ -24,7 +24,6 @@ export default {
 <style scoped>
 
 .footer {
-    bottom: 0;
     width:100%;
     background:#ccc;
 }

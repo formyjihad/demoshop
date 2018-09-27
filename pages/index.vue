@@ -69,14 +69,20 @@ export default {
 /*
 메인페이지.
 */
+
+.index{
+    height: 100%;
+    overflow: auto;
+}
+
 .container{
-    
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-
 }
+
 .item-box{
     text-decoration: none;
     box-sizing: border-box;
@@ -87,12 +93,12 @@ export default {
     box-shadow: 0 2px 2px #aaa;
     margin: 25px;
     margin-top: 50px;
-
 }
+
 a {
     text-decoration: none;
-  
 }
+
 .item-title{
     text-decoration: none;
     font-family: "KBIZ한마음고딕 B", "맑은고딕", "나눔고딕","고딕", arial, helvetica, sans-serif;
@@ -100,7 +106,6 @@ a {
     font-size : 28px;
     text-align: center;
     margin-top: 20px;
-
 }
 
 .thumbnail {
@@ -110,12 +115,12 @@ a {
     height: 250px;
     margin-top: 10px;
 }
+
 .price{
     text-decoration: none;
     font-family: "KBIZ한마음고딕 B", "맑은고딕", "나눔고딕","고딕", arial, helvetica, sans-serif;
     color: #454545; 
     font-size : 20px;
     text-align: center;
-
 }
 </style>

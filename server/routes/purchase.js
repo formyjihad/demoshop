@@ -54,19 +54,20 @@ router.post('/', (req, res)=>{
             purchase.uid = req.user.uid;
             purchase.name = result.data.response.buyer_name;
             purchase.price = result.data.response.amount;
-            //console.log(purchase)
+            purchase.impUid = result.data.response.imp_uid;
+            //console.log(purchase.impUid)
             //purchase.orderId = result.data.response.imp_uid;    
             // 주문번호 필요. 주문번호는 몽고DB에서 만들어주는 ID 말고 다른 ID를 지정해줄 필요성 발생.
             //setTimeout(400);
             counts.findOneAndUpdate({"id":id},{$inc:{"purchaseCount":1}},function(err, count){
-                console.log(count)
+                //console.log(count)
                 if(err){
                     console.error(err)
                 }
                 else{
-                    console.log("success");
+                    //console.log("success");
                     purchase.orderId = count.purchaseCount;
-                    console.log(purchase)
+                    //console.log(purchase)
                     return purchase.save(function(err, purchase){
                         if(err){
                             console.error(err);
@@ -82,14 +83,14 @@ router.post('/', (req, res)=>{
     })
 })
 
-router.get('/',(req,res,next)=>{
-    console.log(req)
+router.get('/', (req,res,next)=>{
+    //console.log(req)
     let userId = req.user.uid;
     console.log(userId)
     let page = req.query.page || 0
     let limit = 5;
     let offset = page * limit;
-
+    
     orders.find({"uid":userId})
     .select({})
     .limit(limit)
@@ -101,10 +102,11 @@ router.get('/',(req,res,next)=>{
                 limit:limit,
                 currentPage:page,
                 totalCount:count
-            });
-        });
-    });
+            })
+        })
+    })
 })
+
 
 router.post('/save', (req, res)=>{
     //주문정보 저장
@@ -167,14 +169,55 @@ router.post('/noSign', (req, res)=>{
     });
 });
 
-router.get('/checkOrder', (req, res)=>{
+router.get('/checkOrder', async (req, res)=>{
     let purchaseId = req.query.orderid;
     //console.log(purchaseId);
-    purchases.findOne({'_id':purchaseId})
-    .then((result) => {
-     //   console.log(result)
-        res.status(201).json({result})
-    })
+    try{
+        if(req.user.uid){
+            let purchase = await purchases.findOne({"orderId":purchaseId})
+          //  console.log(purchase);
+            let impUid = purchase.impUid;
+                        
+            let tokenData = await axios.post("https://api.iamport.kr/users/getToken", {
+                imp_key: IMP_KEY, // REST API키
+                imp_secret: IMP_SECRET // REST API Secret
+            })
+            //console.log(tokenData)
+            if(tokenData.data.code !== 0){
+                console.log("토큰 취득 실패")
+                
+                res.status(204).json({});
+            }else{
+                //console.log(result)
+               // console.log(impUid)
+                //console.log(tokenData.data.response.access_token)
+                const author = "Bearer "+tokenData.data.response.access_token
+                //console.log(author)
+                //let statusUrl = 'https://api.iamport.kr/payments/'+impUid
+                let statusData = await axios.get(`https://api.iamport.kr/payments/${impUid}`,{
+                    headers: {
+                        "Content-Type": "application/json", // "Content-Type": "application/json"
+                        "Authorization": author // 발행된 액세스 토큰
+                    },
+                })
+                console.log(statusData)
+                console.log(purchase)
+                if(statusData.data.response.status == 'ready'){
+                    let status = '결제대기'
+                    res.status(201).json({purchase,status})
+                }
+                else if(statusData.data.response.status = 'paid'){
+                    let status = '결제확인'
+                    res.status(201).json({purchase, status})
+                }
+            }
+        }
+    }
+    catch(err){
+        return res.status(500).send(err);
+    }
+
+    
 })
 
 router.post('/editOrder', (req, res, next)=>{

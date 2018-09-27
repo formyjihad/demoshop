@@ -25,6 +25,9 @@ let purchaseSchema = new Schema({
     },
     price:{
         type:Number
+    },
+    impUid:{
+        type:String
     }
 });
 

@@ -2,9 +2,11 @@
     <div class = "container">
         <table>
             <tr v-for="order in orders" :key="order['_id']" v-if="isLogin">
-                <td>주문번호 : {{order['orderId']}}</td>
-                <td>주문날짜 : {{order['orderDate']}}</td>
-                <td>주문금액 : {{order['totalAmount']}} 원</td>
+                <nuxt-link :to='{path:"/orders/"+order["orderId"]}'>
+                    <td>주문번호 : {{order['orderId']}}</td>
+                    <td>주문날짜 : {{order['orderDate']}}</td>
+                    <td>주문금액 : {{order['totalAmount']}} 원</td>
+                </nuxt-link>
             </tr>
         </table>
         <div class = "pagination">
@@ -72,3 +74,15 @@ export default {
 }
     
 </script>
+
+<style scoped>
+
+.container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+</style>
