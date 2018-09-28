@@ -6,6 +6,7 @@
                     <td>{{order['uid']}}</td>
                     <td>{{order['totalAmount']}}원</td>
                     <td>{{order.orderDetail.length}} 주문</td>
+                    <td>{{order.status}}</td>
                 </nuxt-link>
                 <td id="orderDetail" @mouseover="detail(order)">미리보기</td>
             </tr>
@@ -62,16 +63,16 @@ export default {
             //console.log(orderDetail);
             
         },
-        async detail(id){
-            //console.log(id);
+        async detail(order){
+            console.log(order);
             let detail = document.getElementById('orderDetail')
-            let detailData
-            for(let i = 0; i<id.orderDetail.length; i++){
+            let detailData = ""
+            for(let i = 0; i<order.orderDetail.length; i++){
                 if(!detailData){
-                    detailData = "사이즈 : "+id.orderDetail[i].xSize+"*"+id.orderDetail[i].ySize+"\n"+"두께 : "+id.orderDetail[i].thick+"\n포장 : "+id.orderDetail[i].packing+"\n부자재 : "+id.orderDetail[i].subItem+"\n인쇄면 : "+id.orderDetail[i].printside
+                    detailData = "사이즈 : "+order.orderDetail[i].xSize+"*"+order.orderDetail[i].ySize+"\n"+"두께 : "+order.orderDetail[i].thick+"\n포장 : "+order.orderDetail[i].packing+"\n부자재 : "+order.orderDetail[i].subItem+"\n인쇄면 : "+order.orderDetail[i].printside
                 }
                 else{
-                    detailData = detailData + "\n\n" + "사이즈 : "+id.orderDetail[i].xSize+"*"+id.orderDetail[i].ySize+"\n"+"두께 : "+id.orderDetail[i].thick+"\n포장 : "+id.orderDetail[i].packing+"\n부자재 : "+id.orderDetail[i].subItem+"\n인쇄면 : "+id.orderDetail[i].printside
+                    detailData = detailData + "\n\n" + "사이즈 : "+order.orderDetail[i].xSize+"*"+order.orderDetail[i].ySize+"\n"+"두께 : "+order.orderDetail[i].thick+"\n포장 : "+order.orderDetail[i].packing+"\n부자재 : "+order.orderDetail[i].subItem+"\n인쇄면 : "+order.orderDetail[i].printside
                 }
             }
             console.log(detailData)

@@ -183,9 +183,10 @@ export default {
                             address:res.custom_data.address,
                             cart:res.custom_data.cart,
                             totalAmount:res.custom_data.totalAmount,
+                            purchaseId:postData.data.purchase._id,
                             orderId:postData.data.purchase.orderId
                         })
-                        location.href = "/checkConfirm/"+postData.data.purchase.orderId
+                        location.href = "/checkConfirm/"+postData.data.purchase._id
                     }else if(postData.status == 204){
                         alert('잘못된 정보입니다.');
                     }else if(postData.status == 206){

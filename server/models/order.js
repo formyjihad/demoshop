@@ -59,7 +59,8 @@ let orderSchema = new Schema({
     address:String,
     orderDetail:{type:[orderDetailSchema], default:[]},
     img:String,
-    status: String
+    status: String,
+    purchaseId:String
 });
 
 module.exports = mongoose.model('order', orderSchema);

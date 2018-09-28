@@ -20,7 +20,7 @@
                 </tr>
                 <tr class = "orderId">
                     <td>주문번호</td>
-                    <td>{{order._id}}</td>
+                    <td>{{order.orderId}}</td>
                 </tr>
                 <tr class= "orderName">
                     <td>주문자</td>
@@ -45,7 +45,7 @@ export default {
     },
     async created (){
         //console.log(this.orderId)
-        let url = `/api/purchase/checkOrder?orderid=${this.orderid}`
+        let url = `/api/purchase/checkOrder?id=${this.orderid}`
         const checkData = await axios.get(url)
         //console.log(checkData.data);
         if(checkData.status == 201){

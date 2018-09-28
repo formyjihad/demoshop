@@ -116,6 +116,8 @@ router.post('/save', (req, res)=>{
     order.totalAmount = req.body.totalAmount;
     order.address = req.body.address;
     order.orderId = req.body.orderId;
+    order.purchaseId = req.body.purchaseId;
+    order.status = "file-confirm"
 
     //console.log(req.body.cart[0])
     for(let i=0; i<req.body.cart.length; i++){
@@ -170,11 +172,12 @@ router.post('/noSign', (req, res)=>{
 });
 
 router.get('/checkOrder', async (req, res)=>{
-    let purchaseId = req.query.orderid;
+    let purchaseId = req.query.id;
     //console.log(purchaseId);
     try{
+        console.log("checking")
         if(req.user.uid){
-            let purchase = await purchases.findOne({"orderId":purchaseId})
+            let purchase = await purchases.findOne({"_id":purchaseId})
           //  console.log(purchase);
             let impUid = purchase.impUid;
                         
@@ -216,61 +219,6 @@ router.get('/checkOrder', async (req, res)=>{
     catch(err){
         return res.status(500).send(err);
     }
-
-    
 })
-
-router.post('/editOrder', (req, res, next)=>{
-    /*if(!req.body){
-        return res.status(200).json({msg:"비로그인입니다"});
-    }*/
-    let order = new orders();
-    let index = req.body.index;
-    let id = req.body.id;
-
-    let xSize = req.body.xSize;
-    let ySize = req.body.ySize;
-    let quantity = req.body.quantity;
-    let thick = req.body.thick;
-    let packing = req.body.packing;
-    let subItem = req.body.subItem;
-    let printside = req.body.printSide;
-    let price = req.body.price;
-
-    
-    //console.log(req.body);
-
-    orders.findById(id, function(err, order){
-        if(err){
-            console.error(err);
-            res.status(204).json();
-            return;
-        }
-        order.orderDetail[index].xSize = xSize;
-        order.orderDetail[index].ySize = ySize; 
-        order.orderDetail[index].subItem = subItem;
-        order.orderDetail[index].quantity = quantity;
-        order.orderDetail[index].thick = thick;
-        order.orderDetail[index].packing = packing;
-        order.orderDetail[index].printside = printside;
-        order.orderDetail[index].price = price;
-        
-        let totalAmountCalc=0
-        for(let i=0; i<order.orderDetail.length;i++){
-            totalAmountCalc = totalAmountCalc+order.orderDetail[i].price;
-        }
-        order.totalAmount = totalAmountCalc;
-
-        return order.save(function(err, order){
-            if(err){
-                console.error(err);
-                res.json({result:0});
-                return;
-            }
-            //console.log(result)
-            res.status(201).json({order});
-        });
-    });
-});
 
 module.exports = router;

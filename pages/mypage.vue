@@ -2,7 +2,7 @@
     <div class = "container">
         <table>
             <tr v-for="order in orders" :key="order['_id']" v-if="isLogin">
-                <nuxt-link :to='{path:"/orders/"+order["orderId"]}'>
+                <nuxt-link :to='{path:"/orders/"+order["purchaseId"]}'>
                     <td>주문번호 : {{order['orderId']}}</td>
                     <td>주문날짜 : {{order['orderDate']}}</td>
                     <td>주문금액 : {{order['totalAmount']}} 원</td>

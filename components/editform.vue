@@ -10,7 +10,7 @@
             <td>수량 : {{orderDetail.quantity}},</td>
             <td>가격 : {{orderDetail.price}}</td>
             <td>
-                <button class="button is-danger">Delete</button>
+                <button class="button is-danger" @click="deleteOrder">Delete</button>
                 <button class="button is-light" @click="toggleEdit">Edit</button>
             </td>
         </tr>
@@ -24,8 +24,11 @@ export default {
         'orderDetail'
     ],
     methods:{
+        deleteOrder(){
+            this.$emit('delete-order');
+        },
+
         toggleEdit(){
-            
             this.$emit('toggle-edit');
         }
     }

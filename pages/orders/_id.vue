@@ -48,7 +48,7 @@ export default {
     },
     async created (){
         //console.log(this.orderId)
-        let url = `/api/purchase/checkOrder?orderid=${this.orderid}`
+        let url = `/api/purchase/checkOrder?id=${this.orderid}`
         const checkData = await axios.get(url)
         console.log(checkData)
         if(checkData.status == 201){
