@@ -127,6 +127,7 @@ export default {
             })
             if(statusData.status == 200){
                 alert("주문 상태를 적용하였습니다.")
+                this.$nuxt.$router.replace({path:'/admin/purchase'})
             }
             else{
                 alert("주문 상태 변경에 실패하였습니다.")

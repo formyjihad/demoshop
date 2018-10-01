@@ -1,39 +1,41 @@
 <template>
     <div>
-        <div class = "panel panel-primary" v-if="cart.length >0">
-            <div class = "panel-heading">장바구니</div>
-            <div class = "panel-body">
-                <div class = "panel" v-for="(cart, index) in cart" :key="cart._id">
-                    <div class = "panel-body">
+        <div class = "container" v-if="cart.length >0">
+            <div class = "cart-head">장바구니</div>
+            <div class = "cart-body">
+                <div class = "cart" v-for="(cart, index) in cart" :key="cart._id">
+                    <div class = "body">
                         <div class = "row">
-                            <div class = "col-xs-12 col-sm-4">
+                            <input type="checkbox" class = "indexcheck" value="index" @click="indexCheck(index)"/>
+                            <div class = "cart-name">
                                 <h6>{{cart.name}}</h6>
                             </div>
-                            <div class = "col-xs-12 col-sm-2">
+                            <div class = "cart-price">
                                 <h6>{{cart.price}}</h6>
                             </div>
-                            <div class = "col-xs-12 col-sm-2">
-                                <h6>수량 : <span class="label label-success">{{cart.quantity}}</span></h6>
+                            <div class = "cart-price">
+                                <h6>수량 : {{cart.quantity}}</h6>
                             </div>
-                            <div class = "col-xs-12 col-sm-4">
+                            <div class = "cart-button">
                                 <div class = "btn-group" style = "min-width:300px">
                                     <button type="button" class="btn btn-sm btn-default" @click="onDecrement(index, cart.quantity)">-</button>
-                                    <button type="button" class="btn btn-sm btn-defalut" @click="onIncrement(index)">+</button>
-                                    <button type="button" class="btn btn-sm btn-danger" @click="deleteCart(index)">삭제</button>
+                                    <button type="button" class="btn btn-sm btn-default" @click="onIncrement(index)">+</button>
+                                    <button type="button" class="btn btn-sm btn-danger" @click="deleteCarts(index)">삭제</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class = "row">
-                    <div class = "col-xs-12">
+                    <div class = "row-body">
                         <h6>Total amount:{{totalAmount}}</h6>
-                        <button class = "btn btn-success btn-sm" @click="onCheckout()">주문하기</button>
+                        <button class = "order-btn" @click="onCheckout()">주문하기</button>
+                        <button type="button" class="btn btn-sm btn-danger" @click="deleteSelectCart(checkArray)">선택삭제</button>
+                        <button type="button" class="btn btn-sm btn-danger" @click="deleteAllCart()">장바구니 비우기</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div v-else></div>
     </div>
 </template>
 
@@ -52,12 +54,57 @@ export default {
         totalAmount:'carts/totalAmount'
     }),
     },
+    data(){
+        return{
+            checkArray:[]
+        }
+    },
     created(){
         this.$store.dispatch('carts/getCart')
     },
     methods:{
-        deleteCart(index){
+        indexCheck(index){
+            let checkArr = this.checkArray;
+            if(checkArr.length==0){
+                checkArr.push(index)
+                console.log(checkArr)
+            }else{
+                for (let i = 0; i<checkArr.length; i++){
+                    if(checkArr[i] == index){
+                        checkArr.splice(i, 1)
+                        console.log(checkArr)
+                        return{
+                            checkArray:checkArr
+                        }
+                    }
+                }
+                checkArr.push(index)
+                return{
+                    checkArray:checkArr
+                }
+            }
+        },
+        deleteCarts(index){
+            console.log(index)
             this.deleteCart(index)
+        },
+        deleteSelectCart(checkArray){
+            let indexArr = checkArray //[0:0, 1:1]
+            let length = indexArr.length // 2
+            console.log("삭제")
+            for(let i = 0; i<length; i++){
+                let index = indexArr[0]
+                this.deleteCart(index)
+            }
+            return{
+                checkArray:indexArr
+            }
+        },
+        deleteAllCart(){
+            let length = this.cart.length
+            for(let i =0; i<length;i++){
+                this.deleteCart(0)
+            }
         },
         onIncrement(index){
             this.updateCart({
