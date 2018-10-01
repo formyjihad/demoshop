@@ -16,7 +16,7 @@
             <label id="addressDetail">상세주소</label>
             <input id="addressDetail" type="text" v-model="addressDetail"><br>
             <label id="phoneNumber">핸드폰 번호</label>
-            <input id="phoneNumber" type="tel" v-model="phoneNumber" pattern="(010)-\d{4}-d{4}" placeholder="010-0000-0000"><br>
+            <input id="phoneNumber" type="tel" v-model="phoneNumber" placeholder="010-0000-0000" @click="phoneCheck()"><br>
             <label id="email">이메일 주소</label>
             <input id="email" type="email" v-model="email"><br>
             <button type="submit">회원가입</button>
@@ -26,6 +26,7 @@
 
 <script>
 import axios from 'axios'
+import {IMP_CODE} from '../config/constants'
 import postOffice from '../components/modals/postOffice.vue'
 export default {
     components:{
@@ -34,13 +35,34 @@ export default {
     data(){
         return{
             postCode:'',
+            phoneNumber:'',
             addressData:'',
+            email:'',
             uid:'',
             password:'',
-            price:1000
         }
     },
+    beforeMount() {
+        IMP.init(IMP_CODE)
+    },
     methods:{
+        phoneCheck(){
+            const url = '/api/users/phoneCheck'
+            IMP.certification({
+                popup:true // param
+            }, async (res) => { // callback
+                console.log(res)
+                if (res.success) {
+                    let checkData = await axios.post(url,{
+                        impUid:res.imp_uid
+                    })
+
+
+                } else {
+                    alert(`인증에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+                }
+            });
+        },
         passwordCheck(value){
             if(value != this.password){
                 alert("패스워드가 잘못되었습니다");

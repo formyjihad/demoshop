@@ -19,11 +19,9 @@ module.exports = {
     ]
   },
   modules: [
-    'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
   ],
   plugins: [
-    '~/plugins/bootstrap-vue.js',
     { src: '~/plugins/modal.js', ssr: false},
     //'~/plugins/axios',
   ],
@@ -44,7 +42,7 @@ module.exports = {
     /*
     ** Run ESLint on save
     */
-    vendor:['bootstrap-vue','jquery','vue-js-modal'],
+    vendor:['jquery','vue-js-modal'],
     plugins:[
       new webpack.ProvidePlugin({
         $: 'jquery'

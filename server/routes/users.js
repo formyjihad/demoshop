@@ -1,6 +1,7 @@
 const express = require('express');
 let router = express.Router();
 const users = require('../models/user.js')
+const { IMP_KEY, IMP_SECRET } = require('../../config/constants');
 
 router.get('/',(req,res,next)=>{
     res.send('/users');
@@ -29,6 +30,29 @@ router.post('/signup',(req,res,next)=>{
             //return;
         }
     });
+});
+
+router.post('/phoneCheck', async (req,res)=>{
+    const impUid = req.body.impUid; // request의 body에서 imp_uid 추출
+    const tokenUrl = "https://api.iamport.kr/users/getToken"
+    const certUrl = "https://api.iamport.kr/certifications/"+impUid
+    try {
+        // 인증 토큰 발급 받기
+        const getToken = await axios.post(tokenUrl, {
+            imp_key: IMP_KEY, // REST API키
+            imp_secret: IMP_SECRET // REST API Secret
+        });
+        const accessToken = getToken.data.response; // 인증 토큰
+
+        // imp_uid로 인증 정보 조회
+        const getCertifications = await axios.get(certUrl,{
+            headers: { "Authorization": accessToken } // 인증 토큰 Authorization header에 추가
+        });
+        const certificationsInfo = getCertifications.data.response; // 조회한 인증 정보
+        console.log(certificationsInfo)
+    } catch(e) {
+        console.error(e);
+    }
 });
 
 const passport = require('passport');

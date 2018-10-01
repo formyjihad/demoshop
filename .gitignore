@@ -13,3 +13,4 @@ dist
 # Upload
 server/uploads
 config/
+build/
