@@ -1,6 +1,5 @@
 const express = require('express');
 let app = express();
-//let CORS = require('cors')();
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -17,9 +16,7 @@ process.env.PORT = 80
 
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 80
-//const cookieParser = require('cookie-parser');
 
-//app.use(cookieParser());
 app.set('port', port)
 
 app.use(session({
@@ -29,24 +26,12 @@ app.use(session({
     cookie:{ maxAge: 1000*60*60*24*7 }
 }));
 
-app.use((req, res, next)=>{
-    res.header('Access-Control-Allow-Origin','*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-    if(req.method === 'OPTIONS'){
-        res.header('Access-Control-Allow-Methods','PUT, POST, PATCH, DELETE, GET');
-        return res.send(200).json({});
-    }
-    next();
-});
-
 config.dev = !(process.env.NODE_ENV === 'production');
 
 app.use(passport.initialize());
 app.use(passport.session());
-//app.use(CORS);
 
 //const {good, order, purchase, user} = require('./models')
-
 
 let nuxt = new Nuxt(config);
 

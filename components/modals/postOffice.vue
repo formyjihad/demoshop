@@ -15,9 +15,10 @@
             <a href="#" @click='getPage(arg, page)' v-for="page in pagination" :key="page">{{page+1}}</a>
         </div>
         <div class="addressData">
-            <input type="text" v-model="postCode" placeholder="우편번호">
+            <input type="text" v-model="postCode" placeholder="우편번호"><br>
             <input type="text" v-model="addressData" placeholder="주소">
-            <button type="submit" @click="sendToParent(postCode, addressData)">입력</button>
+            <input type="text" v-model="addressDetail" placeholder="상세주소">
+            <button type="submit" @click="sendToParent(postCode, addressData, addressDetail)">입력</button>
         </div>
     </div>
 </template>
@@ -57,9 +58,10 @@ export default {
             //console.log(this.postCode)
             //console.log(this.addressData)
         },
-        sendToParent(code, addr){
+        sendToParent(code, addr, adds){
             this.$nuxt.$emit('post-code',code);
             this.$nuxt.$emit('address-data',addr);
+            this.$nuxt.$emit('address-detail',adds)
             this.$emit('close');
         },
         async callPostOffice(value){

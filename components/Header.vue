@@ -4,15 +4,15 @@
             <nuxt-link to="/"><img class="logoImg" src="/dongne_b.png"></nuxt-link>
         </div>
         <div class="mainMenu">
-            <nuxt-link to="/">공지사항</nuxt-link>
+            <nuxt-link to="/notice">공지사항</nuxt-link>
             <nuxt-link to="/">상품</nuxt-link>
             <nuxt-link to="/">제작가이드</nuxt-link>
-            <nuxt-link to="/">이밴트</nuxt-link>
-            <nuxt-link to="/">리뷰</nuxt-link>
+            <nuxt-link to="/event">이밴트</nuxt-link>
+            <!--<nuxt-link to="/">리뷰</nuxt-link>-->
         </div>
         <hr class="head-line" noshade />
         <div class = "subMenu">
-            <nuxt-link to="/signup" v-if="! isLogin">회원가입</nuxt-link>
+            <nuxt-link to="/agreement" v-if="! isLogin">회원가입</nuxt-link>
             <nuxt-link to="/signin" v-if="! isLogin">로그인</nuxt-link>
             <nuxt-link to="/mypage" v-if="isLogin">마이페이지</nuxt-link>
             <nuxt-link to="/signout" v-if="isLogin">로그아웃</nuxt-link>

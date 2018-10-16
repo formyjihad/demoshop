@@ -5,11 +5,17 @@ const goods = require('../models/good.js');
 const file = require('../utils/fileUpload');
 const users = require('../models/user.js');
 const orders = require('../models/order.js');
-
+const auth = require('../utils/auth')
 
 router.get('/', (req,res,next)=>{
-    res.send('/admin');
+    if(req.user.status){
+        res.status(200).json();
+    }else{
+        res.send('/signin');
+    }
 });
+
+
 router.get('/purchase', (req, res) => {
     let page = req.query.page || 0;
     let limit = 5;
@@ -30,12 +36,16 @@ router.get('/purchase', (req, res) => {
     });
 });
 
-router.get('/purchase/update', (req, res) => {
+router.get('/purchase/update', async (req, res) => {
     let id = req.query.orderId;
-    orders.findOne({'_id':id})
-    .then((result) =>{
-        res.json({order:result});
-    });
+    console.log(id)
+    try {
+        let orderData = await orders.findOne({'_id':id})
+        console.log(orderData)
+        res.status(200).json({orderData})
+    }catch(err){
+        console.error(err)
+    }
 });
 
 
@@ -201,6 +211,10 @@ router.get('/goods', (req,res)=>{
         });
     });
 });
+
+router.post('/google', auth, async(req, res)=>{
+    console.log(auth.createToken)
+})
 
 
 

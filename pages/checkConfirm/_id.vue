@@ -47,10 +47,11 @@ export default {
         //console.log(this.orderId)
         let url = `/api/purchase/checkOrder?id=${this.orderid}`
         const checkData = await axios.get(url)
-        //console.log(checkData.data);
+        console.log("checkConfirm call")
+        console.log(checkData.data);
         if(checkData.status == 201){
-            this.order = checkData.data.result
-            //console.log(this.order)
+            this.order = checkData.data.purchase
+            console.log(this.order)
         }
         //console.log(this.order)
         

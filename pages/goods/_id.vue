@@ -159,12 +159,12 @@ export default {
         })
     },
     methods:{
-        buy(){
+        async buy(){
             let formData = new FormData();
             let fileDom = document.querySelector('#uploadImg');
             let uploadImg = fileDom.files[0];
+            formData.append("img", fileDom.files[0]);
             const timeStamp = Date.now()
-            console.log(timeStamp);
             const goods = [{
                 _id:this.goodsId,
                 name:this.name,
@@ -180,6 +180,9 @@ export default {
                 orderDate:timeStamp
                 //img:uploadImg
             }];
+            console.log('breakpoint')
+            console.log(goods);
+
             
             if(this.cart.length>0){
                 let _id = this._id
@@ -188,6 +191,12 @@ export default {
                 })
                 if (cartIndex == -1){
                     this.addToCart(goods);
+                    console.log("post 대기")
+                    let fileData = await axios.post('/api/fileUpload',formData,{
+                        headers:{
+                            'Content-Type':'multipart/form-data'
+                        }
+                    })
                     alert("장바구니에 추가되었습니다.")
                     this.$nuxt.$router.replace({path:'/'})
                 } else {

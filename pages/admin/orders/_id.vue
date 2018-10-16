@@ -139,12 +139,11 @@ export default {
         //console.log('is this work?')
         //console.log(this.orderid)
         let url = `/api/admin/purchase/update?orderId=${this.orderId}`
-        let data = await axios.get(url)
+        let orderData = await axios.get(url)
         
-        this.order = data.data.order
-        this.orderDetail = data.data.order.orderDetail
-        //console.log(this.order);
-//        this.orderDetails = data.data.orderDetail
+        console.log(orderData.data.orderData)
+        this.order = orderData.data.orderData
+        this.orderDetail = orderData.data.orderData.orderDetail
     }
 }
 

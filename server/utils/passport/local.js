@@ -1,4 +1,5 @@
 const LocalStrategy = require('passport-local').Strategy;
+const jwt = require('jsonwebtoken')
 
 const users = require('../../models/user.js');
 
@@ -8,10 +9,10 @@ module.exports = new LocalStrategy({
     passReqToCallback : true
     },
     
-    function(req, userid, password, done){
+    async function(req, userid, password, done){
         if(!userid || !password) return done(null, false);
         console.log("Try to sign in");
-        users.findOne({'uid':userid})/*, function(err, user){
+        let loginData = await users.findOne({'uid':userid})/*, function(err, user){
             if(err) return done(err);
             if(!user){ 
                 console.log("fail to sign in"); 
@@ -22,23 +23,27 @@ module.exports = new LocalStrategy({
         }); function(err){
             if(err) return res.status(500).send({error: 'database failure'});
            */
-           .then(result => {
-            if(!result){ console.log("fail to sign in"); done(null, false); }
-            else{
-                if(result.password == password){
-                    done(null,{
-                        uid : result.uid,
-                        status : result.status
-                        }
-                    );
-                    //console.log(uid);
-                    //console.log(status);
-                }else{done(null, false);}
+          
+        try
+        {
+            if(loginData.password == password){
+                const accessToken = jwt.sign({id:userid, status:loginData.status}, "Secret_key" ,{expiresIn:'1d'});
+                return done(null, {
+                    uid:loginData.uid,
+                    status:loginData.status,
+                    access_token:accessToken
+                })
             }
-        })
-        .catch((err) =>{
+            else{
+                return done(null, false);
+            }
+        }
+        catch(err){
+            console.log("fail to sign in"); 
             console.error(err);
-        });
+            return done(null, false)
+            
+        };
         
     }
 );

@@ -44,7 +44,8 @@ let orderDetailSchema = new Schema({
         required: true
     },
     price:Number,
-    quantity:Number
+    quantity:Number,
+    img:String
 });
 
 let orderSchema = new Schema({
@@ -58,7 +59,7 @@ let orderSchema = new Schema({
     },
     address:String,
     orderDetail:{type:[orderDetailSchema], default:[]},
-    img:String,
+    
     status: String,
     purchaseId:String
 });

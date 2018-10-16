@@ -8,7 +8,11 @@
 
 
 <script>
+import axios from 'axios'
 export default {
-    layout:'admin'
+    layout:'admin',
+    //async beforeCreate(){
+      //  let adminData = await axios.get('/api/admin')
+    //}
 }
 </script>

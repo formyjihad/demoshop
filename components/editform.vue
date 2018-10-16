@@ -9,6 +9,7 @@
             <td>인쇄면 : {{orderDetail.printside}},</td>
             <td>수량 : {{orderDetail.quantity}},</td>
             <td>가격 : {{orderDetail.price}}</td>
+            <td>도안 : {{orderDetail.img}}</td>
             <td>
                 <button class="button is-danger" @click="deleteOrder">Delete</button>
                 <button class="button is-light" @click="toggleEdit">Edit</button>

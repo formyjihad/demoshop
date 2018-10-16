@@ -170,7 +170,8 @@ export default {
                         cart:this.cart,
                         totalAmount:this.totalAmount,
                         */
-                        imp_uid:res.imp_uid
+                        imp_uid:res.imp_uid,
+                        totalAmount:amount
                     });
 
                     console.log("post 종료");
@@ -178,7 +179,7 @@ export default {
                     if(postData.status == 201){
                         alert('테스트, 구매하였습니다.')
                         url = '/api/purchase/save'
-                        console.log(postData)
+                        //console.log(postData)
                         let saveData = await axios.post(url, {
                             address:res.custom_data.address,
                             cart:res.custom_data.cart,
@@ -186,11 +187,14 @@ export default {
                             purchaseId:postData.data.purchase._id,
                             orderId:postData.data.purchase.orderId
                         })
+                        //console.log(saveData)
                         location.href = "/checkConfirm/"+postData.data.purchase._id
                     }else if(postData.status == 204){
                         alert('잘못된 정보입니다.');
                     }else if(postData.status == 206){
                         alert('error');
+                    }else if(postData.status == 209){
+                        alert('클라이언트 변조가 감지되었습니다. 결제를 취소합니다.')
                     }
                 }else{
                     alert("구매 실패");

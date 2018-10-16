@@ -2,9 +2,22 @@ const express = require('express');
 let router = express.Router();
 const users = require('../models/user.js')
 const { IMP_KEY, IMP_SECRET } = require('../../config/constants');
+const cors = require('cors')
+const jwt = require('jsonwebtoken')
 
 router.get('/',(req,res,next)=>{
     res.send('/users');
+});
+
+router.post('/idCheck', async (req,res)=>{
+    let id = req.body.id
+    let idData = await users.findOne({"uid":id})
+    //console.log(idData);
+    if(idData){
+        res.status(201).json();
+    }else{
+        res.status(200).json();
+    }
 });
 
 router.post('/signup',(req,res,next)=>{
@@ -50,6 +63,7 @@ router.post('/phoneCheck', async (req,res)=>{
         });
         const certificationsInfo = getCertifications.data.response; // 조회한 인증 정보
         console.log(certificationsInfo)
+        //res.status(201).json({}) crtificationsInfo에서 필요한 정보만 전송.
     } catch(e) {
         console.error(e);
     }
@@ -64,6 +78,16 @@ router.post('/signin',
     })
 );
 
+router.get('/auth/google', cors(), passport.authenticate('google', { scope:
+    ['profile']}
+    )
+);
+
+router.get('/auth/google/callback', passport.authenticate( 'google', { failureRedirect: '/api/users/signin/fail' }),
+    function(req, res) {
+        res.status(200).redirect('/'); 
+});
+
 router.get('/session-check', (req, res) =>{
     //console.log(req.user);
     res.status(200).json(req.user);
@@ -71,7 +95,7 @@ router.get('/session-check', (req, res) =>{
 
 router.get('/signin/success',(req,res)=>{
     console.log("Sign in Success")
-    res.status(200).json({});
+    res.status(200).json();
 });
 
 router.get('/signin/fail',(req,res)=>{

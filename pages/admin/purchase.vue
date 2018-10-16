@@ -1,14 +1,14 @@
 <template>
     <div class="container">
         <table>
-            <tr v-for="order in orders" :key="order['_id']">
+            <tr v-for="(order, index) in orders" :key="order['_id']">
                 <nuxt-link :to='{path:"./orders/"+order["_id"]}'>
                     <td>{{order['uid']}}</td>
                     <td>{{order['totalAmount']}}원</td>
                     <td>{{order.orderDetail.length}} 주문</td>
                     <td>{{order.status}}</td>
                 </nuxt-link>
-                <td id="orderDetail" @mouseover="detail(order)">미리보기</td>
+                <td class="orderDetail" @mouseover="detail(order, index)">미리보기</td>
             </tr>
         </table>
         <div class="pagination">
@@ -63,10 +63,11 @@ export default {
             //console.log(orderDetail);
             
         },
-        async detail(order){
+        async detail(order, index){
             console.log(order);
-            let detail = document.getElementById('orderDetail')
+            let detail = document.getElementsByClassName('orderDetail')
             let detailData = ""
+            let orderIndex = index;
             for(let i = 0; i<order.orderDetail.length; i++){
                 if(!detailData){
                     detailData = "사이즈 : "+order.orderDetail[i].xSize+"*"+order.orderDetail[i].ySize+"\n"+"두께 : "+order.orderDetail[i].thick+"\n포장 : "+order.orderDetail[i].packing+"\n부자재 : "+order.orderDetail[i].subItem+"\n인쇄면 : "+order.orderDetail[i].printside
@@ -76,7 +77,7 @@ export default {
                 }
             }
             console.log(detailData)
-            detail.title = detailData
+            detail[orderIndex].title = detailData
         }
     },
     layout:'admin'

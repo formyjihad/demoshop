@@ -2,7 +2,7 @@
     <div class = "container">
         <form @submit.prevent="signup">
             <label for="uid">아이디</label>
-            <input id="uid" type="text" v-model="uid"><br>
+            <input id="uid" type="text" v-model="uid"  @change="idCheck(uid)"><p v-if="checkFail == true">중복된 아이디가 존재합니다.</p><br>
             <label for="password">비밀번호</label>
             <input id="password" type="password" v-model="password"><br>
             <label for="passwordConfirm">비밀번호 확인</label>
@@ -34,6 +34,7 @@ export default {
     },
     data(){
         return{
+            checkFail:'',
             postCode:'',
             phoneNumber:'',
             addressData:'',
@@ -70,6 +71,23 @@ export default {
                 passwordFocus.focus();
             }
         },
+        async idCheck(value){
+            let uid = value;
+            const url = `/api/users/idCheck`
+            let idData = await axios.post(url,{
+                id:uid
+            })
+            if(idData.status == 201){
+                let idBox = document.getElementById('uid');
+                idBox.style="border: 1px solid #ff0000;"
+                this.checkFail = true
+            }
+            else{
+                let idBox = document.getElementById('uid');
+                idBox.style =""
+                this.checkFail = false
+            }
+        },
         async callPostOffice(){/*
             let regkey = '401652aa7e13e7f751535698618290'
             let url = `http://biz.epost.go.kr/KpostPortal/openapi?regkey=${regkey}target=postNew&query=${value}countPerPage=20`
@@ -83,6 +101,9 @@ export default {
             })
             this.$nuxt.$on('address-data', data=>{
                 this.addressData = data
+            })
+            this.$nuxt.$on('address-detail',data=>{
+                this.addressDetail = data
             })
         },
         async signup (){

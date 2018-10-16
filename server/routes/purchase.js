@@ -55,29 +55,36 @@ router.post('/', (req, res)=>{
             purchase.name = result.data.response.buyer_name;
             purchase.price = result.data.response.amount;
             purchase.impUid = result.data.response.imp_uid;
+            console.log(req.body.totalAmount)
+            console.log(result.data.response.amount)
+            if(result.data.response.amount != req.body.totalAmount){
+                res.status(209).json();
+            }
+            else{
+                counts.findOneAndUpdate({"id":id},{$inc:{"purchaseCount":1}},function(err, count){
+                    //console.log(count)
+                    if(err){
+                        console.error(err)
+                    }
+                    else{
+                        //console.log("success");
+                        purchase.orderId = count.purchaseCount;
+                        //console.log(purchase)
+                        return purchase.save(function(err, purchase){
+                            if(err){
+                                console.error(err);
+                                res.status(204).json();
+                                return;
+                            }
+                            res.status(201).json({purchase});
+                        })
+                    }
+                })
+            }
             //console.log(purchase.impUid)
             //purchase.orderId = result.data.response.imp_uid;    
             // 주문번호 필요. 주문번호는 몽고DB에서 만들어주는 ID 말고 다른 ID를 지정해줄 필요성 발생.
             //setTimeout(400);
-            counts.findOneAndUpdate({"id":id},{$inc:{"purchaseCount":1}},function(err, count){
-                //console.log(count)
-                if(err){
-                    console.error(err)
-                }
-                else{
-                    //console.log("success");
-                    purchase.orderId = count.purchaseCount;
-                    //console.log(purchase)
-                    return purchase.save(function(err, purchase){
-                        if(err){
-                            console.error(err);
-                            res.status(204).json();
-                            return;
-                        }
-                        res.status(201).json({purchase});
-                    })
-                }
-            })
             // purchase.orderDate =  결제 날짜 필요.
         }
     })
@@ -112,6 +119,8 @@ router.post('/save', (req, res)=>{
     //주문정보 저장
     let order = new orders();
     //console.log(req.body.length)
+    //console.log("breakpoint2")
+    //console.log(req.body)
     order.uid = req.user.uid;
     order.totalAmount = req.body.totalAmount;
     order.address = req.body.address;
@@ -121,7 +130,6 @@ router.post('/save', (req, res)=>{
 
     //console.log(req.body.cart[0])
     for(let i=0; i<req.body.cart.length; i++){
-        
         //console.log(order.orderDetail[i].xSize)
         order.orderDetail[i] = req.body.cart[i]
     }
@@ -172,13 +180,13 @@ router.post('/noSign', (req, res)=>{
 });
 
 router.get('/checkOrder', async (req, res)=>{
-    let purchaseId = req.query.id;
+    let purchaseId = req.query.id;  //5bb6e96ed3476b1b8cb70833
     //console.log(purchaseId);
     try{
         console.log("checking")
         if(req.user.uid){
             let purchase = await purchases.findOne({"_id":purchaseId})
-          //  console.log(purchase);
+            console.log(purchase);
             let impUid = purchase.impUid;
                         
             let tokenData = await axios.post("https://api.iamport.kr/users/getToken", {
@@ -196,8 +204,8 @@ router.get('/checkOrder', async (req, res)=>{
                 //console.log(tokenData.data.response.access_token)
                 const author = "Bearer "+tokenData.data.response.access_token
                 //console.log(author)
-                //let statusUrl = 'https://api.iamport.kr/payments/'+impUid
-                let statusData = await axios.get(`https://api.iamport.kr/payments/${impUid}`,{
+                let statusUrl = 'https://api.iamport.kr/payments/'+impUid
+                let statusData = await axios.get(statusUrl,{
                     headers: {
                         "Content-Type": "application/json", // "Content-Type": "application/json"
                         "Authorization": author // 발행된 액세스 토큰
@@ -207,7 +215,7 @@ router.get('/checkOrder', async (req, res)=>{
                 console.log(purchase)
                 if(statusData.data.response.status == 'ready'){
                     let status = '결제대기'
-                    res.status(201).json({purchase,status})
+                    res.status(201).json({purchase, status})
                 }
                 else if(statusData.data.response.status = 'paid'){
                     let status = '결제확인'

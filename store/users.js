@@ -1,6 +1,6 @@
 
 export const state = () => ({
-    isLogin:null
+    isLogin:null,
 })
 
 export const mutations={
@@ -9,7 +9,7 @@ export const mutations={
     },
     logout(state){
         state.isLogin = false
-    }
+    },
 }
 
 export const getters = {
