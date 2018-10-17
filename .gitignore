@@ -11,6 +11,7 @@ npm-debug.log
 dist
 
 # Upload
+server/utils/auth/service.json
 server/uploads
 config/
 build/

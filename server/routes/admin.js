@@ -6,6 +6,9 @@ const file = require('../utils/fileUpload');
 const users = require('../models/user.js');
 const orders = require('../models/order.js');
 const auth = require('../utils/auth')
+const {google} = require('googleapis');
+const axios = require('axios')
+
 
 router.get('/', (req,res,next)=>{
     if(req.user.status){
@@ -212,8 +215,39 @@ router.get('/goods', (req,res)=>{
     });
 });
 
-router.post('/google', auth, async(req, res)=>{
-    console.log(auth.createToken)
+router.post('/google', async(req, res)=>{
+    let token = await auth()
+    let accessToken = token.access_token;
+    let tokenType = token.token_type;
+    let expriyDate = token.expiry_date;
+    let refresh_token = token.refresh_token;
+    let spreadsheetId = '1s28fRvlw6YHL6nWtcmA3UZ3gTmhEBBtgek4we2XBGYc';
+    let range = "SS2018:A1"
+    //let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?access_token=${access_token}?valueInputOption=USER_ENTERED`
+    let postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`
+    //let getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`
+    let tokenData = `${tokenType} ${accessToken}`
+    let values = ["test","for","make","api","call"]
+    console.log(accessToken)
+    //const sheets = google.sheets('v4')
+    try{
+        let sheetData = await axios({
+            url: postUrl,
+            method: "post", // POST method
+            headers: { "Content-Type": "application/json", 'Authorization':tokenData }, // "Content-Type": "application/json"
+            data:{
+                values:[values]
+            }
+        })
+    
+        console.log(sheetData)
+        let sheet = JSON.stringify(sheetData.data)
+        res.status(200).json({sheet});
+    }catch(err){
+        console.error(err)
+        res.status(204).json()
+    }
+    
 })
 
 
