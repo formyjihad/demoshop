@@ -19,7 +19,7 @@ module.exports = {
     ]
   },
   modules: [
-    '@nuxtjs/axios',
+    '@nuxtjs/axios', 'bootstrap-vue/nuxt'
   ],
   plugins: [
     { src: '~/plugins/modal.js', ssr: false},

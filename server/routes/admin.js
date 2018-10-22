@@ -219,35 +219,60 @@ router.post('/google', async(req, res)=>{
     let token = await auth()
     let accessToken = token.access_token;
     let tokenType = token.token_type;
-    let expriyDate = token.expiry_date;
-    let refresh_token = token.refresh_token;
+    //let expriyDate = token.expiry_date;
+    //let refresh_token = token.refresh_token;
     let spreadsheetId = '1s28fRvlw6YHL6nWtcmA3UZ3gTmhEBBtgek4we2XBGYc';
     let range = "SS2018:A1"
     //let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?access_token=${access_token}?valueInputOption=USER_ENTERED`
     let postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`
     //let getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`
     let tokenData = `${tokenType} ${accessToken}`
-    let values = ["test","for","make","api","call"]
-    console.log(accessToken)
-    //const sheets = google.sheets('v4')
+    let data = req.body
+    let values = []
+    let value = []
+    let date = new Date()
+    let month = date.getMonth()+1;
+    let day = date.getDay();
+    let year = date.getFullYear();
+    let nowTime = year+"-"+month+"-"+day;
+
     try{
+        for(let i = 0; i<data.orderDetail.length; i++){
+            value.push(data.orderId, nowTime, data.uid, /*data.name,*/"", "", /*data.phoneNumber,*/ data.address)
+            //value.push(data.orderDetail[i].type)  //아크릴 상품 타입
+            value.push(data.orderDetail[i].printside)
+            value.push(data.orderDetail[i].xSize)
+            value.push(data.orderDetail[i].ySize)
+            //value.push(data.orderDetail[i].bottom)    //바닥부품
+            value.push(data.orderDetail[i].thick)
+            //value.push(data.orderDetail[i].amount)    //갯수
+            //value.push(data.orderDetial[i].subItem)   //부속품
+            value.push(data.orderDetail[i].packing)
+            value.push(data.totalAmount)
+            value.push(data.orderDetail[i].img)
+            value.push(data.status)
+            values.push(value)
+        }
+        //console.log(accessToken)
+        //const sheets = google.sheets('v4')
+        
         let sheetData = await axios({
             url: postUrl,
             method: "post", // POST method
             headers: { "Content-Type": "application/json", 'Authorization':tokenData }, // "Content-Type": "application/json"
             data:{
-                values:[values]
+                values:values
             }
         })
     
         console.log(sheetData)
         let sheet = JSON.stringify(sheetData.data)
         res.status(200).json({sheet});
-    }catch(err){
+    }
+    catch(err){
         console.error(err)
         res.status(204).json()
     }
-    
 })
 
 

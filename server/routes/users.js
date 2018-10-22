@@ -9,6 +9,16 @@ router.get('/',(req,res,next)=>{
     res.send('/users');
 });
 
+router.get('/checkinfo', async (req,res)=>{
+    let uid = req.user.uid
+    
+    let userData = await users.findOne({"uid":uid})
+    let status = userData.status
+    //  let point = userData.point      // 포인트
+    res.status(200).json({uid, status})
+    
+})
+
 router.post('/idCheck', async (req,res)=>{
     let id = req.body.id
     let idData = await users.findOne({"uid":id})

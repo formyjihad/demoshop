@@ -7,6 +7,8 @@ const counts = require('../models/count.js');
 const file = require('../utils/fileUpload');
 const { IMP_KEY, IMP_SECRET } = require('../../config/constants');
 const axios = require('axios');
+const google = require('googleapis')
+const auth = require('../utils/auth')
 
 router.post('/', (req, res)=>{
     const impUid = req.body.imp_uid;
@@ -114,46 +116,93 @@ router.get('/', (req,res,next)=>{
     })
 })
 
+async function sheetPost(values){
+    let token = await auth()
+    let accessToken = token.access_token;
+    let tokenType = token.token_type;
+    let spreadsheetId = '1s28fRvlw6YHL6nWtcmA3UZ3gTmhEBBtgek4we2XBGYc';
+    let range = "SS2018:A1"
+    let postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`
+    let tokenData = `${tokenType} ${accessToken}`
+    let postValues = values
+    
+    try{
+        let sheetData = await axios({
+            url: postUrl,
+            method: "post", // POST method
+            headers: { "Content-Type": "application/json", 'Authorization':tokenData }, // "Content-Type": "application/json"
+            data:{
+                values:postValues
+            }
+        });
+    
+        console.log(sheetData);
+        let sheet = JSON.stringify(sheetData.data);
+        return sheet;
+    }
+    catch(err){
+        console.error(err);
+        return;
+    }
+}
 
-router.post('/save', (req, res)=>{
+router.post('/save', async (req, res)=>{
     //주문정보 저장
     let order = new orders();
+    let values = []
+    let value = []
     //console.log(req.body.length)
     //console.log("breakpoint2")
     //console.log(req.body)
+    let data = req.body
+    let date = new Date()
+    let month = date.getMonth()+1;
+    let day = date.getDay();
+    let year = date.getFullYear();
+    let nowTime = year+"-"+month+"-"+day;
     order.uid = req.user.uid;
-    order.totalAmount = req.body.totalAmount;
-    order.address = req.body.address;
-    order.orderId = req.body.orderId;
-    order.purchaseId = req.body.purchaseId;
+    order.totalAmount = data.totalAmount;
+    order.address = data.address;
+    order.orderId = data.orderId;
+    order.purchaseId = data.purchaseId;
     order.status = "file-confirm"
 
     //console.log(req.body.cart[0])
+    
     for(let i=0; i<req.body.cart.length; i++){
         //console.log(order.orderDetail[i].xSize)
         order.orderDetail[i] = req.body.cart[i]
-    }
 
-    users.findOne({'uid':order.uid})
-    .then((result)=>{
-        if(!result){
-            //leftPrice = result['price'] - order.totalAmount;
-            res.status(204).json({});
-        }else{
-            order.save(function(err, order){
-                if(err){
-                    console.error(err);
-                    res.json({result:0});
-                    return;
-                }
-                //console.log(result)
-                res.status(201).json({order})
-            });
+        value.push(data.orderId, nowTime, req.user.uid, /*data.name,*/"", "", /*data.phoneNumber,*/ data.address)
+        //value.push(data.orderDetail[i].type)  //아크릴 상품 타입
+        value.push(data.cart[i].printside)
+        value.push(data.cart[i].xSize)
+        value.push(data.cart[i].ySize)
+        //value.push(data.cart[i].bottom)    //바닥부품
+        value.push(data.cart[i].thick)
+        //value.push(data.cart[i].amount)    //갯수
+        //value.push(data.cart[i].subItem)   //부속품
+        value.push(data.cart[i].packing)
+        value.push(data.totalAmount)
+        value.push(data.cart[i].img)
+        value.push(data.status)
+        values.push(value)
+    }
+    
+    try{
+        let sheet = await sheetPost(values)
+        let findUser = await users.findOne({"uid":order.uid})
+        if(!findUser){
+            res.status(204).json();
         }
-    })
-    //console.log(result.data.response);
-    //console.log(purchase);
-    //res.status(201).json();
+        else{
+            let orderSave = await order.save();
+            res.status(200).json({sheet,orderSave})
+        }
+    }catch(err){
+        console.error(err);
+        res.status(204).json()
+    }
 })
 
 router.post('/noSign', (req, res)=>{

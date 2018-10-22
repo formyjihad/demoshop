@@ -1,11 +1,11 @@
 <template>
     <div class="index">
         <section class = "container">
-            <div class="item-box" v-for ="good in goods" :key="good['_id']">
+            <div class="pi_imgs" v-for ="good in goods" :key="good['_id']">
                 <nuxt-link :to='{path:"/goods/"+good["_id"]}'>
-                    <img class="thumbnail" :src="'/uploads/' + good['img']">
-                    <div class = "item-title">{{good['name']}}</div>
-                    <div class= "price">{{good['price']}} 원</div>
+                    <img :src="'/uploads/' + good['img']">
+                    <div class="item">{{good['name']}}</div>
+                    <div class="item-e">{{good['price']}} 원</div>
                 </nuxt-link>
             </div>
         </section>
@@ -69,58 +69,30 @@ export default {
 /*
 메인페이지.
 */
-
-.index{
-    height: 100%;
-    overflow: auto;
+.pi_imgs img {
+    margin: 0 auto; padding: 20px; height: 400px;
 }
-
-.container{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.pi_imgs{
+    width: 49%;
+    display: inline-block;
     text-align: center;
+    margin-top: 10%;  
 }
-
-.item-box{
-    text-decoration: none;
-    box-sizing: border-box;
-    width: 320px;
-    height: 400px;
-    padding: 8px;
-    border: 1px solid #cccccc;
-    box-shadow: 0 2px 2px #aaa;
-    margin: 25px;
-    margin-top: 50px;
-}
-
-a {
-    text-decoration: none;
-}
-
-.item-title{
-    text-decoration: none;
-    font-family: "KBIZ한마음고딕 B", "맑은고딕", "나눔고딕","고딕", arial, helvetica, sans-serif;
-    color: #454545; 
-    font-size : 28px;
-    text-align: center;
-    margin-top: 20px;
-}
-
-.thumbnail {
-    background-position: center;
-    background-size: cover;
-    width: 95%;
+.pi_imgs img{
+    width: 250px;
     height: 250px;
-    margin-top: 10px;
+}    
+.a_item img{
+    width: 400px;
 }
-
-.price{
-    text-decoration: none;
+.item{
     font-family: "KBIZ한마음고딕 B", "맑은고딕", "나눔고딕","고딕", arial, helvetica, sans-serif;
-    color: #454545; 
-    font-size : 20px;
-    text-align: center;
+    color: #454545;
+    font-size: 20px;
+}
+.item_e{
+    font-family: "KBIZ한마음고딕 L", "맑은고딕", "나눔고딕","고딕", arial, helvetica, sans-serif;
+    color: #454545;
+    font-size: 12px;
 }
 </style>

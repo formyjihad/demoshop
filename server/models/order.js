@@ -24,7 +24,10 @@ let orderDetailSchema = new Schema({
         required: true
     },
 
-    stand : Number,
+    stand : {
+        type: String,
+        default:"4cm",
+    },
 
     subItem: {
         type: String,
