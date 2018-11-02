@@ -9,7 +9,6 @@ const auth = require('../utils/auth')
 const {google} = require('googleapis');
 const axios = require('axios')
 
-
 router.get('/', (req,res,next)=>{
     if(req.user.status){
         res.status(200).json();

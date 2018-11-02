@@ -77,6 +77,9 @@ export default {
     display: inline-block;
     text-align: center;
     margin-top: 10%;  
+    
+    text-decoration: none;
+    color:#454545;
 }
 .pi_imgs img{
     width: 250px;

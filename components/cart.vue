@@ -1,42 +1,66 @@
 <template>
-    <div>
-        <div class = "container" v-if="cart.length >0">
-            <div class = "cart-head">장바구니</div>
-            <div class = "cart-body">
-                <div class = "cart" v-for="(cart, index) in cart" :key="cart._id">
-                    <div class = "body">
-                        <div class = "row">
-                            <input type="checkbox" class = "indexcheck" value="index" @click="indexCheck(index)"/>
-                            <div class = "cart-name">
-                                <h6>{{cart.name}}</h6>
-                            </div>
-                            <div class = "cart-price">
-                                <h6>{{cart.price}}</h6>
-                            </div>
-                            <div class = "cart-price">
-                                <h6>수량 : {{cart.quantity}}</h6>
-                            </div>
-                            <div class = "cart-button">
-                                <div class = "btn-group" style = "min-width:300px">
-                                    <button type="button" class="btn btn-sm btn-default" @click="onDecrement(index, cart.quantity)">-</button>
-                                    <button type="button" class="btn btn-sm btn-default" @click="onIncrement(index)">+</button>
-                                    <button type="button" class="btn btn-sm btn-danger" @click="deleteCarts(index)">삭제</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class = "row">
-                    <div class = "row-body">
-                        <h6>Total amount:{{totalAmount}}</h6>
-                        <button class = "order-btn" @click="onCheckout()">주문하기</button>
-                        <button type="button" class="btn btn-sm btn-danger" @click="deleteSelectCart(checkArray)">선택삭제</button>
-                        <button type="button" class="btn btn-sm btn-danger" @click="deleteAllCart()">장바구니 비우기</button>
-                    </div>
-                </div>
+    <div class="wrap">
+        <div class="section1">
+            <div class="section1_box1">
+                <h1>장바구니</h1>
+            </div>
+            <table class="t_wrap">
+                <thead>
+                    <tr class="t_head">
+                        <th class="headCheck"><input type="checkbox"></th>
+                        <th class="headName">상품</th>
+                        <th class="cols">가격</th>
+                        <th class="cols">수량</th>
+                        <th class="cols">할인</th>
+                        <th class="cols">총계</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="t_body" v-for="(cart, index) in cart" :key="cart._id">
+                        <td class="bodyCheck"><input type="checkbox" class="bodyCheckbox" @click="indexCheck(index)"/></td>
+                        <td class="bodyName">
+                            {{cart.name}}
+                        </td>
+                        <td class="cols">
+                            {{cart.price}}
+                        </td>
+                        <td class="cols">                    
+                            <button type="button" class="b2_1" @click="onDecrement(index, cart.quantity)">-</button>
+                            {{cart.quantity}}
+                            <button type="button" class="b2_1" @click="onIncrement(index)">+</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="btn">
+                <div class="bt1" @click="deleteSelectCart(checkArray)">선택삭제</div>
+                <div class="bt2" @click="deleteAllCart()">전체삭제</div>
             </div>
         </div>
-    </div>
+        <div class="section3">
+            <h3>장바구니 총계</h3>
+            <ul class="box box1">
+                <li>소계</li>
+                <li>{{totalAmount}}</li>
+            </ul>
+            
+            <ul class="box box2">
+                <li>배송</li>
+                <li>5000</li>
+            </ul>
+            <ul class="box box3">
+                <li>총계</li>
+                <li>{{fullPrice}}</li>
+            </ul>
+            <ul class="box box3">
+                <li>할인</li>
+                <li>0\</li>
+            </ul>
+            
+                    
+            <div class="bt4" @click="onCheckout()">결제 진행</div>
+        </div>
+    </div> 
 </template>
 
 <script>
@@ -49,6 +73,9 @@ export default {
         totalAmount(){
             return this.totalAmount()
         },
+        fullPrice(){
+            return parseInt(this.totalAmount)+5000
+        },
         ...mapGetters({
         cart:'carts/cart',
         totalAmount:'carts/totalAmount'
@@ -56,7 +83,7 @@ export default {
     },
     data(){
         return{
-            checkArray:[]
+            checkArray:[],
         }
     },
     created(){
@@ -137,15 +164,130 @@ export default {
 </script>
 
 <style scoped>
-.modal-overlay {
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
+
+* { margin: 0; padding: 0; list-style: none; }
+a { text-decoration: none; color:inherit; }
+.wrap { width:80%; margin:50px auto; }
+
+.section1 { 
+    width:100%;
+    height:750px;
+    border:1px solid #000;
+    margin-bottom:30px; }
+
+.section1 .check { width:30px; height:600px; float:left; }
+.section1 .check input:nth-child(1) 
+{ margin-left:20px; margin-top:150px; }
+.section1 .check input:nth-child(2) 
+{ margin-left:20px; margin-top:250px; }
+
+.section1_box1 { width:95%;
+    height:50px; 
+    float:right; 
+    margin-top:15px;
+}
+.section1_box1 h1 { font-size:30px; }
+
+.section1 .t_wrap { 
+    width:90%; 
+    /*height:550px;*/
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.section1 .t_wrap .t_head { 
+    width:100%;
+    /*height:50px; */
+    border-bottom:1px solid #000;
+    line-height:60px;
+    margin-left: 30px; 
     text-align: center;
+    padding:10px;
 }
-.in {
-    display: block !important;
+.section1 .t_wrap .t_head th.headName{
+    width:40%;
 }
+.section1 .t_wrap .t_head th.headCheck{
+    width:5%;
+    margin-top:auto;
+    margin-bottom:auto;
+}
+.section1 .t_wrap .t_body {
+    padding: 10px;
+    height: 50px;
+    font-size:14px;
+    font-weight:900;
+    text-align:center;
+}
+
+.section1 .t_wrap .t_body td.bodyName{
+    width:40%; 
+}
+
+.section1 .t_wrap .t_body td.bodyCheck{
+    margin-top: auto;
+    margin-bottom:auto;
+}
+
+.section1 .btn{
+    display: inline;
+}
+
+.section1 .btn .bt1 {
+    display:inline-block;
+    width:250px;
+    height:50px;
+    border:2px solid #000;
+    text-align:center;
+    line-height:50px;
+    overflow:hidden;
+    font-weight:900;
+    margin-left:55%;
+    margin-right:10px;
+}
+
+.section1 .t_body .cols .b2_1{
+    width:33%;
+    height: 100%; 
+    border:1px solid #000;
+}
+
+.section1 .btn .bt2 { 
+    display:inline-block;
+    width:250px;
+    height:50px;
+    border:2px solid #000;
+    text-align:center;
+    line-height:50px;
+    overflow:hidden;
+    font-weight:900;
+    margin-right:10px;
+}
+
+.section3 { width:100%;
+    height:380px;
+    padding:3%;
+    border:1px solid #000; }
+.section3 h3 { width:100%;
+    height:50px;
+    border-bottom:1px solid #000;
+    margin-bottom:30px;
+    font-size:30px; }
+.section3 .box { width:100%; height:50px; line-height:50px; }
+.section3 .box1 {  }
+.section3 .box2 { border-bottom:1px solid #000; }
+.section3 .box3 li:nth-child(2) { font-weight:900; }
+
+.section3 .box li { height:100%; }
+.section3 .box li:nth-child(1) { width:50%;float:left; text-align: left; }
+.section3 .box li:nth-child(2) { width:50%; float:right; text-align:right; }
+
+.section3 .bt4  { width:250px;
+    height:60px;
+    float:right;
+    border:1px solid #000;
+    text-align:center;
+    line-height:60px; 
+    margin-top:40px;}     
 
 </style>

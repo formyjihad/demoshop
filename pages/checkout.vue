@@ -1,28 +1,45 @@
 <template>
-    <div class = "panel panel-primary" v-if="cart.length >0">
-        <div class = "panel-heading">장바구니</div>
-        <div class = "panel-body">
-            <div class = "panel" v-for="cart in cart" :key="cart.id">
-                <div class = "panel-body">
-                    <div class = "row">
-                        <div class = "col-xs-12 col-sm-4">
-                            <h6>{{cart.name}}</h6>
-                        </div>
-                        <div class = "col-xs-12 col-sm-2">
-                            <h6>{{cart.price}}</h6>
-                        </div>
-                        <div class = "col-xs-12 col-sm-2">
-                            <h6>수량 : <span class="label label-success">{{cart.quantity}}</span></h6>
-                        </div>
-                    </div>
-                </div>
+    <div class="section1">
+            <div class="section1_box1">
+                <h1>장바구니</h1>
             </div>
+            <table class="t_wrap">
+                <thead>
+                    <tr class="t_head">
+                        <th class="headName">상품</th>
+                        <th class="cols">가격</th>
+                        <th class="cols">수량</th>
+                        <th class="cols">할인</th>
+                        <th class="cols">총계</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="t_body" v-for="cart in cart" :key="cart._id">
+                        <td class="bodyName">
+                            {{cart.name}}
+                        </td>
+                        <td class="cols">
+                            {{cart.price}}
+                        </td>
+                        <td class="cols">                    
+                            {{cart.quantity}}
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        <div class = "userInfo">
+            <label for="name"> 주문자명</label>
+            <input id="name" type="text" v-model="name"><br>
+            <label for="email"> 주문자 이메일</label>
+            <input id="email" type="email" v-model="email"><br>
+            <label for="phone"> 전화번호</label>
+            <input id="phone" type="tel" v-model="phone"><br>
         </div>
-        <div class = "amount">
-            <div>
-                <h6>Total amount:{{totalAmount}}</h6>
-            </div>
-        </div>
+        
         <div class = "delivery">
             <input type="radio" id = "postoffice" value="postoffice" v-model="delivery">
             <label for = "postoffice">우체국 택배</label>
@@ -30,21 +47,14 @@
             <label for = "self">직접 수령</label>
         </div>
         <div class = "address" v-if="delivery === 'postoffice'">
-                <!-- 우체국 API는 이곳에 위치 -->
+            <input type="checkbox" id="loadcheck" @click="loadCheck">
+            <label type="loadcheck">주문자와 동일</label>
             <label for="postCode">우편번호</label>
             <input id="postCode" type="text" v-model="postCode" @click="callPostOffice"><br>
             <label for="address">주소</label>
             <input id="address" type="text" v-model="addressData" @click="callPostOffice"><br>
             <label id="addressDetail">상세주소</label>
             <input id="addressDetail" type="text" v-model="addressDetail"><br>
-        </div>
-        <div class = "userInfo">
-            <label for="name"> 주문자명</label>
-            <input id="name" type="text" v-model="name">
-            <label for="email"> 주문자 이메일</label>
-            <input id="email" type="email" v-model="email">
-            <label for="phone"> 전화번호</label>
-            <input id="phone" type="tel" v-model="phone">
         </div>
         <div class = "payment">
             <p> 결제 방식 </p>
@@ -213,6 +223,114 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+
+.section1 { 
+    width:100%;
+    height:750px;
+    border:1px solid #000;
+    margin-bottom:30px; }
+
+.section1 .check { width:30px; height:600px; float:left; }
+.section1 .check input:nth-child(1) 
+{ margin-left:20px; margin-top:150px; }
+.section1 .check input:nth-child(2) 
+{ margin-left:20px; margin-top:250px; }
+
+.section1_box1 { width:95%;
+    height:50px; 
+    float:right; 
+    margin-top:15px;
+}
+.section1_box1 h1 { font-size:30px; }
+
+.section1 .t_wrap { 
+    width:90%; 
+    /*height:550px;*/
+    margin-left:auto;
+    margin-right:auto;
+    border-bottom:1px solid #000;
+    margin-bottom:20px; 
+}
+
+.section1 .t_wrap .t_head { 
+    width:100%;
+    /*height:50px; */
+    border-bottom:1px solid #000;
+    line-height:60px;
+    margin-left: 30px; 
+    text-align: center;
+    padding:10px;
+}
+.section1 .t_wrap .t_head th.headName{
+    width:40%;
+}
+.section1 .t_wrap .t_head th.headCheck{
+    width:5%;
+    margin-top:auto;
+    margin-bottom:auto;
+}
+.section1 .t_wrap .t_body {
+    padding: 10px;
+    height: 50px;
+    font-size:14px;
+    font-weight:900;
+    text-align:center;
+}
+
+.section1 .t_wrap .t_body td.bodyName{
+    width:40%; 
+}
+
+.section1 .t_wrap .t_body td.bodyCheck{
+    margin-top: auto;
+    margin-bottom:auto;
+}
+
+.section1 .btn{
+    display: inline;
+}
+
+.section1 .btn .bt1 {
+    display:inline-block;
+    width:250px;
+    height:50px;
+    border:2px solid #000;
+    text-align:center;
+    line-height:50px;
+    overflow:hidden;
+    font-weight:900;
+    margin-left:55%;
+    margin-right:10px;
+}
+
+.section1 .t_body .cols .b2_1{
+    width:33%;
+    height: 100%; 
+    border:1px solid #000;
+}
+
+.section1 .btn .bt2 { 
+    display:inline-block;
+    width:250px;
+    height:50px;
+    border:2px solid #000;
+    text-align:center;
+    line-height:50px;
+    overflow:hidden;
+    font-weight:900;
+    margin-right:10px;
+}
+
+
+.userInfo { width:100%; height:200px;
+        border-bottom:1px solid #000; }
+.userInfo h2 {  padding:10px 10px 7px; text-align: left;
+    font-size:20px;}
+.userInfo p { width:100%; height:35px;
+        font-size:14px;text-align: left;
+        margin-left:50px; 
+        }
 
 </style>
