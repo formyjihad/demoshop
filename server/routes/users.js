@@ -11,12 +11,27 @@ router.get('/',(req,res,next)=>{
 
 router.get('/checkinfo', async (req,res)=>{
     let uid = req.user.uid
-    
+    //console.log(req.user.uid)
     let userData = await users.findOne({"uid":uid})
-    let status = userData.status
     //  let point = userData.point      // 포인트
-    res.status(200).json({uid, status})
+    console.log(userData)
+    let userId = userData.uid;
+    //let userName = userData.userName;
+    //let userAddressData = userData.userAddress;
+    //let userAddressDetail = userData.userAddressDetail;
+    //let userPhoneNum = userData.userPhoneNum;
+    //let userpostCode = userData.postCode
+
+    res.status(200).json({userId})
+    //res.status(200).json({userId, userName, userAddress, userPhoneNum})
     
+})
+router.get('/sidebarId', async (req,res)=>{
+    let uid = req.user.uid
+    let userData = await users.findOne({"uid":uid})
+    let userId = userData.uid;
+
+    res.status(200).json({userId})
 })
 
 router.post('/idCheck', async (req,res)=>{
@@ -34,8 +49,19 @@ router.post('/signup',(req,res,next)=>{
     let user = new users();
     user.uid = req.body.uid;
     user.password = req.body.password;
-    user.price = req.body.price;
     user.status = 1;
+    user.userAddressData = req.body.addressData;
+    user.userAddressDetail = req.body.addressDetail;
+    user.email = req.body.email;
+    user.postCode = req.body.postCode;
+    user.phoneNumber = req.body.phoneNumber;
+    /*uid:this.uid,
+                    addressData:this.addressData,
+                    addressDetail:this.addressDetail,
+                    phoneNumber:this.phoneNumber,
+                    email:this.email,
+                    postCode:this.postCode,
+                    password:this.password, */
     users.findOne({'uid':user.uid})
     .then(result =>{
         if(!result){

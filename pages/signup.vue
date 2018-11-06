@@ -8,7 +8,7 @@
             <label for="passwordConfirm">비밀번호 확인</label>
             <input id="passwordConfirm" type="password" v-model="passwordConfirm" @change="passwordCheck($event.target.value)"><br>
             <label for="name">이름</label>
-            <input id="name" type="name"><br>
+            <input id="name" type="name" v-model="userName"><br>
             <label for="postCode">우편번호</label>
             <input id="postCode" type="text" v-model="postCode" @click="callPostOffice"><br>
             <label for="address">주소</label>
@@ -41,6 +41,7 @@ export default {
             email:'',
             uid:'',
             password:'',
+            userName:'',
         }
     },
     beforeMount() {
@@ -109,16 +110,21 @@ export default {
         async signup (){
             if(this.uid && this.password){
                 let url ='/api/users/signup'
-                let data = await axios.post(url, data={
+                let signData = await axios.post(url, data={
                     uid:this.uid,
+                    userName:this.userName,
+                    addressData:this.addressData,
+                    addressDetail:this.addressDetail,
+                    phoneNumber:this.phoneNumber,
+                    email:this.email,
+                    postCode:this.postCode,
                     password:this.password,
-                    price:this.price
                 })
                 console.log(data)
-                if(data.status == 200){
+                if(signData.status == 200){
                     alert('해당 아이디는 이미 존재합니다.');
-                }else if(data.status == 201){
-                    this.$nuxt.$router.replace({ path:'/signin'})
+                }else if(signData.status == 201){
+                    this.$nuxt.$router.replace({ path:'/'})
                 }
             }else{
                 alert("양식이 비어있습니다.");

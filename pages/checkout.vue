@@ -1,7 +1,8 @@
 <template>
     <div class="section1">
+        <div class="wrap4">
             <div class="section1_box1">
-                <h1>장바구니</h1>
+                <h1>주문 결제</h1>
             </div>
             <table class="t_wrap">
                 <thead>
@@ -31,39 +32,96 @@
                     </tr>
                 </tbody>
             </table>
-        <div class = "userInfo">
-            <label for="name"> 주문자명</label>
+            <div class = "userInfo">
+                <h3>주문자 정보</h3>
+                <table>
+                    <tr>
+                        <td>주문자명</td>
+                        <td>{{userName}}</td>
+                    </tr>
+                    <tr>
+                        <td>이메일</td>
+                        <td>{{email}}</td>
+                    </tr>
+                    <tr>
+                        <td>전화번호</td>
+                        <td>{{phoneNumber}}</td>
+                    </tr>
+                </table>
+            </div>
+        <!--
             <input id="name" type="text" v-model="name"><br>
             <label for="email"> 주문자 이메일</label>
             <input id="email" type="email" v-model="email"><br>
             <label for="phone"> 전화번호</label>
             <input id="phone" type="tel" v-model="phone"><br>
-        </div>
-        
+        -->
         <div class = "delivery">
-            <input type="radio" id = "postoffice" value="postoffice" v-model="delivery">
-            <label for = "postoffice">우체국 택배</label>
-            <input type="radio" id = "self" value="self" v-model="delivery">
-            <label for = "self">직접 수령</label>
+            <div class="header">
+                <h3>배송지 정보</h3>
+                <label><input type="checkbox" id="self" @click="selfDelivery" />직접수령</label>
+            </div>
+            <div class="body">
+                <label><input type="radio" id="userAdd" v-model="deliveryType" value="userAddress"/>기본 배송지</label>
+                <label><input type="radio" id="newAdd" v-model="deliveryType" value="newAddress"/>신규 배송지</label>
+            </div>
+            <div class = "address" v-if="deliveryType=='newAddress'">
+                <input id="username" type="text" v-model="userName" placeholder="주문자 성명"><br>
+                <input id="userphoneNumber" type="number" v-model="phoneNumber" placeholder="주문자 전화번호"><br>
+                <input id="postCode" type="text" v-model="postCode" @click="callPostOffice" autocomplete="off" placeholder="우편번호"><br>
+                <input id="address" type="text" v-model="addressData" @click="callPostOffice" autocomplete="off" placeholder="주소"><br>
+                <input id="addressDetail" type="text" v-model="addressDetail" placeholder="상세주소"><br>
+            </div>
+            <div class = "address" v-else-if="deliveryType=='userAddress'">
+                <input id="username" type="text" v-model="userName" placeholder="주문자 성명" disabled><br>
+                <input id="userPhoneNum" type="number" v-model="phoneNumber" placeholder="주문자 전화번호" disabled><br>
+                <input id="postCode" type="text" v-model="postCode" placeholder="우편번호" disabled><br>
+                <input id="address" type="text" v-model="addressData" placeholder="주소" disabled><br>
+                <input id="addressDetail" type="text" v-model="addressDetail" placeholder="상세주소" disabled><br>
+            </div>
         </div>
-        <div class = "address" v-if="delivery === 'postoffice'">
-            <input type="checkbox" id="loadcheck" @click="loadCheck">
-            <label type="loadcheck">주문자와 동일</label>
-            <label for="postCode">우편번호</label>
-            <input id="postCode" type="text" v-model="postCode" @click="callPostOffice"><br>
-            <label for="address">주소</label>
-            <input id="address" type="text" v-model="addressData" @click="callPostOffice"><br>
-            <label id="addressDetail">상세주소</label>
-            <input id="addressDetail" type="text" v-model="addressDetail"><br>
+        <div class="promotion">
+            <div class="promo_left">
+                <h3>할인</h3>
+                <p>쿠폰</p>
+                <!--<input type="text" @change="checkPromo">-->
+                <p>마일리지</p>
+                <p>TEST</p>
+                <!--{{point}}-->
+            </div>
+            <div class="promo_right">
+                <h3>금액</h3>
+                <table>
+                    <tr>
+                        <td>총금액</td>
+                        <td>{{totalAmount}}</td>
+                    </tr>
+                 
+                    <tr>
+                        <td>배송비</td>
+                        <td>5000</td>
+                    </tr>
+                    <tr>
+                        <td>할인 금액</td>
+                        <td>sale price</td>
+                    </tr>
+                    <!--<p>{{salePrice}}</p>-->
+                    <tr>
+                        <td>결제 금액</td>
+                        <td>totalprice + delivery - saleprice</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class = "payment">
-            <p> 결제 방식 </p>
-            <input type="radio" id = "card" value="card" v-model="paymentType">
-            <label for="card">카드결제</label>
-            <input type="radio" id = "cash" value="vbank" v-model="paymentType">
-            <label for="cash">현금결제</label>
+            <h3> 결제 방식 </h3>
+            <label><input type="radio" id = "card" value="card" v-model="paymentType">카드결제</label>
+            <label><input type="radio" id = "cash" value="vbank" v-model="paymentType">현금결제</label>
         </div>
-        <button type="button" @click="checkout">결제</button>    
+        <div class="confirm">
+            <div class="confirmBtn" @click="checkout">결제</div>
+        </div>
+        </div>    
     </div>
 </template>
 
@@ -77,10 +135,30 @@ export default {
     components:{
         postOffice
     },
-    data(){
-        return{
-            postCode:'',
-            addressData:'self',
+    async asyncData(){
+        try{
+            let url = '/api/users/checkinfo'
+            let userData = await axios.get(url);
+            if(userData){
+                return{
+                    //addressData:userData.userAddressData,
+                    //addressDetail:userData.userAddressDetail,
+                    //phoneNumber:userData.userphoneNumber,
+                    //email:userData.userEmail,
+                    //userName:userData.userName,
+                    //postCode:userData.postCode,
+
+                    addressData:'test',
+                    addressDetail:'testD',
+                    phoneNumber:'000',
+                    email:'testE',
+                    userName:'testN',
+                    postCode:'000-000',
+                    uid:userData.userid,
+                }
+            }
+        }catch(err){
+            console.error(err)
         }
     },
     computed:{
@@ -97,16 +175,8 @@ export default {
         }),
     },
     props:{
-        delivery:{
-            default: "self",
-            required: true
-        },
-        address:{
-            default : "self",
-            required : true
-        },
-        addressDetail:{
-            default : "self",
+        deliveryType:{
+            default: "userAddress",
             required: true
         },
         paymentType:{
@@ -122,6 +192,10 @@ export default {
         IMP.init(IMP_CODE)
     },
     methods:{
+        selfDelivery(){
+            this.addressData = 'self'
+            this.addressDetail = 'self'
+        },
         async callPostOffice(){
           this.$modal.show(postOffice,{},{
                 height:'auto',
@@ -163,8 +237,8 @@ export default {
                 name:'주문명:결제테스트',
                 amount:amount,
                 buyer_email:this.email,
-                buyer_name:this.name,
-                buyer_tel:this.phone,
+                buyer_name:this.userName,
+                buyer_tel:this.phoneNumber,
                 buyer_address:buyerAddress,
                 buyer_postcode:this.postCode,
                 custom_data:orderData
@@ -184,7 +258,7 @@ export default {
                         totalAmount:amount
                     });
 
-                    console.log("post 종료");
+                    //console.log("post 종료");
                     //console.log(postData)
                     if(postData.status == 201){
                         alert('테스트, 구매하였습니다.')
@@ -224,12 +298,11 @@ export default {
 </script>
 
 <style scoped>
-
+.wrap4 { width:80%; height:100%; margin:auto; }
 
 .section1 { 
     width:100%;
     height:750px;
-    border:1px solid #000;
     margin-bottom:30px; }
 
 .section1 .check { width:30px; height:600px; float:left; }
@@ -238,15 +311,14 @@ export default {
 .section1 .check input:nth-child(2) 
 { margin-left:20px; margin-top:250px; }
 
-.section1_box1 { width:95%;
+.section1_box1 { width:100%;
     height:50px; 
-    float:right; 
     margin-top:15px;
 }
 .section1_box1 h1 { font-size:30px; }
 
 .section1 .t_wrap { 
-    width:90%; 
+    width:100%; 
     /*height:550px;*/
     margin-left:auto;
     margin-right:auto;
@@ -326,11 +398,71 @@ export default {
 
 .userInfo { width:100%; height:200px;
         border-bottom:1px solid #000; }
-.userInfo h2 {  padding:10px 10px 7px; text-align: left;
-    font-size:20px;}
-.userInfo p { width:100%; height:35px;
-        font-size:14px;text-align: left;
-        margin-left:50px; 
-        }
+.userInfo h3 { 
+    
+    padding:10px 10px 7px; 
+    float:left;
+    width:100%;
+    font-size:20px;
+    height:35px;
+}
+.userInfo table{
+    width:50%; height:35px;
+    font-size:14px;text-align: left;
+    margin-left:50px; 
+}
 
+.delivery { width:100%; height:280px;
+    border-bottom:1px solid #000; }
+.delivery .header { width:100%; }
+.delivery .header h3 { 
+    padding:10px 10px 7px; 
+    float:left;
+    font-size:20px;
+    height:35px;}
+.delivery .header #loadUser { margin-top:15px; }
+.delivery .header label { margin-top:15px; margin-right:5px; font-size:14px; }
+.delivery .body { width:100%; height:30px; clear: both; margin-left:15px;}
+.delivery .address input{
+    margin-left:20px
+}
+.promotion { width:100%; height:200px;
+    border-bottom:1px solid #000; }
+.promotion .promo_left { width:50%; height:100%; float:left; text-align: left;}
+.promotion .promo_left h3 { 
+    padding:10px 10px 7px; 
+    float:left;
+    width:100%;
+    font-size:20px;
+    height:35px;}
+.promotion .promo_left p { padding-left:15px; font-size:14px; margin-bottom:2px; }
+.promotion .promo_left input{
+    margin-bottom:3px
+}
+.promotion .promo_right { width:50%; height:100%; float:left; text-align: left; }
+.promotion .promo_right h3 { 
+    padding:10px 10px 7px;
+    width:100%; 
+    float:left;
+    font-size:20px;
+    height:35px;}
+.promotion .promo_right table { font-size:14px; margin-left:15px; margin-bottom:5px;}
+.payment{
+    width:100%; height:100px; border-bottom:1px solid #000; 
+}
+.payment h3 { 
+    padding:10px 10px 7px;
+    width:100%; 
+    float:left;
+    font-size:20px;
+    height:35px;
+}
+.payment label { margin-top:15px; margin-right:5px; font-size:14px; }
+
+.confirm {
+    width:100%; height:100px; overflow:hidden;
+}
+.confirmBtn {
+    width:100px; height:30px; background-color:#000; color:#fff; font-size:14px; text-align:center; line-height:30px; margin:15px auto 0; cursor:pointer;
+}
 </style>

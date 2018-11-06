@@ -110,11 +110,10 @@ export default {
         })
     },
     async created(){
-        let url = "/api/users/checkinfo"
+        let url = "/api/users/sidebarId"
         let infoData = await axios.get(url)
-        this.status = infoData.data.status
-        this.uid = infoData.data.uid
-        console.log(this.uid)
+        //this.status = infoData.data.userData.status
+        this.uid = infoData.data.userId
     }
 }
 </script>

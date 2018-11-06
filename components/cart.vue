@@ -43,21 +43,14 @@
                 <li>소계</li>
                 <li>{{totalAmount}}</li>
             </ul>
-            
-            <ul class="box box2">
-                <li>배송</li>
-                <li>5000</li>
+            <ul class="box box3">
+                <li>할인</li>
+                <li>{{salePrice}}</li>
             </ul>
             <ul class="box box3">
                 <li>총계</li>
                 <li>{{fullPrice}}</li>
             </ul>
-            <ul class="box box3">
-                <li>할인</li>
-                <li>0\</li>
-            </ul>
-            
-                    
             <div class="bt4" @click="onCheckout()">결제 진행</div>
         </div>
     </div> 
@@ -74,7 +67,7 @@ export default {
             return this.totalAmount()
         },
         fullPrice(){
-            return parseInt(this.totalAmount)+5000
+            return parseInt(this.totalAmount)-this.salePrice
         },
         ...mapGetters({
         cart:'carts/cart',
@@ -84,6 +77,7 @@ export default {
     data(){
         return{
             checkArray:[],
+            salePrice:5000
         }
     },
     created(){
@@ -288,6 +282,8 @@ a { text-decoration: none; color:inherit; }
     border:1px solid #000;
     text-align:center;
     line-height:60px; 
-    margin-top:40px;}     
+    margin-top:40px;
+    cursor: pointer;
+    }     
 
 </style>

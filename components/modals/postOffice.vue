@@ -25,6 +25,7 @@
 
 <script>
 import axios from 'axios'
+import {JUSO_KEY} from '../../config/constants.js'
 
 function getPagination (currentPage, totalCount, limit){
     let pn =[]
@@ -65,7 +66,7 @@ export default {
             this.$emit('close');
         },
         async callPostOffice(value){
-            let regkey = 'U01TX0FVVEgyMDE4MDkwNDExNDgxNzEwODExMTI='
+            let regkey = JUSO_KEY
             let currentPage = 1;
             let countPerPage = 10;
             let url = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=${currentPage}&countPerPage=${countPerPage}&keyword=${value}&confmKey=${regkey}&resultType=json`
