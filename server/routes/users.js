@@ -9,12 +9,50 @@ router.get('/',(req,res,next)=>{
     res.send('/users');
 });
 
+router.post('/checkPass', async(req,res)=>{
+    let uid = req.user.uid;
+    let target = req.body.target;
+    console.log(target)
+    let userData = await users.findOne({uid:uid})
+    console.log(userData)
+    if(target == userData.password){
+        res.status(200).json({userData})
+    }
+    else{
+        res.status(204).json({})
+    }
+})
+
+
+
+router.post('/editInfo', async (req,res)=>{
+    try{
+        let uid = req.user.uid;
+        let userName = req.body.userName;
+        let userAddressData = req.body.userAddress;
+        let userAddressDetail = req.body.userAddressDetail;
+        let userPhoneNum = req.body.userPhoneNum;
+        let userPostCode = req.body.postCode
+        
+        let updateData = await users.updateOne({"uid":uid}, 
+            {$set:{userName:userName, addressData:userAddressData, addressDetail:userAddressDetail, phoneNumber:userPhoneNum, postCode:userPostCode}
+        })
+    
+        res.status(200).json()
+    }catch(err){
+        console.error(err)
+        res.status(204).json();
+    }
+    
+    //res.status(200).json({userId, userName, userAddress, userPhoneNum})
+})
+
 router.get('/checkinfo', async (req,res)=>{
     let uid = req.user.uid
     //console.log(req.user.uid)
     let userData = await users.findOne({"uid":uid})
     //  let point = userData.point      // 포인트
-    console.log(userData)
+    //console.log(userData)
     let userId = userData.uid;
     //let userName = userData.userName;
     //let userAddressData = userData.userAddress;

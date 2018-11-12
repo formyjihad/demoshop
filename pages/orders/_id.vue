@@ -1,35 +1,39 @@
 <template>
     <div class = "container">
+        <div class="head">
+            <h1>order history</h1>
+            <h2>주문 내역</h2>
+        </div>
         <div class="checkOrder">
-            <table>
-                <tr class = "orderbank" v-if="order.bankName">
-                    <td>은행명</td>
-                    <td>{{order.bankName}}</td>
-                </tr>
-                <tr class = "orderbankcount" v-if="order.bankNum">
-                    <td>가상계좌</td>
-                    <td>{{order.bankNum}}</td>
-                </tr>
-                <tr class = "orderbankholder" v-if="order.bankHolder">
-                    <td>계좌주</td>
-                    <td>{{order.bankHolder}}</td>
-                </tr>
-                <tr class = "totalAmount">
-                    <td>결제금액</td>
-                    <td>{{order.price}}원</td>
-                </tr>
-                <tr class = "orderId">
-                    <td>주문번호</td>
-                    <td>{{order.orderId}}</td>
-                </tr>
-                <tr class= "orderName">
-                    <td>주문자</td>
-                    <td>{{order.name}}</td>
-                </tr>
-                <tr class = "purchaseStatus">
-                    <td>결제상태</td>
-                    <td>{{status}}</td>
-                </tr>
+            <table class="t_wrap">
+                <thead>
+                    <tr class="t_head">
+                        <th class="cols">주문일</th>
+                        <th class="cols">주문번호</th>
+                        <th class="headName">상품명</th>
+                        <th class="cols">주문금액</th>
+                        <th class="cols">예상적립</th>
+                        <th class="cols">상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="t_body" v-if="order.bankName">
+                        <td>{{order.bankName}}</td>
+                        <td>{{order.bankNum}}</td>
+                        <td>{{order.bankHolder}}</td>
+                        <td>{{order.price}}원</td>
+                        <td>{{order.orderId}}</td>
+                        <td>{{status}}</td>
+                    </tr>
+                    <tr class="t_body">
+                        <td>{{order.bankName}}</td>
+                        <td>{{order.bankNum}}</td>
+                        <td>{{order.bankHolder}}</td>
+                        <td>{{order.price}}원</td>
+                        <td>{{order.orderId}}</td>
+                        <td>{{status}}</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
@@ -65,11 +69,13 @@ export default {
 <style scoped>
 
 .container{
-    position: relative;
-    display: flex;
+    width:80%; height:100%; margin:auto;
     justify-content: center;
     align-items: center;
     text-align: center;
+}
+.head{
+    width:100%;
 }
 
 </style>

@@ -30,7 +30,7 @@
         </div>
         <div class="redi">
             <div class="cols">
-                <nuxt-link to="/mypage">
+                <nuxt-link to="/mypage" v-if="isLogin">
                     제작 진행상황
                 </nuxt-link>
             </div>
@@ -40,7 +40,7 @@
                 </nuxt-link>
             </div>
             <div class="cols" v-if="isLogin">
-                <nuxt-link to="/mypage">
+                <nuxt-link to="/editinfo">
                     회원 정보
                 </nuxt-link>
             </div>
