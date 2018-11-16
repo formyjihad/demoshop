@@ -2,36 +2,50 @@
     <div class="wrap">
         <div class="section1">
             <div class="section1_box1">
-                <h1>장바구니</h1>
+                <h1>장바구니{{discountRate}}</h1>
             </div>
-            <table class="t_wrap">
-                <thead>
-                    <tr class="t_head">
-                        <th class="headCheck"><input type="checkbox"></th>
-                        <th class="headName">상품</th>
-                        <th class="cols">가격</th>
-                        <th class="cols">수량</th>
-                        <th class="cols">할인</th>
-                        <th class="cols">총계</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="t_body" v-for="(cart, index) in cart" :key="cart._id">
-                        <td class="bodyCheck"><input type="checkbox" class="bodyCheckbox" @click="indexCheck(index)"/></td>
-                        <td class="bodyName">
-                            {{cart.name}}
-                        </td>
-                        <td class="cols">
-                            {{cart.price}}
-                        </td>
-                        <td class="cols">                    
-                            <button type="button" class="b2_1" @click="onDecrement(index, cart.quantity)">-</button>
-                            {{cart.quantity}}
-                            <button type="button" class="b2_1" @click="onIncrement(index)">+</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="section1_table">
+                <table class="t_wrap">
+                    <thead>
+                        <tr class="t_head">
+                            <th class="headCheck"><input type="checkbox"></th>
+                            <th class="headName">상품</th>
+                            <th class="cols">도안수량</th>
+                            <th class="cols">주문수량</th>
+                            <th class="headPrice">가격</th>
+                            <th class="cols">할인</th>
+                            <th class="cols">총계</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="t_body" v-for="(cart, index) in cart" :key="cart._id">
+                            <td class="bodyCheck"><input type="checkbox" class="bodyCheckbox" @click="indexCheck(index)"/></td>
+                            <td class="bodyName">
+                                {{cart.name}}
+                            </td>
+                            <td class="cols">                    
+                                <button type="button" class="b2_1" @click="onDesignDecrement(index, cart.design)">-</button>
+                                {{cart.design}}
+                                <button type="button" class="b2_1" @click="onDesignIncrement(index)">+</button>
+                            </td>
+                            <td class="cols">                    
+                                <button type="button" class="b2_1" @click="onDecrement(index, cart.quantity)">-</button>
+                                {{cart.quantity}}
+                                <button type="button" class="b2_1" @click="onIncrement(index)">+</button>
+                            </td>
+                            <td class="cols">
+                                {{cart.price*cart.quantity+(cart.design*5500)}}
+                            </td>
+                            <td class="cols">
+                                {{(cart.price*cart.quantity+(cart.design*5500))*(discountRate/100)}}
+                            </td>
+                            <td class="cols">
+                                {{(cart.price*cart.quantity+(cart.design*5500))-(cart.price*cart.quantity+(cart.design*5500))*(discountRate/100)}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="btn">
                 <div class="bt1" @click="deleteSelectCart(checkArray)">선택삭제</div>
                 <div class="bt2" @click="deleteAllCart()">전체삭제</div>
@@ -45,7 +59,11 @@
             </ul>
             <ul class="box box3">
                 <li>할인</li>
-                <li>{{salePrice}}</li>
+                <li>{{totalDiscountAmount}}</li>
+            </ul>
+            <ul class="box box3">
+                <li>배송비</li>
+                <li>3500</li>
             </ul>
             <ul class="box box3">
                 <li>총계</li>
@@ -57,6 +75,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex';
 export default {
     computed:{
@@ -67,25 +86,40 @@ export default {
             return this.totalAmount()
         },
         fullPrice(){
-            return parseInt(this.totalAmount)-this.salePrice
+            return parseInt(this.totalAmount)-parseInt(this.totalDiscountAmount)+3500
+        },
+        totalDiscountAmount(){
+            return this.totalDiscountAmount()
         },
         ...mapGetters({
-        cart:'carts/cart',
-        totalAmount:'carts/totalAmount'
-    }),
+            cart:'carts/cart',
+            totalAmount:'carts/totalAmount',
+            totalDiscountAmount:'carts/totalDiscountAmount'
+        }),
     },
     data(){
         return{
             checkArray:[],
-            salePrice:5000
+            discountRate:this.setDiscountRate()
         }
     },
-    created(){
+    created() {
         this.$store.dispatch('carts/getCart')
     },
     methods:{
-        indexCheck(index){
+        async setDiscountRate(){
+            let url = '/api/users/statusCheck'
+            let discountData = await axios(url);
+            let discountRate=discountData.data.rate;
+            this.updateDiscount({
+                unit:discountRate,
+                cart:this.cart
+            });
+            this.discountRate=discountRate
+        },
+        async indexCheck(index){
             let checkArr = this.checkArray;
+            
             if(checkArr.length==0){
                 checkArr.push(index)
                 console.log(checkArr)
@@ -127,6 +161,23 @@ export default {
                 this.deleteCart(0)
             }
         },
+        onDesignIncrement(index){
+            this.updateDesignCart({
+                index,
+                unit:1,
+                cart:this.cart
+            })
+        },
+        onDesignDecrement(index, design){
+            //console.log(this)
+            if(design > 1){
+                this.updateDesignCart({
+                    index,
+                    unit:-1,
+                    cart:this.cart
+                })
+            }
+        },
         onIncrement(index){
             this.updateCart({
                 index,
@@ -146,12 +197,16 @@ export default {
         },
         onCheckout(){
             alert("주문 페이지로 이동합니다.")
+            
             this.$nuxt.$router.replace({path:'/checkout'})
         },
         ...mapActions({
+            getCart : 'carts/getCart',
             addToCart : 'carts/addToCart',
             updateCart : 'carts/updateCart',
-            deleteCart : 'carts/deleteCart'
+            deleteCart : 'carts/deleteCart',
+            updateDesignCart : 'carts/updateDesignCart',
+            updateDiscount:'carts/updateDiscount'
         })
     }    
 }
@@ -167,7 +222,8 @@ a { text-decoration: none; color:inherit; }
     width:100%;
     height:750px;
     border:1px solid #000;
-    margin-bottom:30px; }
+    margin-bottom:30px; 
+    text-align: center;}
 
 .section1 .check { width:30px; height:600px; float:left; }
 .section1 .check input:nth-child(1) 
@@ -180,11 +236,11 @@ a { text-decoration: none; color:inherit; }
     float:right; 
     margin-top:15px;
 }
-.section1_box1 h1 { font-size:30px; }
+.section1_box1 h1 { font-size:30px; text-align: left; }
+.section1 .section1_table{height:600px;text-align: center}
 
 .section1 .t_wrap { 
     width:90%; 
-    /*height:550px;*/
     margin-left:auto;
     margin-right:auto;
 }
@@ -206,6 +262,9 @@ a { text-decoration: none; color:inherit; }
     margin-top:auto;
     margin-bottom:auto;
 }
+.section1 .t_wrap .t_head th{
+    width:11%
+}
 .section1 .t_wrap .t_body {
     padding: 10px;
     height: 50px;
@@ -224,7 +283,11 @@ a { text-decoration: none; color:inherit; }
 }
 
 .section1 .btn{
-    display: inline;
+    width:95%;
+    padding-top:5px;
+    display: inline-block;
+    text-align: right;
+    border-top:1px solid #000;
 }
 
 .section1 .btn .bt1 {
@@ -236,7 +299,6 @@ a { text-decoration: none; color:inherit; }
     line-height:50px;
     overflow:hidden;
     font-weight:900;
-    margin-left:55%;
     margin-right:10px;
 }
 
@@ -244,6 +306,7 @@ a { text-decoration: none; color:inherit; }
     width:33%;
     height: 100%; 
     border:1px solid #000;
+    outline: 0;
 }
 
 .section1 .btn .bt2 { 
@@ -259,7 +322,7 @@ a { text-decoration: none; color:inherit; }
 }
 
 .section3 { width:100%;
-    height:380px;
+    height:450px;
     padding:3%;
     border:1px solid #000; }
 .section3 h3 { width:100%;
@@ -276,14 +339,18 @@ a { text-decoration: none; color:inherit; }
 .section3 .box li:nth-child(1) { width:50%;float:left; text-align: left; }
 .section3 .box li:nth-child(2) { width:50%; float:right; text-align:right; }
 
-.section3 .bt4  { width:250px;
+.section3 .bt4  { 
+    line-height:50px;
+    overflow:hidden;
+    font-weight:900;
+    width:250px;
     height:60px;
     float:right;
-    border:1px solid #000;
+    border:2px solid #000;
     text-align:center;
     line-height:60px; 
     margin-top:40px;
     cursor: pointer;
-    }     
+}     
 
 </style>

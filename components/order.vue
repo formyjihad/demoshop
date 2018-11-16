@@ -3,10 +3,12 @@
         <vue-good-wizard :steps="steps" :onNext="nextClicked" :onBack="backClicked">
             <div class="slots" slot="slot1">
                 <p>칼선을 포함한 가로와 세로길이를 입력해주세요. </p>
-                <input type="number" min="4" max="59" v-model="xsize" placeholder="4"> *
-                <input type="number" min="4" max="59" v-model="ysize" placeholder="4">
-                <br>
-                <span>주문 사이즈 : {{ xsize }} * {{ ysize }} cm / {{ xsize*0.3937 }} * {{ ysize*0.3937 }} inch</span>
+                <div class="table-body">
+                    <input type="number" min="4" max="59" v-model="xsize" placeholder="4"> *
+                    <input type="number" min="4" max="59" v-model="ysize" placeholder="4">
+                    <br>
+                    <span>주문 사이즈 : {{ xsize }} * {{ ysize }} cm / {{ xsize*0.3937 }} * {{ ysize*0.3937 }} inch</span>
+                </div>
             </div>
             <div class="slots" slot="slot2">
                 <p>원하시는 아크릴의 두께를 선택하세요</p>
@@ -59,12 +61,48 @@
                 <span>선택 : {{ printside }}</span>
             </div>
             <div class="slots" slot="slot7">
-                <label for="design"> 도안 갯수 : </label>
-                <input type="number" id="design" v-model="design" min="1" step="1"><br>
-                <label for="quantity">주문 갯수 : </label>
-                <input type="number" id="quantity" v-model="quantity" min="1" step="1">
-
-                
+                <p>제작하는 제품의 도안 갯수와 수량을 입력하세요</p>
+                <div class="table-body">
+                    <label for="design"> 도안 갯수 : </label>
+                    <input type="number" id="design" v-model="design" min="1" step="1"><br>
+                    <label for="quantity">주문 갯수 : </label>
+                    <input type="number" id="quantity" v-model="quantity" min="1" step="1">
+                </div>
+            </div>
+            <div class="slots" slot="slot8">
+                <p>주문 상세</p>
+                <div class = "table-body">
+                    <table>
+                        <tr>
+                            <td>아크릴 두께</td>
+                            <td>{{thick}}</td>
+                        </tr>
+                        <tr>
+                            <td>바닥 크기</td>
+                            <td>{{stand}}</td>
+                        </tr>
+                        <tr>
+                            <td>부자재</td>
+                            <td>{{subitem}}</td>
+                        </tr>
+                        <tr>
+                            <td>포장 옵션</td>
+                            <td>{{packing}}</td>
+                        </tr>
+                        <tr>
+                            <td>인쇄면</td>
+                            <td>{{printside}}</td>
+                        </tr>
+                        <tr>
+                            <td>도안 수량</td>
+                            <td>{{design}} 개</td>
+                        </tr>
+                        <tr>
+                            <td>인쇄 수량</td>
+                            <td>{{quantity}} 개</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </vue-good-wizard>
     </section>
@@ -113,7 +151,12 @@ export default {
                 {
                     label: 'Order Amount',
                     slot: 'slot7',
+                },
+                {
+                    label: 'Order Confirm',
+                    slot: 'slot8'
                 }
+
             ],
             name:'',
             price:'',
@@ -271,7 +314,7 @@ export default {
         },
         async nextClicked(currentPage) {
             console.log('next clicked', currentPage)
-            if(currentPage == 6){
+            if(currentPage == 7){
                 /*
                 let formData = new FormData();
                 let fileDom = document.querySelector('#uploadImg');
@@ -282,24 +325,28 @@ export default {
                 const month = date.getMonth()+1;
                 const day = date.getDay();
                 const year = date.getFullYear();
-                const nowTime = year+"-"+month+"-"+day+"-";
+                const nowTime = year+"-"+month+"-"+day;
                 const boardSize = 590*290;
+                const thick = this.thick;
+                let type='';
                 let thickPrice = 0;
                 let sidePrice = 0;
-                /*
-                올림
-
-                */
-                if(this.thick == "0.7mm"){
+                if(this.stand=="none"){
+                    type="아크릴 챰"
+                }
+                else if(this.stand=="4cm"||this.stand=="6cm"||this.stand=="8cm"){
+                    type="아크릴 스탠드"
+                }
+                if(thick == "0.7mm"){
                     thickPrice = 0.8
                 }
-                else if(this.thick == "1mm"){
+                else if(thick == "1mm"){
                     thickPrice = 0.9
                 }
-                else if(this.thick == "3mm"){
+                else if(thick == "3mm"){
                     thickPrice = 1
                 }
-                else if(this.thick == "5mm"){
+                else if(thick == "5mm"){
                     thickPrice = 1.3
                 }
 
@@ -318,21 +365,23 @@ export default {
                 let packingPrice = 0;   //포장 옵션 이후 변경
                 let standSizeT = 0;     //3T용 스탠드 바닥 사이즈
                 let standSizeF = 0;     //5T용 스탠드 바닥 사이즈
-
-                let price = Math.ceil(((((50000*(2000/((100-(590*290/(xSize*10+1.5)/(ySize*10+1.5)))^2+2000)*1.5+1)/(590*290/(xSize*10+1.5)/(ySize*10+1.5)))*thickPrice)*1.08^(4-Math.log(quantity)/Math.log(10)))/0.7*thickPrice*sidePrice*surface+optionPrice+packingPrice+standSizeT+standSizeF)/100)*110*quantity+design*5500
+                let price = Math.ceil(((((50000*(2000/((100-(590*290/(xSize*10+1.5)/(ySize*10+1.5)))^2+2000)*1.5+1)/(590*290/(xSize*10+1.5)/(ySize*10+1.5)))*thickPrice)*1.08^(4-Math.log(quantity)/Math.log(10)))/0.7*thickPrice*sidePrice*surface+optionPrice+packingPrice+standSizeT+standSizeF)/100)*110
                 const goods = [{
                     _id:this.goodsId,
                     name:this.name,
+                    goodsType:type,
                     quantity:quantity,
                     price:price,
                     xsize:xSize,
                     ysize:ySize,
-                    thick:this.thick,
+                    thick:thickPrice,
                     stand:this.stand,
+                    subItem:this.subitem,
                     packing:this.packing,
-                    printside:this.printside,
+                    printside:sidePrice,
+                    design:design,
                     //img:uploadImg.name,
-                    orderDate:nowTime
+                    orderDate:nowTime,
                     //img:uploadImg
                 }];
                 //console.log('breakpoint')
@@ -402,6 +451,14 @@ export default {
     text-align: center;
     padding: 30px;
     overflow: auto;
+}
+.table-body{
+    width:100%;
+    margin-top:50px;
+    text-align:center;
+}
+.table-body table{
+    display:inline-block
 }
 
 .item-image {

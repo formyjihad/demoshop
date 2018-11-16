@@ -52,7 +52,8 @@ let cartSchema = new Schema({
 
     address : String,
     price : Number,
-    img : String
+    design:Number,
+    discountRate:Number,
 });
 
 module.exports = mongoose.model('cart', cartSchema);

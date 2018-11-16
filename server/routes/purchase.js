@@ -57,8 +57,6 @@ router.post('/', (req, res)=>{
             purchase.name = result.data.response.buyer_name;
             purchase.price = result.data.response.amount;
             purchase.impUid = result.data.response.imp_uid;
-            console.log(req.body.totalAmount)
-            console.log(result.data.response.amount)
             if(result.data.response.amount != req.body.totalAmount){
                 res.status(209).json();
             }
@@ -95,7 +93,7 @@ router.post('/', (req, res)=>{
 router.get('/', (req,res,next)=>{
     //console.log(req)
     let userId = req.user.uid;
-    console.log(userId)
+    //console.log(userId)
     let page = req.query.page || 0
     let limit = 5;
     let offset = page * limit;
@@ -162,26 +160,29 @@ router.post('/save', async (req, res)=>{
     let nowTime = year+"-"+month+"-"+day;
     order.uid = req.user.uid;
     order.totalAmount = data.totalAmount;
+    order.orderName = data.orderName;
+    order.dName = data.dName;
+    order.discountAmount = data.totalDiscountAmount;
+    order.postCode = data.postCode;
     order.address = data.address;
     order.orderId = data.orderId;
     order.purchaseId = data.purchaseId;
+    order.orderDate = nowTime;
     order.status = "file-confirm"
-
-    //console.log(req.body.cart[0])
     
     for(let i=0; i<req.body.cart.length; i++){
         //console.log(order.orderDetail[i].xSize)
-        order.orderDetail[i] = req.body.cart[i]
+        order.orderDetail[i] = data.cart[i]
 
-        value.push(data.orderId, nowTime, req.user.uid, /*data.name,*/"", "", /*data.phoneNumber,*/ data.address)
-        //value.push(data.orderDetail[i].type)  //아크릴 상품 타입
+        value.push(data.orderId, nowTime, data.dName, data.orderName, "", "", data.phoneNumber,data.address)
+        value.push(data.cart[i].goods)  //아크릴 상품 타입
         value.push(data.cart[i].printside)
         value.push(data.cart[i].xSize)
         value.push(data.cart[i].ySize)
-        //value.push(data.cart[i].bottom)    //바닥부품
+        value.push(data.cart[i].stand)    //바닥부품
         value.push(data.cart[i].thick)
-        //value.push(data.cart[i].amount)    //갯수
-        //value.push(data.cart[i].subItem)   //부속품
+        value.push(data.cart[i].quantity)    //갯수
+        value.push(data.cart[i].subItem)   //부속품
         value.push(data.cart[i].packing)
         value.push(data.totalAmount)
         value.push(data.cart[i].img)
@@ -196,6 +197,7 @@ router.post('/save', async (req, res)=>{
             res.status(204).json();
         }
         else{
+            console.log(order.orderDate)
             let orderSave = await order.save();
             res.status(200).json({sheet,orderSave})
         }
@@ -232,10 +234,10 @@ router.get('/checkOrder', async (req, res)=>{
     let purchaseId = req.query.id;  //5bb6e96ed3476b1b8cb70833
     //console.log(purchaseId);
     try{
-        console.log("checking")
+        //console.log("checking")
         if(req.user.uid){
             let purchase = await purchases.findOne({"_id":purchaseId})
-            console.log(purchase);
+            //console.log(purchase);
             let impUid = purchase.impUid;
                         
             let tokenData = await axios.post("https://api.iamport.kr/users/getToken", {
@@ -260,15 +262,14 @@ router.get('/checkOrder', async (req, res)=>{
                         "Authorization": author // 발행된 액세스 토큰
                     },
                 })
-                console.log(statusData)
-                console.log(purchase)
+                let orderData = await orders.findOne({"purchaseId":purchaseId})
                 if(statusData.data.response.status == 'ready'){
                     let status = '결제대기'
-                    res.status(201).json({purchase, status})
+                    res.status(201).json({orderData, purchase, status})
                 }
                 else if(statusData.data.response.status = 'paid'){
-                    let status = '결제확인'
-                    res.status(201).json({purchase, status})
+                    let status = '주문접수'
+                    res.status(201).json({orderData, purchase, status})
                 }
             }
         }

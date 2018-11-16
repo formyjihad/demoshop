@@ -28,6 +28,10 @@ let orderDetailSchema = new Schema({
         type: String,
         default:"4cm",
     },
+    
+    goodsType:{
+        type:String
+    },
 
     subItem: {
         type: String,
@@ -48,6 +52,7 @@ let orderDetailSchema = new Schema({
     },
     price:Number,
     quantity:Number,
+    design:Number,
     img:String
 });
 
@@ -57,14 +62,15 @@ let orderSchema = new Schema({
     orderId:Number,
     totalAmount:Number,
     orderDate : {
-        type: Date,
-        default:Date.now
+        type: String,
     },
     address:String,
     orderDetail:{type:[orderDetailSchema], default:[]},
-    
+    dName:String,
+    postCode:String,
     status: String,
-    purchaseId:String
+    purchaseId:String,
+    orderName:String,
 });
 
 module.exports = mongoose.model('order', orderSchema);

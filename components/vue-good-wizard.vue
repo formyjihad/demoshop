@@ -22,19 +22,30 @@
         <slot :name="currentSlot"></slot>
       </div>
       <div class="wizard__body__actions clearfix">
-        <img src="/SVG/화살표_1.svg"
-          v-if="backEnabled"
-          class="wizard__back pull-left"
-          @click="goBack()">
-        <img src="/SVG/화살표_2.svg"
-          :class="{'disabled': options[currentStep].nextDisabled}"
-          v-if="currentStep != steps.length - 1" class="wizard__next pull-right"
-          @click="goNext()">
-        <a
-          :class="{'disabled': options[currentStep].nextDisabled}"
-          v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goNext()">
-          {{finalStepLabel}}
-        </a>
+        <div class="leftBtn">
+          <img src="/SVG/화살표_1.svg"
+            v-if="backEnabled"
+            class="wizard__back pull-left"
+            @click="goBack()">
+        </div>
+        <div class="rightBtn">
+          <img src="/SVG/화살표_2.svg"
+            :class="{'disabled': options[currentStep].nextDisabled}"
+            v-if="currentStep != steps.length - 1" class="wizard__next pull-right"
+            @click="goNext()">
+        </div>
+          <div class="finalBtn">
+            <nuxt-link
+              :class="{'disabled': options[currentStep].nextDisabled}"
+              v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" to="/cart">
+              주문하기
+            </nuxt-link>
+            <a
+              :class="{'disabled': options[currentStep].nextDisabled}"
+              v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goNext()">
+              장바구니
+            </a>
+          </div>
       </div>
     </div>
   </div>
@@ -52,6 +63,7 @@ export default {
     finalStepLabel: {default: '주문하기'},
     onNext: {},
     onBack: {},
+
   },
 
   watch: {
@@ -118,6 +130,9 @@ export default {
         this.currentStep++;
       }
     },
+    goCart (skipFunction){
+
+    },
     goBack (skipFunction) {
       if (!skipFunction && typeof this.onBack == 'function'){
         if(!this.onBack(this.currentStep)) {
@@ -172,15 +187,15 @@ export default {
 *******************************/
 
 .pull-left{
-  float:  left !important;
   width:100px;
+  margin-top:55px;
   height:100px;
   cursor: pointer;
 }
 
 .pull-right{
-  float:  right !important;
-    width:100px;
+  margin-top:55px;
+  width:100px;
   height:100px;
   cursor: pointer;
 }
@@ -195,6 +210,7 @@ export default {
 *******************************/
 .wizard {
   position: relative;
+  margin-top:15px;
   width:  100%;
 }
 
@@ -302,12 +318,50 @@ export default {
 *******************************/
 .wizard__body__actions{
   position:  absolute;
-  top:30%;
-  width:100%;
-  height: 0;
-  
+  top:150px;
+  width:100%;  
  /* border-top:  1px solid #aebac4;*/
   /*background-color: #b9c7d2;*/
+}
+
+.wizard__body__actions .leftBtn{
+  width:100px;
+  height:150px;
+  float:left !important
+}
+
+.wizard__body__actions .rightBtn{
+  width:100px;
+  float:right !important
+}
+.wizard__body__actions .finalBtn{
+  width:200px;
+  float:right !important
+}
+.wizard__body__actions .finalBtn a{
+  backface-visibility: hidden;
+  text-decoration: none;
+  width:200px;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+  background: rgba(77.06191214211341%,45.128128767078024%,41.57993061429631%,0);
+  border-radius: 39px;
+  border: 6px solid #464646;
+  border-width: 6px 6px 6px 6px;
+  padding: 20px 30px 20px 30px;
+  vertical-align: center;
+  text-align:center;
+  color: #565656;
+  font-size: 20px;
+  font-family: arial;
+  font-weight: 900;
+  font-style: normal;
+  margin: 0 auto;
+  margin-bottom:5px
+}
+.wizard__body__actions .finalBtn a:hover{
+  color: white;
 }
 
 .wizard__body__actions a{
@@ -317,7 +371,7 @@ export default {
   color:  white;
   font-weight: bold;
   text-align: center;
-  line-height: 85px;
+  line-height: 50px;
   cursor: pointer;
   border-radius: 100%;
   -webkit-transition: background-color 0.3s;
@@ -362,9 +416,6 @@ export default {
   background-color: #357fae;
 }
 
-.wizard__body__actions a.final-step{
-  background-color: #6eb165;
-}
 
 /* mobile */
 .wizard__body.vgw-mobile{

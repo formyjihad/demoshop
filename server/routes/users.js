@@ -9,12 +9,24 @@ router.get('/',(req,res,next)=>{
     res.send('/users');
 });
 
+router.get('/statusCheck', async(req,res)=>{
+    let uid = req.user.uid;
+    let status;
+    if(!uid){
+        status = 0
+    }
+    else{
+        let userData = await users.findOne({"uid":uid})
+        status = userData.status;
+    }
+    let rate = status * 5
+    res.status(200).json({rate})
+})
+
 router.post('/checkPass', async(req,res)=>{
     let uid = req.user.uid;
     let target = req.body.target;
-    console.log(target)
     let userData = await users.findOne({uid:uid})
-    console.log(userData)
     if(target == userData.password){
         res.status(200).json({userData})
     }
@@ -28,14 +40,71 @@ router.post('/checkPass', async(req,res)=>{
 router.post('/editInfo', async (req,res)=>{
     try{
         let uid = req.user.uid;
-        let userName = req.body.userName;
-        let userAddressData = req.body.userAddress;
-        let userAddressDetail = req.body.userAddressDetail;
-        let userPhoneNum = req.body.userPhoneNum;
-        let userPostCode = req.body.postCode
+        
+        let userName = '';
+        let userAddressData = '';
+        let userAddressDetail = '';
+        let userPhoneNumber = '';
+        let userPostCode = '';
+        let userEmail = '';
+        let userPassword = req.body.password;
+
+        let userData = await users.findOne({"uid":uid})
+
+        if(req.body.userName != userData.userName){
+            userName = req.body.userName;
+        }
+        else if(req.body.userName == userData.userName){
+            userName = userData.userName;
+        }
+        if(req.body.userEmail != userData.userEmail){
+            userEmail = req.body.userEmail;
+        }
+        else if(req.body.userEmail == userData.userEmail){
+            userEmail = userData.userEmail;
+        }
+        if(req.body.addressData != userData.addressData){
+            userAddressData = req.body.addressData;
+        }
+        else if(req.body.addressData == userData.addressData){
+            userAddressData = userData.addressData;
+        }
+        if(req.body.addressDetail != userData.addressDetail){
+            userAddressDetail = req.body.addressDetail;
+        }
+        else if(req.body.addressDetail == userData.addressDetail){
+            userAddressDetail = userData.addressDetail;
+        }
+        if(req.body.addressDetail != userData.addressDetail){
+            userAddressDetail = req.body.addressDetail;
+        }
+        else if(req.body.addressDetail == userData.addressDetail){
+            userAddressDetail = userData.addressDetail;
+        }
+        if(req.body.userPhoneNumber != userData.phoneNumber){
+            userPhoneNumber = req.body.userPhoneNumber;
+        }
+        else if(req.body.userPhoneNum == userData.phoneNumber){
+            userPhoneNumber = userData.phoneNumber;
+        }
+        if(req.body.postCode != userData.postCode){
+            userPostCode = req.body.postCode;
+        }
+        else if(req.body.postCode == userData.postCode){
+            userPostCode = userData.postCode;
+        }
+        if(!userPassword){
+            userPassword = userData.password;
+        }
+        else if(userPassword == userData.password){
+            userPassword = userData.password;
+        }
+        else if(userPassword){
+            userPassword = userPassword;
+        }
         
         let updateData = await users.updateOne({"uid":uid}, 
-            {$set:{userName:userName, addressData:userAddressData, addressDetail:userAddressDetail, phoneNumber:userPhoneNum, postCode:userPostCode}
+            {$set:{userName:userName, password:userPassword, userEmail:userEmail, addressData:userAddressData, addressDetail:userAddressDetail, phoneNumber:userPhoneNumber, postCode:userPostCode}
         })
     
         res.status(200).json()
@@ -52,15 +121,8 @@ router.get('/checkinfo', async (req,res)=>{
     //console.log(req.user.uid)
     let userData = await users.findOne({"uid":uid})
     //  let point = userData.point      // 포인트
-    //console.log(userData)
-    let userId = userData.uid;
-    //let userName = userData.userName;
-    //let userAddressData = userData.userAddress;
-    //let userAddressDetail = userData.userAddressDetail;
-    //let userPhoneNum = userData.userPhoneNum;
-    //let userpostCode = userData.postCode
-
-    res.status(200).json({userId})
+    
+    res.status(200).json({userData})
     //res.status(200).json({userId, userName, userAddress, userPhoneNum})
     
 })

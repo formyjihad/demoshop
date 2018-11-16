@@ -3,6 +3,22 @@ let Schema = mongoose.Schema;
 
 let userSchema = new Schema({
     platformName:String,
+    userName:{
+        type: String, 
+        required:[true, "must need name"]
+    }, 
+    addressData:{
+        type: String
+    }, 
+    addressDetail:{
+        type: String
+    }, 
+    phoneNumber:{
+        type: String
+    },  
+    postCode:{
+        type: String
+    }, 
     uid:{
         type: String,
         required:[true, "must need id"]
@@ -14,11 +30,13 @@ let userSchema = new Schema({
         type:Number,
         defalut:1
     },
+    userEmail:{
+        type:String
+    },
     price:{
         type:Number,
         default:0
     },
-    purchases:[{type:Schema.Types.ObjectId, ref:'purchase'}]
 });
 
 module.exports = mongoose.model('user', userSchema);

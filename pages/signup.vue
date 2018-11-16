@@ -1,25 +1,40 @@
 <template>
     <div class = "container">
         <form @submit.prevent="signup">
-            <label for="uid">아이디</label>
-            <input id="uid" type="text" v-model="uid"  @change="idCheck(uid)"><p v-if="checkFail == true">중복된 아이디가 존재합니다.</p><br>
-            <label for="password">비밀번호</label>
-            <input id="password" type="password" v-model="password"><br>
-            <label for="passwordConfirm">비밀번호 확인</label>
-            <input id="passwordConfirm" type="password" v-model="passwordConfirm" @change="passwordCheck($event.target.value)"><br>
-            <label for="name">이름</label>
-            <input id="name" type="name" v-model="userName"><br>
-            <label for="postCode">우편번호</label>
-            <input id="postCode" type="text" v-model="postCode" @click="callPostOffice"><br>
-            <label for="address">주소</label>
-            <input id="address" type="text" v-model="addressData"><br>
-            <label id="addressDetail">상세주소</label>
-            <input id="addressDetail" type="text" v-model="addressDetail"><br>
-            <label id="phoneNumber">핸드폰 번호</label>
-            <input id="phoneNumber" type="tel" v-model="phoneNumber" placeholder="010-0000-0000" @click="phoneCheck()"><br>
-            <label id="email">이메일 주소</label>
-            <input id="email" type="email" v-model="email"><br>
-            <button type="submit">회원가입</button>
+            <div class="signup">
+                <div class="row">
+                    <div class="left col-2"><p>아이디</p></div>
+                    <div class="right col-10"><input id="uid" type="text" v-model="uid"  @change="idCheck(uid)"><p v-if="checkFail == true">중복된 아이디가 존재합니다.</p>(영문 소문자/숫자, 4~16자)</div>
+                
+                    <div class="left col-2"><p>이름</p></div>
+                    <div class="right col-10"><input id="name" type="name" v-model="userName"></div>
+                
+                    <div class="left col-2"><p>이메일</p></div>
+                    <div class="right col-10"><input id="email" type="email" v-model="email"></div>
+                
+                    <div class="left col-2"><p>비밀번호</p></div>
+                    <div class="right col-10"><input id="password" type="password" v-model="password">
+                        (영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10~16자)</div>
+                
+                    <div class="left col-2"><p>비밀번호 확인</p></div>
+                    <div class="right col-10"><input id="passwordConfirm" type="password" v-model="passwordConfirm" @change="passwordCheck($event.target.value)"></div>
+                    
+                    <div class="left col-2"><p>전화번호</p></div>
+                    <div class="right col-10"><input id="phoneNumber" type="tel" v-model="phoneNumber" placeholder="010-0000-0000" @click="phoneCheck()"></div>
+
+                    <div class="left col-2"><p>우편번호</p></div>
+                    <div class="right col-10"><input id="postCode" type="text" v-model="postCode" @click="callPostOffice"></div>
+
+                    <div class="left col-2"><p>주소</p></div>
+                    <div class="right col-10"><input id="address" type="text" v-model="addressData"></div>
+
+                    <div class="left col-2"><p>상세주소</p></div>
+                    <div class="right col-10"><input id="addressDetail" type="text" v-model="addressDetail"></div>
+                </div>
+            </div>
+            <div class="sec_btn">
+                <button class="btn" type="submit">회원가입</button>
+            </div>
         </form>
     </div>
 </template>
@@ -133,3 +148,55 @@ export default {
     }
 }
 </script>
+
+<style>
+.signup{
+    max-width: 1000px;
+    text-align: left;
+}
+.signup div{
+    height: 100%;
+    line-height: 50px;
+}
+.signup input{
+    width: 25%;
+    height: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.signup .left{
+    border-top: 1px solid #000000;
+    border-right: 1px solid #000000;
+    padding-left:20px;
+
+    
+}
+.signup .left p{
+    font-size: 14px;
+    height: 100%;
+    margin: 0;
+}
+
+.signup .right{
+    border-top: 1px solid #000000;
+    font-size: 12px;
+    width:65%;
+}
+.signup .last{
+    border-bottom:1px solid #000;
+}
+
+.sec_btn{
+    width:100px;
+    height:50px;
+    margin-top:50px;
+    text-align:center;
+}
+.sec_btn .btn{
+    width:150px;
+    height:100%;
+    background-color:#000;
+    color:#FFF;
+    font-size:18px;
+}
+</style>

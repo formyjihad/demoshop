@@ -20,14 +20,16 @@
                             {{cart.name}}
                         </td>
                         <td class="cols">
-                            {{cart.price}}
+                            {{cart.price*cart.quantity+(cart.design*5500)}}
                         </td>
                         <td class="cols">                    
                             {{cart.quantity}}
                         </td>
                         <td>
+                            {{(cart.price*cart.quantity+(cart.design*5500))*(discountRate/100)}}
                         </td>
                         <td>
+                            {{(cart.price*cart.quantity+(cart.design*5500))-(cart.price*cart.quantity+(cart.design*5500))*(discountRate/100)}}
                         </td>
                     </tr>
                 </tbody>
@@ -66,15 +68,17 @@
                 <label><input type="radio" id="newAdd" v-model="deliveryType" value="newAddress"/>신규 배송지</label>
             </div>
             <div class = "address" v-if="deliveryType=='newAddress'">
-                <input id="username" type="text" v-model="userName" placeholder="주문자 성명"><br>
-                <input id="userphoneNumber" type="number" v-model="phoneNumber" placeholder="주문자 전화번호"><br>
-                <input id="postCode" type="text" v-model="postCode" @click="callPostOffice" autocomplete="off" placeholder="우편번호"><br>
-                <input id="address" type="text" v-model="addressData" @click="callPostOffice" autocomplete="off" placeholder="주소"><br>
-                <input id="addressDetail" type="text" v-model="addressDetail" placeholder="상세주소"><br>
+                <input id="d-name" type="text" v-model="dName" placeholder="주문자 성명"><br>
+                <input id="d-phoneNumber" type="text" v-model="dPhoneNumber" placeholder="주문자 전화번호"><br>
+                <input id="d-email" type="email" v-model="dMail" placeholder="주문자 이메일"><br>
+                <input id="postCode" type="text" v-model="dPostCode" @click="callPostOffice" autocomplete="off" placeholder="우편번호"><br>
+                <input id="address" type="text" v-model="dAddressData" @click="callPostOffice" autocomplete="off" placeholder="주소"><br>
+                <input id="addressDetail" type="text" v-model="dAddressDetail" placeholder="상세주소"><br>
             </div>
             <div class = "address" v-else-if="deliveryType=='userAddress'">
                 <input id="username" type="text" v-model="userName" placeholder="주문자 성명" disabled><br>
-                <input id="userPhoneNum" type="number" v-model="phoneNumber" placeholder="주문자 전화번호" disabled><br>
+                <input id="userPhoneNum" type="text" v-model="phoneNumber" placeholder="주문자 전화번호" disabled><br>
+                <input id="d-email" type="email" v-model="email" placeholder="주문자 이메일" disabled><br>
                 <input id="postCode" type="text" v-model="postCode" placeholder="우편번호" disabled><br>
                 <input id="address" type="text" v-model="addressData" placeholder="주소" disabled><br>
                 <input id="addressDetail" type="text" v-model="addressDetail" placeholder="상세주소" disabled><br>
@@ -99,16 +103,16 @@
                  
                     <tr>
                         <td>배송비</td>
-                        <td>5000</td>
+                        <td>3500</td>
                     </tr>
                     <tr>
                         <td>할인 금액</td>
-                        <td>sale price</td>
+                        <td>{{totalDiscountAmount}}</td>
                     </tr>
                     <!--<p>{{salePrice}}</p>-->
                     <tr>
                         <td>결제 금액</td>
-                        <td>totalprice + delivery - saleprice</td>
+                        <td>{{totalAmount + 3500 - totalDiscountAmount}}</td>
                     </tr>
                 </table>
             </div>
@@ -135,25 +139,30 @@ export default {
     components:{
         postOffice
     },
+    data(){
+        return{
+            dName:"배송자 성함",
+            dPhoneNumber:"배송자 휴대전화",
+            dMail:"배송자 이메일 주소",
+            dPostCode:"배송자 우편번호",
+            dAddressData:"배송자 주소",
+            dAddressDetail:"배송자 상세 주소",
+            discountRate:0
+        }
+    },
     async asyncData(){
         try{
             let url = '/api/users/checkinfo'
-            let userData = await axios.get(url);
+            let checkData = await axios.get(url);
+            let userData = checkData.data.userData
             if(userData){
                 return{
-                    //addressData:userData.userAddressData,
-                    //addressDetail:userData.userAddressDetail,
-                    //phoneNumber:userData.userphoneNumber,
-                    //email:userData.userEmail,
-                    //userName:userData.userName,
-                    //postCode:userData.postCode,
-
-                    addressData:'test',
-                    addressDetail:'testD',
-                    phoneNumber:'000',
-                    email:'testE',
-                    userName:'testN',
-                    postCode:'000-000',
+                    addressData:userData.addressData,
+                    addressDetail:userData.addressDetail,
+                    phoneNumber:userData.phoneNumber,
+                    email:userData.userEmail,
+                    userName:userData.userName,
+                    postCode:userData.postCode,
                     uid:userData.userid,
                 }
             }
@@ -168,13 +177,18 @@ export default {
         totalAmount(){
             return this.totalAmount()
         },
+        totalDiscountAmount(){
+            return this.totalDiscountAmount()
+        },
         ...mapGetters({
             isLogin:'users/isLogin',
             cart:'carts/cart',
-            totalAmount:'carts/totalAmount'
+            totalAmount:'carts/totalAmount',
+            totalDiscountAmount:'carts/totalDiscountAmount'
         }),
     },
     props:{
+        
         deliveryType:{
             default: "userAddress",
             required: true
@@ -184,7 +198,17 @@ export default {
             required:true
         }
     },
-    created(){
+    async created(){
+        let url = '/api/users/statusCheck'
+        let discountData = await axios(url);
+        this.discountRate=discountData.data.rate;
+        for(let i = 0; i<this.cart.length;i++ ){
+            this.updateDiscount({
+                index:i,
+                unit:this.discountRate,
+                cart:this.cart
+            });
+        }
         this.$store.dispatch('carts/getCart')
         
     },
@@ -193,8 +217,15 @@ export default {
     },
     methods:{
         selfDelivery(){
-            this.addressData = 'self'
-            this.addressDetail = 'self'
+            
+            if(this.deliveryType == 'newAddress'){
+                this.dAddressData = 'self'
+                this.dAddressDetail = 'self'
+            }
+            else if(this.deliveryType == 'userAddress'){
+                this.addressData = 'self'
+                this.addressDetail = 'self'
+            }
         },
         async callPostOffice(){
           this.$modal.show(postOffice,{},{
@@ -221,12 +252,38 @@ export default {
             else{
                 url = '/api/purchase'
             }
-            let buyerAddress = this.addressData +' '+ this.addressDetail
-            let amount = Number(this.totalAmount)
+            let buyerAddress = ''
+            let amount = Number(this.totalAmount)-Number(this.totalDiscountAmount)+3500
+            const date = new Date()
+            const month = date.getMonth()+1;
+            const day = date.getDay();
+            const year = date.getFullYear();
+            const nowTime = year+"-"+month+"-"+day;
+            let name = this.userName
+            let phone = this.phoneNumber
+            let mail = this.email
+            let pCode = ''
+            let adsData = ''
+            let adsDetail = ''
+            
+            if(this.deliveryType == 'newAddress'){
+                pCode = this.dPostCode;
+                buyerAddress = this.dAddressData +' '+ this.dAddressDetail
+            }
+            else if(this.deliveryType == 'userAddress'){
+                pCode = this.postCode;
+                buyerAddress = this.addressData +' '+ this.addressDetail;
+            }
+
             const orderData = {
+                orderName:name,
+                dName:this.dName,
+                postCode:pCode,
                 address:buyerAddress,
                 cart:this.cart,
+                price:this.totalAmount,
                 totalAmount:amount,
+                totalDiscountAmount:this.totalDiscountAmount,
             }
             
             //console.log(this.paymentType)
@@ -236,11 +293,11 @@ export default {
                 merchant_uid:'merchant_'+ Date.now(),
                 name:'주문명:결제테스트',
                 amount:amount,
-                buyer_email:this.email,
-                buyer_name:this.userName,
-                buyer_tel:this.phoneNumber,
+                buyer_email:mail,
+                buyer_name:name,
+                buyer_tel:phone,
                 buyer_address:buyerAddress,
-                buyer_postcode:this.postCode,
+                buyer_postcode:pCode,
                 custom_data:orderData
             }, async function(res){
                 
@@ -265,9 +322,14 @@ export default {
                         url = '/api/purchase/save'
                         //console.log(postData)
                         let saveData = await axios.post(url, {
+                            orderName:res.custom_data.orderName,
+                            dName:res.custom_data.dName,
+                            postCode:res.custom_data.postCode,
                             address:res.custom_data.address,
                             cart:res.custom_data.cart,
+                            price:res.custom_data.price,
                             totalAmount:res.custom_data.totalAmount,
+                            totalDiscountAmount:res.custom_data.totalDiscountAmount,
                             purchaseId:postData.data.purchase._id,
                             orderId:postData.data.purchase.orderId
                         })
