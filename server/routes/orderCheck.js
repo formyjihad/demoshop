@@ -9,7 +9,7 @@ router.get('/:id', async(req,res)=>{
 
     //console.log(orderData);
     let getData = orderData.data
-    res.json({getData});
+    res.send(getData);
 })
 
 module.exports = router;

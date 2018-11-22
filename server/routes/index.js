@@ -12,8 +12,8 @@ const fileUpload = require('./fileUpload.js');
 const passport = require('passport');
 const orderCheck = require('./orderCheck.js')
 
-//router.use('/admin',passport.authenticate('jwt',{session:false}),admin);
-router.use('/admin',admin);
+router.use('/admin',passport.authenticate('jwt',{session:false}),admin);
+//router.use('/admin',admin);
 router.use('/orderCheck', orderCheck);
 router.use('/goods',goods);
 router.use('/purchase',purchase);
