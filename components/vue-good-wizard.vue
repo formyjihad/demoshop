@@ -210,7 +210,7 @@ export default {
 *******************************/
 .wizard {
   position: relative;
-  margin-top:15px;
+  margin-top:100px;
   width:  100%;
 }
 
@@ -289,11 +289,12 @@ export default {
   position: relative;
   /*border-radius: 5px;*/
   padding-bottom: 50px;
+  
 }
 
 .wizard__body__step{
   padding:  16px;
-  
+  z-index:5
 }
 
 .wizard__arrow{
@@ -320,6 +321,8 @@ export default {
   position:  absolute;
   top:150px;
   width:100%;  
+  z-index: 1;
+  pointer-events: none;
  /* border-top:  1px solid #aebac4;*/
   /*background-color: #b9c7d2;*/
 }

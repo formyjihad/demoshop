@@ -12,18 +12,24 @@
                         <input type="password" id="password" v-model="password">
                         <label for="password">PW</label>
                     </div>
-                    <div class="button">
-                        <button class="button2" type="submit"><img src="/SVG/로그인.svg"></button>
-                        <nuxt-link class="button2" to="/agreement"><img src="/SVG/회원가입.svg"></nuxt-link>
-                    </div>
+                    <button class="button" type="submit">
+                        로그인
+                        <div></div>
+                        <!--<nuxt-link class="button2" to="/agreement"><img src="/SVG/회원가입.svg"></nuxt-link>-->
+                    </button>
+                    <nuxt-link class="signup" to="/agreement">
+                        회원가입
+                        <div></div>
+                    </nuxt-link>
                 </form>
                 <div class="after-login" v-else>
                     <div class="login-info">
                         <h4>{{uid}}님</h4>
                         반갑습니다.
                     </div>
-                    <div class="signout">
-                        <button @click="signout()">로그아웃</button>
+                    <div class="signout" @click="signout()">
+                        로그아웃
+                        <div></div>
                     </div>
                 </div>
             </div>
@@ -253,4 +259,126 @@ span{
     margin-left:10px;
     margin-top: 30%;
 }
+
+.button {
+    backface-visibility: hidden;
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  white-space: nowrap;
+  background: #5395ff;
+  border-radius: 11px;
+  border: 3px solid #ffffff;
+  border-width: 3px 3px 3px 3px;
+  padding: 13px 16px 12px 16px;
+  margin-right:5px;
+    color: #ffffff;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: 300;
+  font-style: normal
+  }
+  .button > div {
+    color: #999999;
+  font-size: 10px;
+  font-family: Helvetica Neue;
+  font-weight: initial;
+  font-style: normal;
+  text-align: center;
+  margin: 0px 0px 0px 0px
+  }
+  .button > i {
+    font-size: 1em;
+  border-radius: 0px;
+  border: 0px solid transparent;
+  border-width: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 13px;
+  position: static
+  }
+  .button > .ld {
+    font-size: initial
+  }
+
+.signup {
+    backface-visibility: hidden;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    white-space: nowrap;
+    background: #7dafff;
+    border-radius: 11px;
+    border: 3px solid #ffffff;
+    border-width: 3px 3px 3px 3px;
+    padding: 13px 16px 12px 16px;
+    color: #ffffff;
+    font-size: 16px;
+    font-family: Arial;
+    font-weight: 300;
+    font-style: normal;
+    text-decoration: none;
+}
+.signup a:hover{
+    text-decoration: none;
+}
+.signup > div {
+    color: #999999;
+    font-size: 10px;
+    font-family: Helvetica Neue;
+    font-weight: initial;
+    font-style: normal;
+    text-align: center;
+    margin: 0px 0px 0px 0px
+}
+.signup > i {
+    font-size: 1em;
+    border-radius: 0px;
+    border: 0px solid transparent;
+    border-width: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 13px;
+    position: static
+}
+.signup > .ld {
+    font-size: initial
+}
+.signout {
+    backface-visibility: hidden;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    white-space: nowrap;
+    background: #5597ff;
+    border-radius: 11px;
+    border: 3px solid #ffffff;
+    border-width: 3px 3px 3px 3px;
+    padding: 13px 16px 12px 16px;
+    color: #ffffff;
+    font-size: 16px;
+    font-family: Arial;
+    font-weight: 300;
+    font-style: normal
+}
+.signout > div {
+    color: #999999;
+    font-size: 10px;
+    font-family: Helvetica Neue;
+    font-weight: initial;
+    font-style: normal;
+    text-align: center;
+    margin: 0px 0px 0px 0px
+}
+.signout > i {
+    font-size: 1em;
+    border-radius: 0px;
+    border: 0px solid transparent;
+    border-width: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 13px;
+    position: static
+}
+.signout > .ld {
+    font-size: initial
+}
+
 </style>

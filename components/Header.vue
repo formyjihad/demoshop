@@ -61,7 +61,7 @@ export default {
     text-align: center;
 }
 .header .logo img{
-    height: 100%;
+    height: 80%;
 }
 .header .cols{
     display: inline-block;
