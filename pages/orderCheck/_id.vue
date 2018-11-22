@@ -7,6 +7,7 @@
 <script>
 import axios from 'axios'
 export default {
+    layout:'noHeader',
     data(){
         return {
             orderData:[],

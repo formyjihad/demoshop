@@ -14,4 +14,5 @@ dist
 server/utils/auth/service.json
 server/uploads
 config/
-build/
+build/main.js
+build/main.map

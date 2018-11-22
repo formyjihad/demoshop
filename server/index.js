@@ -47,7 +47,6 @@ app.get('/uploads/:filename',(req,res)=>{
         res.end(data);
     });
 });
-
 if(config.dev){
     let builder = new Builder(nuxt);
     builder.build();

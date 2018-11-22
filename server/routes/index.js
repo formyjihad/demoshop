@@ -14,7 +14,7 @@ const orderCheck = require('./orderCheck.js')
 
 //router.use('/admin',passport.authenticate('jwt',{session:false}),admin);
 router.use('/admin',admin);
-router.use('/orderCheck', orderCheck)
+router.use('/orderCheck', orderCheck);
 router.use('/goods',goods);
 router.use('/purchase',purchase);
 router.use('/users',users);
