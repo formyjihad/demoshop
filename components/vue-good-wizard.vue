@@ -1,183 +1,190 @@
 <template>
-  <div class="wizard">
-    <ul class="wizard__steps">
-      <li class="wizard__step"
-        :class="{
-          'active': isMobile ? currentStep === index : currentStep >= index,
-          'vgw-mobile': isMobile,
-        }"
-        :style="wizardStepStyle"
-        v-for="(step, index) of steps" :key="index">
-        <span class="wizard__step__line" :class="{'vgw-mobile': isMobile}"></span>
-        <span class="wizard__step__label">{{step.label}}</span>
-        <span class="wizard__step__indicator"></span>
-      </li>
-    </ul>
-    <span 
-      class="wizard__arrow" 
-      :style="{ left: arrowPosition }">
-    </span>
-    <div ref="wizard-body" class="wizard__body" :class="{'vgw-mobile': isMobile}">
-      <div :key="currentSlot" class="wizard__body__step">
-        <slot :name="currentSlot"></slot>
-      </div>
-      <div class="wizard__body__actions clearfix">
-        <div class="leftBtn">
-          <img src="/SVG/화살표_1.svg"
-            v-if="backEnabled"
-            class="wizard__back pull-left"
-            @click="goBack()">
-        </div>
-        <div class="rightBtn">
-          <img src="/SVG/화살표_2.svg"
-            :class="{'disabled': options[currentStep].nextDisabled}"
-            v-if="currentStep != steps.length - 1" class="wizard__next pull-right"
-            @click="goNext()">
-        </div>
-          <div class="finalBtn">
-            <nuxt-link
-              :class="{'disabled': options[currentStep].nextDisabled}"
-              v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" to="/cart">
-              주문하기
-            </nuxt-link>
-            <a
-              :class="{'disabled': options[currentStep].nextDisabled}"
-              v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goNext()">
-              장바구니
-            </a>
-          </div>
-      </div>
-    </div>
-  </div>
+	<div class="wizard">
+		<ul class="wizard__steps">
+			<li class="wizard__step"
+				:class="{
+				'active': isMobile ? currentStep === index : currentStep >= index,
+				'vgw-mobile': isMobile,
+				}"
+				:style="wizardStepStyle"
+				v-for="(step, index) of steps" :key="index">
+				<span class="wizard__step__line" :class="{'vgw-mobile': isMobile}"></span>
+				<span class="wizard__step__label">{{step.label}}</span>
+				<span class="wizard__step__indicator"></span>
+			</li>
+		</ul>
+		<span 
+		class="wizard__arrow" 
+		:style="{ left: arrowPosition }">
+		</span>
+		<div ref="wizard-body" class="wizard__body" :class="{'vgw-mobile': isMobile}">
+			<div :key="currentSlot" class="wizard__body__step">
+				<slot :name="currentSlot"></slot>
+			</div>
+			<div class="wizard__body__actions clearfix">
+				<div class="leftBtn">
+					<img src="/SVG/화살표_1.svg"
+						v-if="backEnabled"
+						class="wizard__back pull-left"
+						@click="goBack()">
+				</div>
+				<div class="rightBtn">
+					<img src="/SVG/화살표_2.svg"
+						:class="{'disabled': options[currentStep].nextDisabled}"
+						v-if="currentStep != steps.length - 1" class="wizard__next pull-right"
+						@click="goNext()">
+				</div>
+				<div class="finalBtn">
+					<a
+						:class="{'disabled': options[currentStep].nextDisabled}"
+						v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goCart()">
+						바로 주문하기
+					</a>
+					<a
+						:class="{'disabled': options[currentStep].nextDisabled}"
+						v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goNext()">
+						장바구니에 담기
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
 export default {
 
-  name: 'vue-good-wizard',
+	name: 'vue-good-wizard',
 
-  props: {
-    steps: {},
-    previousStepLabel: {default: ''},
-    nextStepLabel: {default: ''},
-    finalStepLabel: {default: '주문하기'},
-    onNext: {},
-    onBack: {},
+	props: {
+		steps: {},
+		previousStepLabel: {default: ''},
+		nextStepLabel: {default: ''},
+		finalStepLabel: {default: '주문하기'},
+		onNext: {},
+		onBack: {},
+		onCart:{},
 
-  },
+	},
 
-  watch: {
-    steps: {
-      handler() {
-        this.parseOptions();
-      },
-      immediate: true,
-    }
-  },
+	watch: {
+		steps: {
+			handler() {
+				this.parseOptions();
+			},
+			immediate: true,
+		}
+	},
 
-  data () {
-    return {
-      currentStep: 0,
-      isMounted: false,
-      resizer: null,
-      isMobile: false,
-      options: [],
-    };
-  },
-  computed: {
-    wizardStepStyle() {
-      if (this.isMobile) {
-        return {
-          width: '100%',
-        };
-      }
+	data () {
+		return {
+			currentStep: 0,
+			isMounted: false,
+			resizer: null,
+			isMobile: false,
+			options: [],
+			stepEnd:false
+		};
+	},
+	computed: {
+		wizardStepStyle() {
+			if (this.isMobile) {
+				return {
+					width: '100%',
+				};
+			}
 
-      return {
-        width: `${100/this.steps.length}%`,
-      };
-    },
-    mobileArrowPosition() {
-      return 'calc(50% - 14px)';
-    },
-    arrowPosition() {
-      if (this.isMobile) {
-        return this.mobileArrowPosition;
-      }
-      var stepSize = 100/this.steps.length;
-      var currentStepStart = stepSize * this.currentStep;
-      var currentStepMiddle = currentStepStart + (stepSize/2);
-      if(this.steps.length == 1)
-        return 'calc('+currentStepMiddle+'%)'
-      else
-        return 'calc('+currentStepMiddle+'% - 14px)'
-    },
-    currentSlot() {
-      return this.steps[this.currentStep].slot;
-    },
-    backEnabled() {
-      return this.currentStep != 0;
-    }
-  },
-  methods: {
-    goNext (skipFunction) {
-      if (!skipFunction && typeof this.onNext == 'function'){
-        if(!this.onNext(this.currentStep)) {
-          //returned false. don't do anything
-          return;
-        }
-      }
-      if (this.currentStep < this.steps.length-1) {
-        this.currentStep++;
-      }
-    },
-    goCart (skipFunction){
+			return {
+				width: `${100/this.steps.length}%`,
+			};
+		},
+		mobileArrowPosition() {
+			return 'calc(50% - 14px)';
+		},
+		arrowPosition() {
+			if (this.isMobile) {
+				return this.mobileArrowPosition;
+			}
+			var stepSize = 100/this.steps.length;
+			var currentStepStart = stepSize * this.currentStep;
+			var currentStepMiddle = currentStepStart + (stepSize/2);
+			if(this.steps.length == 1)
+				return 'calc('+currentStepMiddle+'%)'
+			else
+				return 'calc('+currentStepMiddle+'% - 14px)'
+		},
+		currentSlot() {
+			return this.steps[this.currentStep].slot;
+		},
+		backEnabled() {
+			return this.currentStep != 0;
+		}
+	},
+	methods: {
+		goNext (skipFunction) {
+			if (!skipFunction && typeof this.onNext == 'function'){
+				if(!this.onNext(this.currentStep)) {
+			//returned false. don't do anything
+					return;
+				}
+			}
+			if (this.currentStep < this.steps.length-1) {
+				this.currentStep++;
+			}
+		},
+		goCart (skipFunction) {
+			if (!skipFunction && typeof this.onCart == 'function'){
+				if(!this.onCart(this.currentStep)) {
+			//returned false. don't do anything
+					return;
+				}
+			}
+		},
+		goBack (skipFunction) {
+			if (!skipFunction && typeof this.onBack == 'function'){
+				if(!this.onBack(this.currentStep)) {
+				//returned false. don't do anything
+					return;
+				}
+			}
+			if (this.currentStep > 0) {
+				this.currentStep--;
+			}
+		},
 
-    },
-    goBack (skipFunction) {
-      if (!skipFunction && typeof this.onBack == 'function'){
-        if(!this.onBack(this.currentStep)) {
-          //returned false. don't do anything
-          return;
-        }
-      }
-      if (this.currentStep > 0) {
-        this.currentStep--;
-      }
-    },
+		goTo(step) {
+			if (Number.isInteger(step)
+				&& step < this.steps.length
+				&& step >= 0) {
+				this.currentStep = step;
+			} 
+		},
+		
+		parseOptions() {
+			this.options = [];
+			for(let i = 0; i < this.steps.length; i++) {
+				this.options.push(this.steps[i].options ? this.steps[i].options : {});
+			} 
+		},
 
-    goTo(step) {
-      if (Number.isInteger(step)
-        && step < this.steps.length
-        && step >= 0) {
-        this.currentStep = step;
-      } 
-    },
-    
-    parseOptions() {
-      this.options = [];
-      for(let i = 0; i < this.steps.length; i++) {
-        this.options.push(this.steps[i].options ? this.steps[i].options : {});
-      } 
-    },
-
-    handleResize() {
-      console.log('handle resize')
-      if (this.resizer) {
-        clearTimeout(this.resizer);
-      }
-      this.resizer = setTimeout(() => {
-        console.log('resizing...');
-        this.isMobile = this.$refs['wizard-body'].clientWidth < 620;
-      }, 100);
-    },
-  },
-  mounted() {
-    this.isMobile = this.$refs['wizard-body'].clientWidth < 620;
-    window.addEventListener('resize', this.handleResize)
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize)
-  }
+		handleResize() {
+			console.log('handle resize')
+			if (this.resizer) {
+				clearTimeout(this.resizer);
+			}
+			this.resizer = setTimeout(() => {
+				console.log('resizing...');
+				this.isMobile = this.$refs['wizard-body'].clientWidth < 620;
+			}, 100);
+		},
+	},
+	mounted() {
+		this.isMobile = this.$refs['wizard-body'].clientWidth < 620;
+		window.addEventListener('resize', this.handleResize)
+	},
+	beforeDestroy() {
+		window.removeEventListener('resize', this.handleResize)
+	}
 };
 </script>
 
@@ -322,7 +329,6 @@ export default {
   top:150px;
   width:100%;  
   z-index: 1;
-  pointer-events: none;
  /* border-top:  1px solid #aebac4;*/
   /*background-color: #b9c7d2;*/
 }

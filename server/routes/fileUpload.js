@@ -2,21 +2,22 @@ const express = require('express');
 let router = express.Router();
 
 const file = require('../utils/fileUpload');
-const files = require('../models/file.js')
+const orders = require('../models/order.js')
 
-router.post('/', file.single('img'), async(req,res)=>{
-    let file = new files();
-    
-    file.imgId = req.file.filename;
+router.post('/order', file.single('img'), async(req,res)=>{
+    let orderId = req.body.orderid;
+    console.log(orderId);
+    let imgName = req.file.filename;
+    let orderData = await orders.findOne({"_id":orderId})
+    orderData.imgName = imgName;
 
     console.log("this is working?")
     try{
-        let fileSave = file.save()
-        if(fileSave){
-            res.status(200).json({});
-        }
+        let update = await orderData.save();
+        res.status(200).json({})
     }catch(err){
         console.error(err)
+        res.status(204).json();
     }
 });
 /*

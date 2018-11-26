@@ -55,8 +55,21 @@ export default {
     async asyncData (){
         let getData = await axios.get("/api/purchase/")
         //console.log(getData)
+        let goodsName;
+        let orderData = getData.data.order
+        let orderDetailLength;
+        for(let i=0;i<orderData.length;i++){
+            if(orderData[i].orderDetail.length>1){
+                orderDetailLength = orderData[i].orderDetail.length -1
+                goodsName = orderData[i].orderDetail[0].goodsType + "외 " + orderDetailLength + "건"
+            }
+            else if(orderData[i].orderDetail.length == 1){
+                goodsName = orderData[i].orderDetail[0].goodsType
+            }
+            orderData[i].goodsName = goodsName;
+        }
         return {
-            orders : getData.data.order,
+            orders : orderData,
             orderDetails : getData.data.order.orderDetail,
             totalCount: getData.data.totalCount,
             limit : getData.data.limit,
@@ -79,10 +92,11 @@ export default {
             let getData = await axios.get(url)
             let goodsName;
             let orderData = getData.data.order
+            let orderDetailLength;
             for(let i=0;i<orderData.length;i++){
                 if(orderData[i].orderDetail.length>1){
-                    goodsName = orderData[i].orderDetail[0].goodsType + "외 " + orderData[i].orderDetail.length -1 + "건"
-                    console.log(goodsName);
+                    orderDetailLength = orderData[i].orderDetail.length -1
+                    goodsName = orderData[i].orderDetail[0].goodsType + "외 " + orderDetailLength + "건"
                 }
                 else if(orderData[i].orderDetail.length == 1){
                     goodsName = orderData[i].orderDetail[0].goodsType

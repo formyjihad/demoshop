@@ -13,10 +13,10 @@
                         <th class="headName">상품명</th>
                         <th class="cols">주문금액</th>
                         <th class="cols">예상적립</th>
-                        <th class="cols">상태</th><!--
+                        <th class="cols">상태</th>
                         <th class="cols">입금은행</th>
                         <th class="cols">입금은행계좌</th>
-                        <th class="cols">입금은행계좌 주</th>-->
+                        <th class="cols">입금은행계좌 주</th>
                     </tr>
                     <tr class="t_head" v-if="!purchase.bankName">
                         <th class="cols">주문번호</th>
@@ -31,23 +31,23 @@
                     <tr class="t_body" v-if="purchase.bankName">
                         <td>{{order.orderId}}</td>
                         <td>{{order.orderDate}}</td>
-                        <td>{{order.goodsType}}</td>
+                        <td>{{order.goodsName}}</td>
                         <td>{{order.totalAmount}}원</td>
                         <td>{{order.totalAmount/100}}원</td>
-                        <td>{{status}}</td><!--
+                        <td @click="modalCheck">{{order.status}}</td>
                         <td>{{purchase.bankName}}</td>
                         <td>{{purchase.bankNum}}</td>
-                        <td>{{purchase.bankHolder}}</td>-->
+                        <td>{{purchase.bankHolder}}</td>
                         
                         
                     </tr>
                     <tr class="t_body" v-if="!purchase.bankName">
                         <td>{{order.orderId}}</td>
                         <td>{{order.orderDate}}</td>
-                        <td>{{order.goodsType}}</td>
+                        <td>{{order.goodsName}}</td>
                         <td>{{order.price}}원</td>
                         <td>{{order.price/10}}원</td>
-                        <td>{{status}}</td>
+                        <td @click="modalCheck">{{status}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -142,8 +142,12 @@
 
 <script>
 import axios from 'axios';
+import fileUpload from '../../components/modals/fileUpload.vue'
 
 export default {
+    components:{
+        fileUpload
+    },
     data(){
         return {
             purchase:[],
@@ -155,10 +159,39 @@ export default {
     async created (){
         let url = `/api/purchase/checkOrder?id=${this.orderid}`
         const checkData = await axios.get(url)
+        let orderData = checkData.data.orderData
+        console.log(orderData)
+        let orderDetailLength;
+        let goodsName;
+        if(orderData.orderDetail.length>1){
+            orderDetailLength = orderData.orderDetail.length -1
+            goodsName = orderData.orderDetail[0].goodsType + "외 " + orderDetailLength + "건"
+        }
+        else if(orderData.orderDetail.length == 1){
+            goodsName = orderData.orderDetail[0].goodsType
+        }
+        orderData.goodsName = goodsName;
         if(checkData.status == 201){
             this.purchase = checkData.data.purchase
-            this.order = checkData.data.orderData
+            this.order = orderData
             this.status = checkData.data.status
+        }
+    },
+    methods:{
+        async modalCheck(){
+            console.log("modalCheck")
+            if (this.status == "도안 업로드 대기"){
+                this.$modal.show(fileUpload,{
+                    orderid:this.orderid
+                },{
+                    height:'auto',
+                    scrollable:"true"
+                })
+                this.$nuxt.$on('file-data', data=>{
+                    this.fileData = data
+                })
+                //call Modal "fileUpload"
+            }
         }
     }
 }

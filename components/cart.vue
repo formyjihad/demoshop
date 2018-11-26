@@ -2,7 +2,7 @@
     <div class="wrap">
         <div class="section1">
             <div class="section1_box1">
-                <h1>장바구니{{discountRate}}</h1>
+                <h1>장바구니</h1>
             </div>
             <div class="section1_table">
                 <table class="t_wrap">
@@ -21,7 +21,7 @@
                         <tr class="t_body" v-for="(cart, index) in cart" :key="cart._id">
                             <td class="bodyCheck"><input type="checkbox" class="bodyCheckbox" @click="indexCheck(index)"/></td>
                             <td class="bodyName">
-                                {{cart.name}}
+                                {{cart.goodsType}}
                             </td>
                             <td class="cols">                    
                                 <button type="button" class="b2_1" @click="onDesignDecrement(index, cart.design)">-</button>

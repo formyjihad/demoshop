@@ -265,11 +265,13 @@ router.get('/checkOrder', async (req, res)=>{
                 let orderData = await orders.findOne({"purchaseId":purchaseId})
                 if(statusData.data.response.status == 'ready'){
                     let status = '결제대기'
-                    res.status(201).json({orderData, purchase, status})
+                    orderData.status = status
+                    res.status(201).json({orderData, purchase})
                 }
                 else if(statusData.data.response.status = 'paid'){
-                    let status = '주문접수'
-                    res.status(201).json({orderData, purchase, status})
+                    let status = '도안 업로드 대기'
+                    orderData.status = status
+                    res.status(201).json({orderData, purchase})
                 }
             }
         }
