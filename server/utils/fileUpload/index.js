@@ -6,6 +6,7 @@ let storage = multer.diskStorage({
         cb(null, path.join(__dirname,'../../uploads'));
     },
     filename:function(req,file,cb){
+        //console.log("multer")
         cb(null, new Date().getTime() + file.originalname);
     }
 });

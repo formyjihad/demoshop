@@ -1,56 +1,100 @@
 <template>
-    <div class= "container">
-        <p> 공지사항 </p>
-        <form @submit.prevent="event">
-            <label for="title">제목</label>
-            <input type="text" v-model="title"/><br>
-            <label for="detail">내용</label>
-            <textarea rows="5" cols="30" v-model="detail"/><br>
-            <label for="attach">첨부 파일</label>
-            <input type="file" id="img"/> <br>
-            <button type="submit">등록하기</button>
-        </form>
+    <div class="container">
+        <section class = "event">
+            <div class="event-container" v-for ="(event, index) in events" :key="event['_id']">
+                <img class = "event-box" :src='"/uploads/" + event["img"]' @click="displayToggle(index)">
+                    
+                    <div class = "event-detail" style="display:none">
+                        <div class="event-num">{{event['num']}}</div>
+                        <div class="event-title">{{event['title']}}</div>
+                        <div class="event-subdetail">{{event['detail']}}</div>
+                    </div>
+            </div>
+        </section>
+        <div class = "pagination">
+            <a href="#" @click='getPage(p)' v-for="p in pagination" :key="p">{{p+1}}</a>
+        </div>
     </div>
 </template>
 
+
 <script>
 import axios from 'axios'
-export default {
-    layout:'admin',
-    data(){
-        return {
-            title:'',
-            detail:'',
+function getPagination ({currentPage, totalCount, limit}){
+    let pn = []
+    let maxPage = Math.floor(totalCount/limit)
+    for(let i = currentPage -3; i<currentPage+3 && i<=maxPage; i++){
+        if(i>-1){
+            pn.push(i);
         }
-    },
-    methods:{
-        async event(){
-            console.log("등록 대기")
-            let formData = new FormData();
-            let fileDom = document.querySelector('#img');
-            if(this.title && this.detail){
-                formData.append("img", fileDom.files[0]);
-                formData.append("title",this.title);
-                formData.append("detail", this.detail);
-                console.log("post 대기");
-            
-            let data = await axios.post('/api/event',formData,{
-                headers:{
-                    'Content-Type':'multipart/form-data'
-                }
+    }
+    return pn
+}
+export default {
+    async asyncData(){
+        let url = "/api/event"
+        let data = await axios.get(url)
+        return{
+            events: data.data.event,
+            totalCount:data.data.totalCount,
+            limit : data.data.limit,
+            currentPage: data.data.currentPage,
+            pagination:getPagination({
+                currentPage:data.data.currentPage,
+                totalCount:data.data.totalCount,
+                limit:data.data.limit
             })
-            console.log("post 종료");
-            if(data.status == 200){
-                alert('이밴트가 정상적으로 등록되었습니다.');
-            }else if(data.status == 204){
-                alert('이밴트 등록을 실패 하였습니다.');
+        } 
+    },
+    methods : {
+        displayToggle(index){
+            console.log("work")
+            const targetIndex = index
+            let target = document.getElementsByClassName("event-detail")
+            console.log(target)
+            if(target[targetIndex].style.display=='none'){
+                target[targetIndex].style.display= 'block'
             }
-            this.$nuxt.$router.replace({ path: '/admin' });
-            }/*else{
-                alert ('빈 양식이 있습니다.')
-            }*/
+            else{
+                target[targetIndex].style.display = 'none'
+            }
+        },
+        async getPage(page){
+            let url = `/api/event?page=${page}`
+            let data = await axios.get(url)
+            
+            this.events = data.data.event
+            this.totalCount = data.data.totalCount
+            this.limit = data.data.limit
+            this.currentPage = data.data.currentPage
+            this.pagination = getPagination({
+                currentPage:data.data.currentPage,
+                totalCount:data.data.totalCount,
+                limit:data.data.limit
+            })
         }
     }
 }
 </script>
 
+<style>
+.container{
+    text-align: center;
+    margin-top: 3%;
+}
+.event-title{
+    font-size: 25px;
+    font-weight: 500;
+    display: block;
+    width: 120px;
+    border-bottom: 2px solid #bcbcbc;
+    margin: 20px auto;
+}
+.event-subdetail{
+    font-size: 15px;
+    margin-top: 2%;
+}
+.pagination{
+    display: inline-block;
+}
+</style>

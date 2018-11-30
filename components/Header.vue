@@ -50,7 +50,7 @@ export default {
     display: inline-block;
     height:18vh;
     width:100%;
-    background-color: #FFF4B5;
+    background-color: #565656;
     vertical-align:middle;
 }
 .header .logo{
@@ -65,7 +65,6 @@ export default {
 }
 .header .cols{
     display: inline-block;
-    line-height: 50px;
     font-size: 18px;
     width:21%;
     font-family: Arial, Helvetica, sans-serif;
@@ -75,7 +74,7 @@ export default {
 }
 
 .header .cols a{
-    color: #454545;
+    color: #ccc;
     text-decoration: none;
 }
 

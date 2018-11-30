@@ -45,7 +45,7 @@ let orderDetailSchema = new Schema({
         required: true
     },
 
-    printside: {
+    printSide: {
         type: String,
         default: "front",
         required: true
@@ -70,7 +70,8 @@ let orderSchema = new Schema({
     status: String,
     purchaseId:String,
     orderName:String,
-    imgName:String
+    imgName:String,
+    count:Number
 });
 
 module.exports = mongoose.model('order', orderSchema);

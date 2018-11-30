@@ -7,7 +7,7 @@
 					<input type="number" min="4" max="59" v-model="xsize" placeholder="4"> *
 					<input type="number" min="4" max="59" v-model="ysize" placeholder="4">
 					<br>
-					<span>주문 사이즈 : {{ xsize }} * {{ ysize }} cm / {{ xsize*0.3937 }} * {{ ysize*0.3937 }} inch</span>
+					<span>주문 사이즈 : {{ xsize }} * {{ ysize }} cm</span>
 				</div>
 			</div>
 			<div class="slots" slot="slot2">
@@ -354,13 +354,13 @@ export default {
 				goodsType:type,
 				quantity:quantity,
 				price:price,
-				xsize:xSize,
-				ysize:ySize,
-				thick:thickPrice,
+				xSize:xSize,
+				ySize:ySize,
+				thick:this.thick,
 				stand:this.stand,
 				subItem:this.subitem,
 				packing:this.packing,
-				printside:sidePrice,
+				printSide:this.printside,
 				design:design,
 				//img:uploadImg.name,
 				orderDate:nowTime,

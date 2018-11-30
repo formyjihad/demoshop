@@ -90,28 +90,38 @@ router.post('/', (req, res)=>{
     })
 })
 
-router.get('/', (req,res,next)=>{
+router.get('/', async (req,res,next)=>{
     //console.log(req)
     let userId = req.user.uid;
     //console.log(userId)
     let page = req.query.page || 0
     let limit = 5;
     let offset = page * limit;
-    
-    orders.find({"uid":userId})
-    .select({})
-    .limit(limit)
-    .skip(offset)
-    .exec(function(err, order){
-        orders.countDocuments().exec(function(err, count){
-            res.json({
-                order:order,
-                limit:limit,
-                currentPage:page,
-                totalCount:count
+    try{
+        //console.log("checking")
+        if(req.user.uid){
+            orders.find({"uid":userId})
+            .select({})
+            .limit(limit)
+            .skip(offset)
+            .exec(function(err, order){
+                orders.countDocuments().exec(function(err, count){
+                    res.json({
+                        order:order,
+                        limit:limit,
+                        currentPage:page,
+                        totalCount:count
+                    })
+                })
             })
-        })
-    })
+        }
+    }
+    catch(err){
+        console.error(err);
+        res.status(500).send(err);
+    }
+    
+    
 })
 
 async function sheetPost(values){
@@ -134,7 +144,7 @@ async function sheetPost(values){
             }
         });
     
-        console.log(sheetData);
+        //console.log(sheetData);
         let sheet = JSON.stringify(sheetData.data);
         return sheet;
     }
@@ -168,6 +178,7 @@ router.post('/save', async (req, res)=>{
     order.orderId = data.orderId;
     order.purchaseId = data.purchaseId;
     order.orderDate = nowTime;
+    order.count = 3;
     order.status = "file-confirm"
     
     for(let i=0; i<req.body.cart.length; i++){
@@ -175,8 +186,8 @@ router.post('/save', async (req, res)=>{
         order.orderDetail[i] = data.cart[i]
 
         value.push(data.orderId, nowTime, data.dName, data.orderName, "", "", data.phoneNumber,data.address)
-        value.push(data.cart[i].goods)  //아크릴 상품 타입
-        value.push(data.cart[i].printside)
+        value.push(data.cart[i].goodsType)  //아크릴 상품 타입
+        value.push(data.cart[i].printSide)
         value.push(data.cart[i].xSize)
         value.push(data.cart[i].ySize)
         value.push(data.cart[i].stand)    //바닥부품
@@ -185,6 +196,8 @@ router.post('/save', async (req, res)=>{
         value.push(data.cart[i].subItem)   //부속품
         value.push(data.cart[i].packing)
         value.push(data.totalAmount)
+        value.push("3500")
+        value.push(order.orderId+"-DesignFile")
         value.push(data.cart[i].img)
         value.push(data.status)
         values.push(value)
@@ -230,6 +243,72 @@ router.post('/noSign', (req, res)=>{
     });
 });
 
+router.get('/checkStatus', async(req,res)=>{
+    let purchaseId = req.body.purchaseId;  //5bb6e96ed3476b1b8cb70833
+    //console.log(purchaseId);
+    try{
+        //console.log("checking")
+        if(req.user.uid){
+            let purchase = await purchases.findOne({"_id":purchaseId})
+            //console.log(purchase);
+            let impUid = purchase.impUid;
+                        
+            let tokenData = await axios.post("https://api.iamport.kr/users/getToken", {
+                imp_key: IMP_KEY, // REST API키
+                imp_secret: IMP_SECRET // REST API Secret
+            })
+            //console.log(tokenData)
+            if(tokenData.data.code !== 0){
+                console.log("토큰 취득 실패")
+                
+                res.status(204).json({});
+            }else{
+                //console.log(result)
+               // console.log(impUid)
+                //console.log(tokenData.data.response.access_token)
+                const author = "Bearer "+tokenData.data.response.access_token
+                //console.log(author)
+                let statusUrl = 'https://api.iamport.kr/payments/'+impUid
+                let statusData = await axios.get(statusUrl,{
+                    headers: {
+                        "Content-Type": "application/json", // "Content-Type": "application/json"
+                        "Authorization": author // 발행된 액세스 토큰
+                    },
+                })
+                let orderData = await orders.findOneAndUpdate({"purchaseId":purchaseId},{$set:{status:statusData.data.response.status}})
+                if(orderData.status == 'ready'){
+                    let status = '결제대기'
+                    orderData.status = status
+                    res.status(201).json({orderData, purchase})
+                }
+                else if(orderData = 'paid'){
+                    let status = '도안 업로드 대기'
+                    orderData.status = status
+                    res.status(201).json({orderData, purchase})
+                }
+            }
+        }
+    }
+    catch(err){
+        console.error(err)
+        res.status(204).json(err)
+    }
+})
+
+router.post('/updateStatus', async(req,res)=>{
+    let purchaseId = req.body.purchaseId;
+    let status = req.body.statusUpdate
+    try{
+        //console.log(purchaseId);
+        //console.log(status)
+        let updateData = await orders.findOneAndUpdate({purchaseId:purchaseId}, {$set:{status:status}})
+        //console.log(updateData)
+
+    }catch(err){
+        console.error(err)
+    }
+})
+
 router.get('/checkOrder', async (req, res)=>{
     let purchaseId = req.query.id;  //5bb6e96ed3476b1b8cb70833
     //console.log(purchaseId);
@@ -262,13 +341,14 @@ router.get('/checkOrder', async (req, res)=>{
                         "Authorization": author // 발행된 액세스 토큰
                     },
                 })
-                let orderData = await orders.findOne({"purchaseId":purchaseId})
-                if(statusData.data.response.status == 'ready'){
+                let orderData = await orders.findOneAndUpdate({"purchaseId":purchaseId},{$set:{status:statusData.data.response.status}})
+                console.log(orderData);
+                if(orderData.status == 'ready'){
                     let status = '결제대기'
                     orderData.status = status
                     res.status(201).json({orderData, purchase})
                 }
-                else if(statusData.data.response.status = 'paid'){
+                else if(orderData = 'paid'){
                     let status = '도안 업로드 대기'
                     orderData.status = status
                     res.status(201).json({orderData, purchase})

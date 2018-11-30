@@ -6,7 +6,7 @@
             </div>
             <div class="sec1_2">
                 <h2>주문번호</h2>
-                {{order.orderId}}
+                {{purchase.orderId}}
             </div>
             <div class="sec1_3">
                 <h3>배송지 정보</h3> 
@@ -29,7 +29,11 @@
                     <li>상품</li><li>가격</li><li>수량</li><li>할인</li><li>총계</li>
                 </ul>
             </div>
-            <div class="sec2_2"></div>
+            <div class="sec2_2">
+                <ul v-for="orderDetail in orderDetail" :key="orderDetail">
+                    <li>{{orderDetail.goodsType}}</li><li>{{orderDetail.price*orderDetail.quantity+(orderDetail.design*5500)}}</li><li>{{orderDetail.quantity}}</li><li><!--{{sale}}--></li><li>{{order.totalAmount}}</li>
+                </ul>
+            </div>
         </div>
 
         <div class="section3">
@@ -64,10 +68,11 @@ export default {
         let url = `/api/purchase/checkOrder?id=${this.orderId}`
         const checkData = await axios.get(url)
         console.log("break")
-        console.log(checkData.data)
+        console.log(checkData.data.orderData)
         if(checkData.status == 201){
             this.purchase = checkData.data.purchase
             this.order = checkData.data.orderData
+            this.orderDetail = checkData.data.orderData.orderDetail
             this.status = checkData.data.status
         }
         
@@ -95,6 +100,9 @@ export default {
 	.sec2_1 ul li { width:12.5%; height:100%; display:inline-block; text-align:center; line-height:50px; font-size:14px; }
 	.sec2_1 ul li:nth-child(1) { width:45%; }
 	.sec2_2 { width:100%; height:299px; }
+    .sec2_2 ul { width:90%; margin:auto; }
+	.sec2_2 ul li { width:12.5%; display:inline-block; text-align:center; line-height:50px; font-size:14px; }
+	.sec2_2 ul li:nth-child(1) { width:45%; }
 
 	.section3 { width:100%; text-align:center; padding-bottom:70px; border-bottom:1px solid  #e9e9e9; margin-top:70px; }
 	.section3 .btn { text-align:center; width:150px; height:40px; background-color:#000; color:#fff; font-size:14px; font-weight:900; display:inline-block; margin-right: 15px; }

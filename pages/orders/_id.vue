@@ -47,7 +47,7 @@
                         <td>{{order.goodsName}}</td>
                         <td>{{order.price}}원</td>
                         <td>{{order.price/10}}원</td>
-                        <td @click="modalCheck">{{status}}</td>
+                        <td @click="modalCheck">{{order.status}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -117,7 +117,7 @@
             <ul class="box2_bottom">
                 <li>1</li>
                 <li>2</li>
-                <li>3</li>
+                <li @click="modalCheck">업로드 가능 횟수 : {{order.count}}</li>
                 <li>4</li>
                 <li>5</li>
                 <li>6</li>
@@ -153,14 +153,13 @@ export default {
             purchase:[],
             order:[],
             orderid:this.$route.params.id,
-            status:[]
         }
     },
     async created (){
         let url = `/api/purchase/checkOrder?id=${this.orderid}`
         const checkData = await axios.get(url)
         let orderData = checkData.data.orderData
-        console.log(orderData)
+        //console.log(orderData)
         let orderDetailLength;
         let goodsName;
         if(orderData.orderDetail.length>1){
@@ -174,21 +173,17 @@ export default {
         if(checkData.status == 201){
             this.purchase = checkData.data.purchase
             this.order = orderData
-            this.status = checkData.data.status
         }
     },
     methods:{
         async modalCheck(){
             console.log("modalCheck")
-            if (this.status == "도안 업로드 대기"){
+            if (this.order.status == "결제대기" || this.order.status == "도안 업로드 대기"){
                 this.$modal.show(fileUpload,{
-                    orderid:this.orderid
+                    purchaseId:this.orderid
                 },{
                     height:'auto',
-                    scrollable:"true"
-                })
-                this.$nuxt.$on('file-data', data=>{
-                    this.fileData = data
+                    scrollable:true
                 })
                 //call Modal "fileUpload"
             }

@@ -66,6 +66,9 @@ export default {
             else if(orderData[i].orderDetail.length == 1){
                 goodsName = orderData[i].orderDetail[0].goodsType
             }
+            let checkOrder = await axios.get('/api/purchase/checkStatus',{
+                purchaseId:orderData[i].purchaseId
+            })
             orderData[i].goodsName = goodsName;
         }
         return {

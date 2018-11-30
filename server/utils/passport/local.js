@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const jwt = require('jsonwebtoken')
+const {Secret_key} = require('../../../config/jwt')
 
 const users = require('../../models/user.js');
 
@@ -27,7 +28,8 @@ module.exports = new LocalStrategy({
         try
         {
             if(loginData.password == password){
-                const accessToken = jwt.sign({id:userid, status:loginData.status}, "Secret_key" ,{expiresIn:'1d'});
+                console.log(Secret_key)
+                const accessToken = jwt.sign({id:userid, status:loginData.status}, Secret_key ,{expiresIn:'1d'});
                 return done(null, {
                     uid:loginData.uid,
                     status:loginData.status,
