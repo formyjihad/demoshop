@@ -17,7 +17,11 @@ export default {
 </script>
 
 <style scoped>
+html{
+  
+  font-family: Arial, Helvetica, sans-serif
 
+}
 .nuxt{
   height: 100%
 }

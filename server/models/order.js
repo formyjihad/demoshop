@@ -71,7 +71,10 @@ let orderSchema = new Schema({
     purchaseId:String,
     orderName:String,
     imgName:String,
-    count:Number
+    count:Number,
+    phoneNum:String,
+    totalDiscountAmount:Number,
+    deliveryPrice:Number,
 });
 
 module.exports = mongoose.model('order', orderSchema);

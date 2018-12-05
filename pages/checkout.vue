@@ -17,7 +17,7 @@
                 <tbody>
                     <tr class="t_body" v-for="cart in cart" :key="cart._id">
                         <td class="bodyName">
-                            {{cart.name}}
+                            {{cart.goodsType}}
                         </td>
                         <td class="cols">
                             {{cart.price*cart.quantity+(cart.design*5500)}}
@@ -26,10 +26,10 @@
                             {{cart.quantity}}
                         </td>
                         <td>
-                            {{(cart.price*cart.quantity+(cart.design*5500))*(discountRate/100)}}
+                            {{Math.ceil((cart.price*cart.quantity+(cart.design*5500))*(discountRate/100))}}
                         </td>
                         <td>
-                            {{(cart.price*cart.quantity+(cart.design*5500))-(cart.price*cart.quantity+(cart.design*5500))*(discountRate/100)}}
+                            {{(cart.price*cart.quantity+(cart.design*5500))-Math.ceil((cart.price*cart.quantity+(cart.design*5500))*(discountRate/100))}}
                         </td>
                     </tr>
                 </tbody>
@@ -68,29 +68,69 @@
                 <label><input type="radio" id="newAdd" v-model="deliveryType" value="newAddress"/>신규 배송지</label>
             </div>
             <div class = "address" v-if="deliveryType=='newAddress'">
-                <input id="d-name" type="text" v-model="dName" placeholder="주문자 성명"><br>
-                <input id="d-phoneNumber" type="text" v-model="dPhoneNumber" placeholder="주문자 전화번호"><br>
-                <input id="d-email" type="email" v-model="dMail" placeholder="주문자 이메일"><br>
-                <input id="postCode" type="text" v-model="dPostCode" @click="callPostOffice" autocomplete="off" placeholder="우편번호"><br>
-                <input id="address" type="text" v-model="dAddressData" @click="callPostOffice" autocomplete="off" placeholder="주소"><br>
-                <input id="addressDetail" type="text" v-model="dAddressDetail" placeholder="상세주소"><br>
+                <table>
+                    <tr>
+                        <td>배송자명</td>
+                        <td><input id="d-name" type="text" v-model="dName" placeholder="주문자 성명"></td>
+                    </tr>
+                    <tr>
+                        <td>연락처</td>
+                        <td><input id="d-phoneNumber" type="text" v-model="dPhoneNumber" placeholder="주문자 전화번호"></td>
+                    </tr>    
+                    <tr>
+                        <td>이메일</td>
+                        <td><input id="d-email" type="email" v-model="dMail" placeholder="주문자 이메일"></td>
+                    </tr>
+                    <tr>
+                        <td>우편번호</td>
+                        <td><input id="postCode" type="text" v-model="dPostCode" @click="callPostOffice" autocomplete="off" placeholder="우편번호"></td>
+                    </tr>
+                    <tr>
+                        <td>주소</td>
+                        <td><input id="address" type="text" v-model="dAddressData" @click="callPostOffice" autocomplete="off" placeholder="주소"></td>
+                    </tr>
+                    <tr>
+                        <td>상세주소</td>
+                        <td><input id="addressDetail" type="text" v-model="dAddressDetail" placeholder="상세주소"></td>
+                    </tr>
+                </table>        
             </div>
             <div class = "address" v-else-if="deliveryType=='userAddress'">
-                <input id="username" type="text" v-model="userName" placeholder="주문자 성명" disabled><br>
-                <input id="userPhoneNum" type="text" v-model="phoneNumber" placeholder="주문자 전화번호" disabled><br>
-                <input id="d-email" type="email" v-model="email" placeholder="주문자 이메일" disabled><br>
-                <input id="postCode" type="text" v-model="postCode" placeholder="우편번호" disabled><br>
-                <input id="address" type="text" v-model="addressData" placeholder="주소" disabled><br>
-                <input id="addressDetail" type="text" v-model="addressDetail" placeholder="상세주소" disabled><br>
+                <table>
+                    <tr>
+                     <td>배송자명</td>
+                     <td><input id="username" type="text" v-model="userName" placeholder="주문자 성명" disabled></td>
+                    </tr>
+                    <tr>
+                     <td>연락처</td>
+                     <td><input id="userPhoneNum" type="text" v-model="phoneNumber" placeholder="주문자 전화번호" disabled></td>
+                    </tr>
+                    <tr>
+                     <td>이메일</td>
+                     <td><input id="d-email" type="email" v-model="email" placeholder="주문자 이메일" disabled></td>
+                     </tr>
+                    <tr>
+                     <td>우편번호</td>
+                     <td><input id="postCode" type="text" v-model="postCode" placeholder="우편번호" disabled></td>
+                    </tr>
+                    <tr>
+                     <td>주소</td>
+                     <td><input id="address" type="text" v-model="addressData" placeholder="주소" disabled></td>
+                    </tr>
+                    <tr>
+                     <td>상세주소</td>
+                     <td><input id="addressDetail" type="text" v-model="addressDetail" placeholder="상세주소" disabled></td>
+                    </tr>
+                </table>    
             </div>
         </div>
         <div class="promotion">
             <div class="promo_left">
-                <h3>할인</h3>
-                <p>쿠폰</p>
+                <div><h3>할인</h3> </div>
+                <form class="coupon" @submit.prevent="checkCoupon"><p>쿠폰</p><input type="text" v-model="couponCode"><button type="submit">코드입력</button></form>
                 <!--<input type="text" @change="checkPromo">-->
-                <p>마일리지</p>
-                <p>TEST</p>
+                <div class="Mileage"><p>내 마일리지</p><id class="num">{{point}}</id></div>
+                <div class="m_Mileage"><p>사용할 마일리지</p><input type="number" min=0 :max="point" v-model="usePoint" @input="changePoint"></div>
                 <!--{{point}}-->
             </div>
             <div class="promo_right">
@@ -103,16 +143,16 @@
                  
                     <tr>
                         <td>배송비</td>
-                        <td>3500</td>
+                        <td>{{deliveryPrice}}</td>
                     </tr>
                     <tr>
                         <td>할인 금액</td>
-                        <td>{{totalDiscountAmount}}</td>
+                        <td>{{totalDiscountAmount+couponDiscount+usePoint}}</td>
                     </tr>
                     <!--<p>{{salePrice}}</p>-->
                     <tr>
                         <td>결제 금액</td>
-                        <td>{{totalAmount + 3500 - totalDiscountAmount}}</td>
+                        <td>{{fullPrice}}</td>
                     </tr>
                 </table>
             </div>
@@ -147,7 +187,13 @@ export default {
             dPostCode:"배송자 우편번호",
             dAddressData:"배송자 주소",
             dAddressDetail:"배송자 상세 주소",
-            discountRate:0
+            discountRate:0,
+            couponCode:'',
+            couponDiscount:0,
+            deliveryPrice:3500,
+            
+            point:0,
+            max:this.point
         }
     },
     async asyncData(){
@@ -164,6 +210,7 @@ export default {
                     userName:userData.userName,
                     postCode:userData.postCode,
                     uid:userData.userid,
+                    point:userData.point,
                 }
             }
         }catch(err){
@@ -175,10 +222,17 @@ export default {
             return this.cart()
         },
         totalAmount(){
-            return this.totalAmount()
+            return parseInt(this.totalAmount())
+        },
+        fullPrice(){
+            let totalAmount = this.totalAmount
+            let deliveryPrice = this.deliveryPrice
+            let discountAmount = this.totalDiscountAmount+parseInt(this.couponDiscount) + parseInt(this.usePoint)
+            let val = totalAmount-discountAmount+deliveryPrice
+            return val
         },
         totalDiscountAmount(){
-            return this.totalDiscountAmount()
+            return parseInt(this.totalDiscountAmount())
         },
         ...mapGetters({
             isLogin:'users/isLogin',
@@ -188,7 +242,10 @@ export default {
         }),
     },
     props:{
-        
+        usePoint:{
+            default:0,
+            type:Number
+        },
         deliveryType:{
             default: "userAddress",
             required: true
@@ -203,7 +260,7 @@ export default {
         let discountData = await axios(url);
         this.discountRate=discountData.data.rate;
         for(let i = 0; i<this.cart.length;i++ ){
-            this.updateDiscount({
+            this.$store.dispatch('carts/updateDiscount',{
                 index:i,
                 unit:this.discountRate,
                 cart:this.cart
@@ -216,7 +273,36 @@ export default {
         IMP.init(IMP_CODE)
     },
     methods:{
+        async changePoint(){
+            let point = this.point
+            let target = this.usePoint
+
+            if (target > point){
+                this.usePoint = parseInt(point)
+            }
+            else if(target < 0){
+                this.usePoint = 0
+            }
+            else{
+                this.usePoint = parseInt(target)
+            }
+        },
+        async checkCoupon(){
+            let url = '/api/coupon/';
+            let couponData = await axios.post(url, {code:this.couponCode,totalAmount:this.totalAmount});
+            if(couponData.status==200){
+                console.log(couponData)
+                this.couponDiscount = parseInt(couponData.data.discountAmount)
+            }
+            else if(couponData.status==204){
+                alert("잘못된 쿠폰 번호 입니다. \n쿠폰번호를 다시 한번 확인해주십시오.")
+            }
+
+        },
         selfDelivery(){
+            if(this.selfDelivery == true){
+                this.deliveryPrice =0;
+            }
             
             if(this.deliveryType == 'newAddress'){
                 this.dAddressData = 'self'
@@ -253,7 +339,7 @@ export default {
                 url = '/api/purchase'
             }
             let buyerAddress = ''
-            let amount = Number(this.totalAmount)-Number(this.totalDiscountAmount)+3500
+            let amount = this.fullPrice;
             const date = new Date()
             const month = date.getMonth()+1;
             const day = date.getDay();
@@ -277,13 +363,17 @@ export default {
 
             const orderData = {
                 orderName:name,
+                phoneNumber:this.phoneNumber,
                 dName:this.dName,
                 postCode:pCode,
                 address:buyerAddress,
                 cart:this.cart,
                 price:this.totalAmount,
+                deliveryPrice:this.deliveryPrice,
                 totalAmount:amount,
-                totalDiscountAmount:this.totalDiscountAmount,
+                usePoint:this.usePoint,
+                couponCode:this.couponCode,
+                totalDiscountAmount:this.totalDiscountAmount+this.couponDiscount+this.usePoint,
             }
             
             //console.log(this.paymentType)
@@ -328,10 +418,14 @@ export default {
                             address:res.custom_data.address,
                             cart:res.custom_data.cart,
                             price:res.custom_data.price,
+                            couponCode:res.custom_data.couponCode,
                             totalAmount:res.custom_data.totalAmount,
+                            deliveryPrice:res.custom_data.deliveryPrice,
+                            usePoint:res.custom_data.usePoint,
                             totalDiscountAmount:res.custom_data.totalDiscountAmount,
                             purchaseId:postData.data.purchase._id,
-                            orderId:postData.data.purchase.orderId
+                            orderId:postData.data.purchase.orderId,
+                            phoneNumber:res.custom_data.phoneNumber
                         })
                         //console.log(saveData)
                         location.href = "/checkConfirm/"+postData.data.purchase._id
@@ -458,7 +552,7 @@ export default {
 }
 
 
-.userInfo { width:100%; height:200px;
+.userInfo { width:100%; height:150px;
         border-bottom:1px solid #000; }
 .userInfo h3 { 
     
@@ -471,7 +565,13 @@ export default {
 .userInfo table{
     width:50%; height:35px;
     font-size:14px;text-align: left;
-    margin-left:50px; 
+    margin-left:10px; 
+}
+.userInfo table tr {
+    text-align: left;
+}
+.userInfo table tr td{
+    width: 20px; 
 }
 
 .delivery { width:100%; height:280px;
@@ -483,12 +583,13 @@ export default {
     font-size:20px;
     height:35px;}
 .delivery .header #loadUser { margin-top:15px; }
-.delivery .header label { margin-top:15px; margin-right:5px; font-size:14px; }
+.delivery .header label { margin-top:15px; margin-right:10px; font-size:14px; }
 .delivery .body { width:100%; height:30px; clear: both; margin-left:15px;}
+.delivery .body label:nth-child(2) { margin-left: 20px; }
 .delivery .address input{
     margin-left:20px
 }
-.promotion { width:100%; height:200px;
+.promotion { width:100%; height:150px;
     border-bottom:1px solid #000; }
 .promotion .promo_left { width:50%; height:100%; float:left; text-align: left;}
 .promotion .promo_left h3 { 
@@ -498,9 +599,20 @@ export default {
     font-size:20px;
     height:35px;}
 .promotion .promo_left p { padding-left:15px; font-size:14px; margin-bottom:2px; }
+
+.promotion .promo_left .coupon { display: inline-block;}
+.promotion .promo_left .coupon p{display: inline-block;}
+.promotion .promo_left .coupon input{margin-left:85px; display: inline-block;}
+.promotion .promo_left .coupon button{background-color: #000; color:#fff; border: #000 2px solid; margin-left: 5px; font-size: 15px; }
 .promotion .promo_left input{
     margin-bottom:3px
 }
+.promotion .promo_left .Mileage p{display: inline-block;}
+.promotion .promo_left .Mileage .num {display: inline-block; margin-left: 40px;}
+
+.promotion .promo_left .m_Mileage p{display: inline-block;}
+.promotion .promo_left .m_Mileage input{margin-left:10px; display: inline-block;}
+
 .promotion .promo_right { width:50%; height:100%; float:left; text-align: left; }
 .promotion .promo_right h3 { 
     padding:10px 10px 7px;
@@ -509,6 +621,8 @@ export default {
     font-size:20px;
     height:35px;}
 .promotion .promo_right table { font-size:14px; margin-left:15px; margin-bottom:5px;}
+.promotion .promo_right table tr { }
+.promotion .promo_right table tr td { width: 100px;}
 .payment{
     width:100%; height:100px; border-bottom:1px solid #000; 
 }
@@ -519,7 +633,8 @@ export default {
     font-size:20px;
     height:35px;
 }
-.payment label { margin-top:15px; margin-right:5px; font-size:14px; }
+.payment label { margin-top:5px; margin-right:5px; font-size:14px;}
+.payment label:nth-child(3) { margin-left: 20px; }
 
 .confirm {
     width:100%; height:100px; overflow:hidden;
@@ -527,4 +642,7 @@ export default {
 .confirmBtn {
     width:100px; height:30px; background-color:#000; color:#fff; font-size:14px; text-align:center; line-height:30px; margin:15px auto 0; cursor:pointer;
 }
+
+.address{width:100%; height: 100px; margin-left: 30px;}
+
 </style>

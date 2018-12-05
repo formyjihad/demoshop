@@ -12,7 +12,7 @@ export const totals = (payloadArr)=>{
     }).reduce((a,b)=>a+b,0);
     
     const totalDiscountAmount = payloadArr.map(cartArr =>{
-        return (cartArr.price * cartArr.quantity + (cartArr.design*5500))*cartArr.discountRate/100;
+        return Math.ceil((cartArr.price * cartArr.quantity + (cartArr.design*5500))*cartArr.discountRate/100);
     }).reduce((a,b)=>a+b,0);
 
     return {
@@ -137,3 +137,4 @@ export const getters = {
         return state.totalDiscountAmount
     }
 }
+export const strict = false

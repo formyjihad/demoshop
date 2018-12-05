@@ -2,7 +2,7 @@
     <div class="container">
         <div class="check" v-if="isLogin && passChecked==false">
             <form @submit.prevent="reCheck">
-                <p>개인정보 확인을 위해 다시 한번 패스워드를 입력해주세요.</p>
+                <p style="font-weight: 700;">개인정보 확인을 위해 다시 한번 패스워드를 입력해주세요.</p>
                 <label>패스워드 <input type="password" id="checkInput" v-model="targetPass"></label>
                 <button type="submit">확인</button>
             </form>
@@ -181,4 +181,12 @@ export default {
     border:2px solid #000;
     box-sizing:border-box;
     line-height:30px;  }
+.check{
+    text-align: center;
+    margin-top: 200px;
+}
+label{
+    font-size: 15px;
+    margin-right: 10px;
+}
 </style>

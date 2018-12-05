@@ -26,10 +26,10 @@
                     <div class="right col-10"><input id="postCode" type="text" v-model="postCode" @click="callPostOffice"></div>
 
                     <div class="left col-2"><p>주소</p></div>
-                    <div class="right col-10"><input id="address" type="text" v-model="addressData"></div>
+                    <div class="right col-10"><input id="address" type="text" v-model="addressData" disabled></div>
 
                     <div class="left col-2"><p>상세주소</p></div>
-                    <div class="right col-10"><input id="addressDetail" type="text" v-model="addressDetail"></div>
+                    <div class="right col-10"><input id="addressDetail" type="text" v-model="addressDetail" disabled></div>
                 </div>
             </div>
             <div class="sec_btn">
@@ -62,7 +62,7 @@ export default {
     beforeMount() {
         IMP.init(IMP_CODE)
     },
-    methods:{
+    methods:{/*
         phoneCheck(){
             const url = '/api/users/phoneCheck'
             IMP.certification({
@@ -79,7 +79,7 @@ export default {
                     alert(`인증에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
                 }
             });
-        },
+        },*/
         passwordCheck(value){
             if(value != this.password){
                 alert("패스워드가 잘못되었습니다");
@@ -120,7 +120,10 @@ export default {
             })
             this.$nuxt.$on('address-detail',data=>{
                 this.addressDetail = data
+                let addressBox = document.getElementById('addressDetail');
+                addressBox.disabled = false;
             })
+            
         },
         async signup (){
             if(this.uid && this.password){
@@ -149,25 +152,34 @@ export default {
 }
 </script>
 
-<style>
+<style >
+.container{
+    text-align: center;
+    margin-top: 30px;
+}
 .signup{
     max-width: 1000px;
     text-align: left;
+    margin-top: 50px;
+    border-bottom: 1px solid #000000;
 }
 .signup div{
+    width: 100%;
     height: 100%;
     line-height: 50px;
+    text-align: left;
 }
 .signup input{
     width: 25%;
     height: 30px;
-    margin-left: 10px;
     margin-right: 10px;
+    text-align: left;
 }
 .signup .left{
     border-top: 1px solid #000000;
     border-right: 1px solid #000000;
     padding-left:20px;
+    background-color: #b6b6b6;
 
     
 }
@@ -186,17 +198,16 @@ export default {
     border-bottom:1px solid #000;
 }
 
-.sec_btn{
-    width:100px;
-    height:50px;
-    margin-top:50px;
-    text-align:center;
-}
+
+
 .sec_btn .btn{
     width:150px;
     height:100%;
     background-color:#000;
     color:#FFF;
     font-size:18px;
+    text-align: center;
 }
+
+
 </style>

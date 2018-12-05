@@ -17,7 +17,7 @@ let cartSchema = new Schema({
         default: 4,
         required: true,
         validator: function(value) {
-          return value >= 0;
+        return value >= 0;
         }
     },
     thick: {
@@ -26,7 +26,15 @@ let cartSchema = new Schema({
         required: true
     },
 
-    stand : Number,
+    stand : {
+        type: String,
+        default:"4cm",
+    },
+    
+    goodsType:{
+        type:String
+    },
+
     subItem: {
         type: String,
         default: "oppOnly",
@@ -39,20 +47,18 @@ let cartSchema = new Schema({
         required: true
     },
 
-    printside: {
+    printSide: {
         type: String,
         default: "front",
         required: true
     },
-
+    price:Number,
+    quantity:Number,
+    design:Number,
+    
     orderDate : {
         type: Date,
-        default:Date.now
     },
-
-    address : String,
-    price : Number,
-    design:Number,
     discountRate:Number,
 });
 

@@ -1,9 +1,17 @@
 <template>
     <div class="modal-body">
-        <form @submit.prevent="uploadImg">
-            <label><input type="file" id="img"/></label>
+        <form @submit.prevent="uploadImg" v-if="count>0">
+            <p>앞으로 {{count}}번 업로드 가능</p>
+            <input type="file" id="img"/>
             <div class="uprd">
                 <button type="submit">업로드</button>
+            </div>
+        </form>
+        <form @submit.prevent="uploadImg" v-else>
+            <p>앞으로 {{count}}번 업로드 가능</p>
+            <input type="file" id="img" disabled/>
+            <div class="uprd">
+                <button type="submit" disabled>업로드</button>
             </div>
         </form>
     </div>  
@@ -15,7 +23,8 @@ import axios from 'axios'
 
 export default {
     props:[
-        'purchaseId'
+        'purchaseId',
+        'count'
     ],
     methods:{
         async uploadImg(){
@@ -32,12 +41,12 @@ export default {
             })
             console.log("post 종료");
             if(data.status == 200){
-                alert('도안 파일이 정상적으로 등록되었습니다.');
                 let url = '/api/purchase/updateStatus'
                 let postData = await axios.post(url, {
                     purchaseId:this.purchaseId,
                     statusUpdate:"file-confirm"
                 })
+                alert('도안 파일이 정상적으로 등록되었습니다.');
                 this.$emit('close');
             }else if(data.status == 204){
                 alert('도안 파일 업로드가 실패 하였습니다.');

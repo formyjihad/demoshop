@@ -1,8 +1,8 @@
 <template>
     <div class="modal-body">
-        <label for="argumentInput">우편 번호 검색</label><br>
-        <input id="argumentInput" type="text" v-model="arg" placeholder="동, 구, 면을 입력하세요">
-        <button @click="callPostOffice(arg)">검색하기</button>
+        <label for="argumentInput"><strong>우편 번호 검색</strong></label><br>
+        <div class="argumentInput"><input id="argumentInput" type="text" v-model="arg" placeholder="동, 구, 면을 입력하세요">
+        <button @click="callPostOffice(arg)">검색하기</button></div>
     
         <div class="addressList">
             <table>
@@ -12,11 +12,11 @@
                     <td>{{address.roadAddr}}</td>
                 </tr>
             </table>
-            <a href="#" @click='getPage(arg, page)' v-for="page in pagination" :key="page">{{page+1}}</a>
+            <div class="number"><a href="#" @click='getPage(arg, page)' v-for="page in pagination" :key="page">{{page+1}}</a></div>
         </div>
         <div class="addressData">
             <input type="text" v-model="postCode" placeholder="우편번호"><br>
-            <input type="text" v-model="addressData" placeholder="주소">
+            <input type="text" v-model="addressData" placeholder="주소"><br>
             <input type="text" v-model="addressDetail" placeholder="상세주소">
             <button type="submit" @click="sendToParent(postCode, addressData, addressDetail)">입력</button>
         </div>
@@ -109,6 +109,51 @@ export default {
 </script>
 
 <style>
+.addressData button {padding: 5px 10px 5px 10px;
+   border: solid 1px #CCC;
 
+   background: #fff;
+   text-shadow: 0px 1px 0px #000;
+    font-size: 15px;
+    color: #565656;
+
+   border-radius: 5px;
+   -moz-border-radius: 5px;
+   -webkit-border-radius: 5px;
+
+   box-shadow: 0 1px 3px #111;
+   -moz-box-shadow: 2px 2px 1px #999;
+   -webkit-box-shadow: 2px 2px 1px #999;
+   margin-left: 5px;
+}
+
+.modal-body{width: 100%; height: 100%;}
+.argumentInput input {width:250px; height: 25px; margin-bottom: 5px; }
+.argumentInput button {padding: 5px 10px 5px 10px;
+   border: solid 1px #CCC;
+
+   background: #fff;
+   text-shadow: 0px 1px 0px #000;
+    font-size: 15px;
+    color: #565656;
+
+   border-radius: 5px;
+   -moz-border-radius: 5px;
+   -webkit-border-radius: 5px;
+
+   box-shadow: 0 1px 3px #111;
+   -moz-box-shadow: 2px 2px 1px #999;
+   -webkit-box-shadow: 2px 2px 1px #999;
+   margin-left: 5px;
+}
+.addressData input {width:250px; height: 25px; margin-bottom: 5px; }
+
+.addressList table{text-align: left; font-size:12px; }
+
+.number{width:100%; height: 20px;
+    text-align: center;}
+
+.number a{margin-left:10px;}
 </style>
+
 

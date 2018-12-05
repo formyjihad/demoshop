@@ -33,7 +33,7 @@ let userSchema = new Schema({
     userEmail:{
         type:String
     },
-    price:{
+    point:{
         type:Number,
         default:0
     },

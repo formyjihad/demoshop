@@ -3,7 +3,7 @@
         <button class="close" @click="closetab"><img class='menuimg' src='/menu_logo.png'></button>
             <div class="login">
                 <div class="id">
-                <form class="signinform" @submit.prevent="signin" v-if="!isLogin">
+                <form class="signinform" @submit="signin" v-if="!isLogin">
                     <div class="signin">
                         <input type="text" id ="id" v-model="uid" autocomplete="off"/>
                         <label for="id">ID</label>
@@ -17,7 +17,7 @@
                         <div></div>
                         <!--<nuxt-link class="button2" to="/agreement"><img src="/SVG/회원가입.svg"></nuxt-link>-->
                     </button>
-                    <nuxt-link class="signup" to="/agreement">
+                    <nuxt-link class="signup_btn" to="/agreement">
                         회원가입
                         <div></div>
                     </nuxt-link>
@@ -304,7 +304,7 @@ span{
     font-size: initial
   }
 
-.signup {
+.signup_btn {
     backface-visibility: hidden;
     position: relative;
     cursor: pointer;

@@ -10,17 +10,24 @@ router.get('/',(req,res,next)=>{
 });
 
 router.get('/statusCheck', async(req,res)=>{
-    let uid = req.user.uid;
-    let status;
-    if(!uid){
-        status = 0
+    try{
+        let status = 0;
+        let rate = 0;
+        if(!req.user){
+            res.status(200).json({rate})
+        }
+        else{
+            let userData = await users.findOne({"uid":req.user.uid})
+            status = userData.status;
+            rate = status * 5
+            
+            res.status(200).json({rate})
+        }
+    }catch(err){
+        console.error(err)
+        res.status(204).json()
     }
-    else{
-        let userData = await users.findOne({"uid":uid})
-        status = userData.status;
-    }
-    let rate = status * 5
-    res.status(200).json({rate})
+    
 })
 
 router.post('/checkPass', async(req,res)=>{

@@ -9,6 +9,7 @@ const { IMP_KEY, IMP_SECRET } = require('../../config/constants');
 const axios = require('axios');
 const google = require('googleapis')
 const auth = require('../utils/auth')
+const coupon = require('../models/coupon.js');
 
 router.post('/', (req, res)=>{
     const impUid = req.body.imp_uid;
@@ -172,14 +173,17 @@ router.post('/save', async (req, res)=>{
     order.totalAmount = data.totalAmount;
     order.orderName = data.orderName;
     order.dName = data.dName;
-    order.discountAmount = data.totalDiscountAmount;
+    order.phoneNum = data.phoneNumber;
+    order.totalDiscountAmount = data.totalDiscountAmount;
+    order.deliveryPrice = data.deliveryPrice;
     order.postCode = data.postCode;
     order.address = data.address;
     order.orderId = data.orderId;
     order.purchaseId = data.purchaseId;
     order.orderDate = nowTime;
     order.count = 3;
-    order.status = "file-confirm"
+    order.status = "ready"
+    
     
     for(let i=0; i<req.body.cart.length; i++){
         //console.log(order.orderDetail[i].xSize)
@@ -187,32 +191,41 @@ router.post('/save', async (req, res)=>{
 
         value.push(data.orderId, nowTime, data.dName, data.orderName, "", "", data.phoneNumber,data.address)
         value.push(data.cart[i].goodsType)  //아크릴 상품 타입
-        value.push(data.cart[i].printSide)
-        value.push(data.cart[i].xSize)
-        value.push(data.cart[i].ySize)
+        value.push(data.cart[i].printside)
+        value.push(data.cart[i].xsize)
+        value.push(data.cart[i].ysize)
         value.push(data.cart[i].stand)    //바닥부품
         value.push(data.cart[i].thick)
         value.push(data.cart[i].quantity)    //갯수
         value.push(data.cart[i].subItem)   //부속품
         value.push(data.cart[i].packing)
         value.push(data.totalAmount)
-        value.push("3500")
-        value.push(order.orderId+"-DesignFile")
-        value.push(data.cart[i].img)
-        value.push(data.status)
-        values.push(value)
+        value.push(data.deliveryPrice)
+        value.push(order.orderId+"-DesignFile", "", "")
+        values.pop(value)
     }
     
     try{
         let sheet = await sheetPost(values)
         let findUser = await users.findOne({"uid":order.uid})
+        let point = 0;
         if(!findUser){
             res.status(204).json();
         }
         else{
-            console.log(order.orderDate)
+            if(data.usePoint == 0){
+                point = findUser.point + Math.ceil(data.totalAmount * 0.03)
+            }
+            else{
+                point = findUser.point - data.usePoint
+            }
+            if(data.couponCode){
+                let couponDrop = await coupon.deleteOne({"code":data.couponCode})
+            }
+            
             let orderSave = await order.save();
-            res.status(200).json({sheet,orderSave})
+            let userUpdate = await users.findOneAndUpdate({"uid":order.uid},{$set:{"point":point}})
+            res.status(200).json({sheet})
         }
     }catch(err){
         console.error(err);
@@ -303,9 +316,10 @@ router.post('/updateStatus', async(req,res)=>{
         //console.log(status)
         let updateData = await orders.findOneAndUpdate({purchaseId:purchaseId}, {$set:{status:status}})
         //console.log(updateData)
-
+        res.status(200).json();
     }catch(err){
         console.error(err)
+        res.status(204).json();
     }
 })
 

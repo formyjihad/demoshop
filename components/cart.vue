@@ -37,10 +37,10 @@
                                 {{cart.price*cart.quantity+(cart.design*5500)}}
                             </td>
                             <td class="cols">
-                                {{(cart.price*cart.quantity+(cart.design*5500))*(discountRate/100)}}
+                                {{Math.ceil((cart.price*cart.quantity+(cart.design*5500))*(discountRate/100))}}
                             </td>
                             <td class="cols">
-                                {{(cart.price*cart.quantity+(cart.design*5500))-(cart.price*cart.quantity+(cart.design*5500))*(discountRate/100)}}
+                                {{(cart.price*cart.quantity+(cart.design*5500))-Math.ceil((cart.price*cart.quantity+(cart.design*5500))*(discountRate/100))}}
                             </td>
                         </tr>
                     </tbody>
@@ -50,7 +50,14 @@
                 <div class="bt1" @click="deleteSelectCart(checkArray)">선택삭제</div>
                 <div class="bt2" @click="deleteAllCart()">전체삭제</div>
             </div>
-        </div>
+        </div><!--
+        <div class="coupon">
+            <form class="code" @submit.prevent="checkCoupon">
+                <div class="code_label"><p>쿠폰코드</p></div>
+                <div class="code_input"><input class="code_enter" type="text" v-model="couponCode"></div>
+                <div class="code_button"><button class="btn" type="submit">쿠폰입력</button></div>
+            </form>
+        </div>           -->
         <div class="section3">
             <h3>장바구니 총계</h3>
             <ul class="box box1">
@@ -60,10 +67,6 @@
             <ul class="box box3">
                 <li>할인</li>
                 <li>{{totalDiscountAmount}}</li>
-            </ul>
-            <ul class="box box3">
-                <li>배송비</li>
-                <li>3500</li>
             </ul>
             <ul class="box box3">
                 <li>총계</li>
@@ -86,10 +89,10 @@ export default {
             return this.totalAmount()
         },
         fullPrice(){
-            return parseInt(this.totalAmount)-parseInt(this.totalDiscountAmount)+3500
+            return parseInt(this.totalAmount)-(parseInt(this.totalDiscountAmount))
         },
         totalDiscountAmount(){
-            return this.totalDiscountAmount()
+            return parseInt(this.totalDiscountAmount())
         },
         ...mapGetters({
             cart:'carts/cart',
@@ -100,34 +103,36 @@ export default {
     data(){
         return{
             checkArray:[],
-            discountRate:this.setDiscountRate()
+            discountRate:this.setDiscountRate(),
         }
     },
     created() {
         this.$store.dispatch('carts/getCart')
     },
     methods:{
+        
         async setDiscountRate(){
             let url = '/api/users/statusCheck'
-            let discountData = await axios(url);
+            let discountData = await axios.get(url);
+            
             let discountRate=discountData.data.rate;
             this.updateDiscount({
                 unit:discountRate,
                 cart:this.cart
             });
-            this.discountRate=discountRate
+            this.discountRate = discountRate
         },
         async indexCheck(index){
             let checkArr = this.checkArray;
             
             if(checkArr.length==0){
                 checkArr.push(index)
-                console.log(checkArr)
+                //console.log(checkArr)
             }else{
                 for (let i = 0; i<checkArr.length; i++){
                     if(checkArr[i] == index){
                         checkArr.splice(i, 1)
-                        console.log(checkArr)
+                        //console.log(checkArr)
                         return{
                             checkArray:checkArr
                         }
@@ -140,13 +145,13 @@ export default {
             }
         },
         deleteCarts(index){
-            console.log(index)
+            //console.log(index)
             this.deleteCart(index)
         },
         deleteSelectCart(checkArray){
             let indexArr = checkArray //[0:0, 1:1]
             let length = indexArr.length // 2
-            console.log("삭제")
+            //console.log("삭제")
             for(let i = 0; i<length; i++){
                 let index = indexArr[0]
                 this.deleteCart(index)
@@ -196,9 +201,16 @@ export default {
             }
         },
         onCheckout(){
-            alert("주문 페이지로 이동합니다.")
-            
-            this.$nuxt.$router.replace({path:'/checkout'})
+            let cartLength = this.cart
+            //console.log(cartLength)
+            if(cartLength==0){
+                alert("장바구니가 비어있습니다.")
+            }
+            else{
+                
+                alert("주문 페이지로 이동합니다.")
+                this.$nuxt.$router.replace({path:'/checkout'})
+            }
         },
         ...mapActions({
             getCart : 'carts/getCart',
@@ -351,6 +363,58 @@ a { text-decoration: none; color:inherit; }
     line-height:60px; 
     margin-top:40px;
     cursor: pointer;
-}     
+}
+
+.coupon { 
+    width:100%;
+    height:50px;
+    border:1px solid #000;
+    margin-bottom:30px; 
+    text-align: center;
+}
+    
+
+.coupon .code { width:100%; height:100%;}
+
+.coupon .code { height:100%; text-align:center; }
+.coupon .code .code_label { width:20%;height:100%;
+                                display:inline-block;
+}
+.coupon .code .code_label p{font-size:30px;}
+.coupon .code .code_input { width:60%; height:100%;
+                                display: inline-block;
+                                }
+
+.coupon .code .code_button { width:10%;height:100%;
+                                margin-left:40px;
+                                display: inline-block;
+                                }
+
+.coupon .code .code_input .code_enter{ 
+    height:100%;
+    width:100%;
+    border:1px solid #000;
+    font-size:27px;
+    text-align: center;
+}
+.coupon .code .code_button button{width:100%;height:90%; margin-left:15px;
+                    border: solid 1px #CCC;
+                    padding-right:30px;
+                    padding-left:30px;
+                    padding:5px;
+                    margin-bottom:15px;
+                    background: #fff;
+                    text-shadow: 0px 1px 0px #000;
+                    font-size: 20px;
+                    color: #565656;
+                    border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    -webkit-border-radius: 5px;
+                    box-shadow: 0 1px 3px #111;
+                    -moz-box-shadow: 2px 2px 1px #999;
+                    -webkit-box-shadow: 2px 2px 1px #999;}
+                              
+  
+
 
 </style>

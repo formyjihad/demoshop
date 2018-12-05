@@ -51,7 +51,13 @@ router.post('/order', file.single('img'), async(req,res)=>{
     try{
         let orderData = await orders.findOne({"purchaseId":purchaseId})
         //console.log(orderData)
-        let targetValues = orderData.orderId + "-DesignFile"
+        let targetValues = '';
+        if(orderData.count==3){
+            targetValues = orderData.orderId + "-DesignFile"
+        }
+        else{
+            targetValues = orderData.imgName
+        }
         
         orderData.imgName = imgName;    //도메인 주소로 변경하여 API 호출하기
     
@@ -60,7 +66,9 @@ router.post('/order', file.single('img'), async(req,res)=>{
         
         let updateData = await orderData.save();
         let updateCount = await orders.findOneAndUpdate({"purchaseId":purchaseId},{$inc:{count:-1}})
-        res.status(200).json({})
+        console.log(updateCount)
+        let count = updateCount.count
+        res.status(200).json({count})
     }
     catch(err){
         console.error(err)
