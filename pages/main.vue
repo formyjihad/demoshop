@@ -1,8 +1,5 @@
 <template>
     <div class="index">
-        <div>
-            <img src="/main.png">
-        </div>
         <section class = "container">
             <div class="pi_imgs" v-for ="good in goods" :key="good['_id']">
                 <nuxt-link :to='{path:"/goods/"+good["_id"]}'>

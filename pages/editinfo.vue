@@ -126,7 +126,10 @@ export default {
 <style>
 .info{
     max-width: 1000px;
+    height: 460px;
     text-align: left;
+    margin-top: 50px;
+    margin-left: 50px;
 }
 .info div{
     height: 100%;
@@ -181,6 +184,8 @@ export default {
     border:2px solid #000;
     box-sizing:border-box;
     line-height:30px;  }
+    
+.noLogin{text-align: center; margin:50px; }
 .check{
     text-align: center;
     margin-top: 200px;

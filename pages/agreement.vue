@@ -1,8 +1,8 @@
 <template>
-    <div class = "container">
-        <div class = "agreement">
-            <textarea class="ageement-text">
-                전자상거래(인터넷사이버몰) 표준약관
+	<div class = "container">
+		<div class = "agreement">
+			<textarea class="ageement-text">
+				전자상거래(인터넷사이버몰) 표준약관
 
 
 표준약관 제10023호
@@ -40,9 +40,9 @@
 
   ① “몰”은 다음과 같은 업무를 수행합니다.
 
-    1. 재화 또는 용역에 대한 정보 제공 및 구매계약의 체결
-    2. 구매계약이 체결된 재화 또는 용역의 배송
-    3. 기타 “몰”이 정하는 업무
+	1. 재화 또는 용역에 대한 정보 제공 및 구매계약의 체결
+	2. 구매계약이 체결된 재화 또는 용역의 배송
+	3. 기타 “몰”이 정하는 업무
 
   ② “몰”은 재화 또는 용역의 품절 또는 기술적 사양의 변경 등의 경우에는 장차 체결되는 계약에 의해 제공할 재화 또는 용역의 내용을 변경할 수 있습니다. 이 경우에는 변경된 재화 또는 용역의 내용 및 제공일자를 명시하여 현재의 재화 또는 용역의 내용을 게시한 곳에 즉시 공지합니다.
 
@@ -64,9 +64,9 @@
 
   ② “몰”은 제1항과 같이 회원으로 가입할 것을 신청한 이용자 중 다음 각 호에 해당하지 않는 한 회원으로 등록합니다.
 
-    1. 가입신청자가 이 약관 제7조제3항에 의하여 이전에 회원자격을 상실한 적이 있는 경우, 다만 제7조제3항에 의한 회원자격 상실 후 3년이 경과한 자로서 “몰”의 회원재가입 승낙을 얻은 경우에는 예외로 한다.
-    2. 등록 내용에 허위, 기재누락, 오기가 있는 경우
-    3. 기타 회원으로 등록하는 것이 “몰”의 기술상 현저히 지장이 있다고 판단되는 경우
+	1. 가입신청자가 이 약관 제7조제3항에 의하여 이전에 회원자격을 상실한 적이 있는 경우, 다만 제7조제3항에 의한 회원자격 상실 후 3년이 경과한 자로서 “몰”의 회원재가입 승낙을 얻은 경우에는 예외로 한다.
+	2. 등록 내용에 허위, 기재누락, 오기가 있는 경우
+	3. 기타 회원으로 등록하는 것이 “몰”의 기술상 현저히 지장이 있다고 판단되는 경우
 
   ③ 회원가입계약의 성립 시기는 “몰”의 승낙이 회원에게 도달한 시점으로 합니다.
 
@@ -78,10 +78,10 @@
 
   ② 회원이 다음 각 호의 사유에 해당하는 경우, “몰”은 회원자격을 제한 및 정지시킬 수 있습니다.
 
-    1. 가입 신청 시에 허위 내용을 등록한 경우
-    2. “몰”을 이용하여 구입한 재화 등의 대금, 기타 “몰”이용에 관련하여 회원이 부담하는 채무를 기일에 지급하지 않는 경우
-    3. 다른 사람의 “몰” 이용을 방해하거나 그 정보를 도용하는 등 전자상거래 질서를 위협하는 경우
-    4. “몰”을 이용하여 법령 또는 이 약관이 금지하거나 공서양속에 반하는 행위를 하는 경우
+	1. 가입 신청 시에 허위 내용을 등록한 경우
+	2. “몰”을 이용하여 구입한 재화 등의 대금, 기타 “몰”이용에 관련하여 회원이 부담하는 채무를 기일에 지급하지 않는 경우
+	3. 다른 사람의 “몰” 이용을 방해하거나 그 정보를 도용하는 등 전자상거래 질서를 위협하는 경우
+	4. “몰”을 이용하여 법령 또는 이 약관이 금지하거나 공서양속에 반하는 행위를 하는 경우
 
   ③ “몰”이 회원 자격을 제한.정지 시킨 후, 동일한 행위가 2회 이상 반복되거나 30일 이내에 그 사유가 시정되지 아니하는 경우 “몰”은 회원자격을 상실시킬 수 있습니다.
 
@@ -96,13 +96,13 @@
 제9조(구매신청 및 개인정보 제공 동의 등) 
 
   ① “몰”이용자는 “몰”상에서 다음 또는 이와 유사한 방법에 의하여 구매를 신청하며, “몰”은 이용자가 구매신청을 함에 있어서 다음의 각 내용을 알기 쉽게 제공하여야 합니다. 
-      1. 재화 등의 검색 및 선택
-      2. 받는 사람의 성명, 주소, 전화번호, 전자우편주소(또는 이동전화번호) 등의 입력
-      3. 약관내용, 청약철회권이 제한되는 서비스, 배송료.설치비 등의 비용부담과 관련한 내용에 대한 확인
-      4. 이 약관에 동의하고 위 3.호의 사항을 확인하거나 거부하는 표시
-         (예, 마우스 클릭)
-      5. 재화등의 구매신청 및 이에 관한 확인 또는 “몰”의 확인에 대한 동의
-      6. 결제방법의 선택
+	  1. 재화 등의 검색 및 선택
+	  2. 받는 사람의 성명, 주소, 전화번호, 전자우편주소(또는 이동전화번호) 등의 입력
+	  3. 약관내용, 청약철회권이 제한되는 서비스, 배송료.설치비 등의 비용부담과 관련한 내용에 대한 확인
+	  4. 이 약관에 동의하고 위 3.호의 사항을 확인하거나 거부하는 표시
+		 (예, 마우스 클릭)
+	  5. 재화등의 구매신청 및 이에 관한 확인 또는 “몰”의 확인에 대한 동의
+	  6. 결제방법의 선택
 
   ② “몰”이 제3자에게 구매자 개인정보를 제공할 필요가 있는 경우 1) 개인정보를 제공받는 자, 2)개인정보를 제공받는 자의 개인정보 이용목적, 3) 제공하는 개인정보의 항목, 4) 개인정보를 제공받는 자의 개인정보 보유 및 이용기간을 구매자에게 알리고 동의를 받아야 합니다. (동의를 받은 사항이 변경되는 경우에도 같습니다.)
 
@@ -114,9 +114,9 @@
 
   ①  “몰”은 제9조와 같은 구매신청에 대하여 다음 각 호에 해당하면 승낙하지 않을 수 있습니다. 다만, 미성년자와 계약을 체결하는 경우에는 법정대리인의 동의를 얻지 못하면 미성년자 본인 또는 법정대리인이 계약을 취소할 수 있다는 내용을 고지하여야 합니다.
 
-    1. 신청 내용에 허위, 기재누락, 오기가 있는 경우
-    2. 미성년자가 담배, 주류 등 청소년보호법에서 금지하는 재화 및 용역을 구매하는 경우
-    3. 기타 구매신청에 승낙하는 것이 “몰” 기술상 현저히 지장이 있다고 판단하는 경우
+	1. 신청 내용에 허위, 기재누락, 오기가 있는 경우
+	2. 미성년자가 담배, 주류 등 청소년보호법에서 금지하는 재화 및 용역을 구매하는 경우
+	3. 기타 구매신청에 승낙하는 것이 “몰” 기술상 현저히 지장이 있다고 판단하는 경우
 
   ② “몰”의 승낙이 제12조제1항의 수신확인통지형태로 이용자에게 도달한 시점에 계약이 성립한 것으로 봅니다.
 
@@ -124,14 +124,14 @@
 
 제11조(지급방법) “몰”에서 구매한 재화 또는 용역에 대한 대금지급방법은 다음 각 호의 방법중 가용한 방법으로 할 수 있습니다. 단, “몰”은 이용자의 지급방법에 대하여 재화 등의 대금에 어떠한 명목의 수수료도  추가하여 징수할 수 없습니다.
 
-    1. 폰뱅킹, 인터넷뱅킹, 메일 뱅킹 등의 각종 계좌이체 
-    2. 선불카드, 직불카드, 신용카드 등의 각종 카드 결제
-    3. 온라인무통장입금
-    4. 전자화폐에 의한 결제
-    5. 수령 시 대금지급
-    6. 마일리지 등 “몰”이 지급한 포인트에 의한 결제
-    7. “몰”과 계약을 맺었거나 “몰”이 인정한 상품권에 의한 결제  
-    8. 기타 전자적 지급 방법에 의한 대금 지급 등
+	1. 폰뱅킹, 인터넷뱅킹, 메일 뱅킹 등의 각종 계좌이체 
+	2. 선불카드, 직불카드, 신용카드 등의 각종 카드 결제
+	3. 온라인무통장입금
+	4. 전자화폐에 의한 결제
+	5. 수령 시 대금지급
+	6. 마일리지 등 “몰”이 지급한 포인트에 의한 결제
+	7. “몰”과 계약을 맺었거나 “몰”이 인정한 상품권에 의한 결제  
+	8. 기타 전자적 지급 방법에 의한 대금 지급 등
 
 제12조(수신확인통지.구매신청 변경 및 취소)
 
@@ -153,10 +153,10 @@
 
   ② 이용자는 재화 등을 배송 받은 경우 다음 각 호의 1에 해당하는 경우에는 반품 및 교환을 할 수 없습니다.
 
-    1. 이용자에게 책임 있는 사유로 재화 등이 멸실 또는 훼손된 경우(다만, 재화 등의 내용을 확인하기 위하여 포장 등을 훼손한 경우에는 청약철회를 할 수 있습니다)
-    2. 이용자의 사용 또는 일부 소비에 의하여 재화 등의 가치가 현저히 감소한 경우
-    3. 시간의 경과에 의하여 재판매가 곤란할 정도로 재화등의 가치가 현저히 감소한 경우
-    4. 같은 성능을 지닌 재화 등으로 복제가 가능한 경우 그 원본인 재화 등의 포장을 훼손한 경우
+	1. 이용자에게 책임 있는 사유로 재화 등이 멸실 또는 훼손된 경우(다만, 재화 등의 내용을 확인하기 위하여 포장 등을 훼손한 경우에는 청약철회를 할 수 있습니다)
+	2. 이용자의 사용 또는 일부 소비에 의하여 재화 등의 가치가 현저히 감소한 경우
+	3. 시간의 경과에 의하여 재판매가 곤란할 정도로 재화등의 가치가 현저히 감소한 경우
+	4. 같은 성능을 지닌 재화 등으로 복제가 가능한 경우 그 원본인 재화 등의 포장을 훼손한 경우
 
   ③ 제2항제2호 내지 제4호의 경우에 “몰”이 사전에 청약철회 등이 제한되는 사실을 소비자가 쉽게 알 수 있는 곳에 명기하거나 시용상품을 제공하는 등의 조치를 하지 않았다면 이용자의 청약철회 등이 제한되지 않습니다.
 
@@ -212,13 +212,13 @@
 
 제20조(이용자의 의무) 이용자는 다음 행위를 하여서는 안 됩니다.
 
-    1. 신청 또는 변경시 허위 내용의 등록
-    2. 타인의 정보 도용
-    3. “몰”에 게시된 정보의 변경
-    4. “몰”이 정한 정보 이외의 정보(컴퓨터 프로그램 등) 등의 송신 또는 게시
-    5. “몰” 기타 제3자의 저작권 등 지적재산권에 대한 침해
-    6. “몰” 기타 제3자의 명예를 손상시키거나 업무를 방해하는 행위
-    7. 외설 또는 폭력적인 메시지, 화상, 음성, 기타 공서양속에 반하는 정보를 몰에 공개 또는 게시하는 행위
+	1. 신청 또는 변경시 허위 내용의 등록
+	2. 타인의 정보 도용
+	3. “몰”에 게시된 정보의 변경
+	4. “몰”이 정한 정보 이외의 정보(컴퓨터 프로그램 등) 등의 송신 또는 게시
+	5. “몰” 기타 제3자의 저작권 등 지적재산권에 대한 침해
+	6. “몰” 기타 제3자의 명예를 손상시키거나 업무를 방해하는 행위
+	7. 외설 또는 폭력적인 메시지, 화상, 음성, 기타 공서양속에 반하는 정보를 몰에 공개 또는 게시하는 행위
 
 제21조(연결“몰”과 피연결“몰” 간의 관계)
 
@@ -247,12 +247,12 @@
   ① “몰”과 이용자 간에 발생한 전자상거래 분쟁에 관한 소송은 제소 당시의 이용자의 주소에 의하고, 주소가 없는 경우에는 거소를 관할하는 지방법원의 전속관할로 합니다. 다만, 제소 당시 이용자의 주소 또는 거소가 분명하지 않거나 외국 거주자의 경우에는 민사소송법상의 관할법원에 제기합니다.
 
   ② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
-            </textarea>
-        </div>
-        <label><input type="checkbox" id="agree" @click="checkCall"/>약관에 동의</label>
-        <div class = "personal-agreement">
-            <textarea class="personal-text">
-                개인정보처리방침
+			</textarea>
+		</div>
+		<label><input type="checkbox" id="agree" @click="checkCall"/>약관에 동의</label>
+		<div class = "personal-agreement">
+			<textarea class="personal-text">
+				개인정보처리방침
 
 
 1. 개인정보의 처리 목적 <동네공작소>(‘craft.dong-ne.kr’이하 ‘동네공작소’) 은(는) 다음의 목적을 위하여 개인정보를 처리하고 있으며, 다음의 목적 이외의 용도로는 이용하지 않습니다.
@@ -375,83 +375,113 @@
 9. 비인가자에 대한 출입 통제
 개인정보를 보관하고 있는 물리적 보관 장소를 별도로 두고 이에 대해 출입통제 절차를 수립, 운영하고 있습니다.
 
-            </textarea>
-        </div>
-        <label><input type="checkbox" id="person-agree" @click="checkCall"/>약관에 동의</label>
-        
-        <div class = "button-area">
-            <button id ="send-btn" @click="send" disabled>본인 인증</button>
-        </div>
-    </div>
+			</textarea>
+		</div>
+		<label><input type="checkbox" id="person-agree" @click="checkCall"/>약관에 동의</label>
+		
+		<div class = "button-area">
+			<button id ="send-btn" @click="send" disabled>본인 인증</button>
+		</div>
+	</div>
 </template>
 
 <script>
 import axios from "axios"
+import {IMP_CODE} from '../config/constants'
 export default {
-    methods:{
-        checkCall(){
-            let agree = document.getElementById('agree');
-            let personAgree = document.getElementById('person-agree');
-            let sendBtn = document.getElementById('send-btn');
-            let agreeChecked = agree.checked;
-            let personAgreeChecked = personAgree.checked;
-            //console.log(agreeChecked)
-            //console.log(personAgreeChecked)
-            if (agreeChecked == true && personAgreeChecked == true){
-                console.log("true")
-                sendBtn.disabled = false
-            }
-        },
-        send(){
-            
-            this.$nuxt.$router.replace({path:'/signup'})
-        }
-    }
+	beforeMount() {
+        IMP.init(IMP_CODE)
+    },
+	methods:{
+		checkCall(){
+			let agree = document.getElementById('agree');
+			let personAgree = document.getElementById('person-agree');
+			let sendBtn = document.getElementById('send-btn');
+			let agreeChecked = agree.checked;
+			let personAgreeChecked = personAgree.checked;
+			//console.log(agreeChecked)
+			//console.log(personAgreeChecked)
+			if (agreeChecked == true && personAgreeChecked == true){
+				//console.log("true")
+				sendBtn.disabled = false
+			}
+		},
+		send(){
+			IMP.certification({
+				merchant_uid : 'merchant_' + new Date().getTime() //본인인증과 연관된 가맹점 내부 주문번호가 있다면 넘겨주세요
+			}, function(rsp) {
+				if ( rsp.success ) {
+					// 인증성공
+					//console.log(rsp.imp_uid);
+					//console.log(rsp.merchant_uid);
+					$.ajax({
+							type : 'POST',
+							url : '/certifications/confirm',
+							dataType : 'json',
+							data : {
+								imp_uid : rsp.imp_uid
+							}
+					}).done(function(rsp) {
+						console.log(rsp);
+						this.$nuxt.$router.replace({path:'/signup'})
+							// 이후 Business Logic 처리하시면 됩니다.
+					});
+				} else {
+					// 인증취소 또는 인증실패
+					var msg = '인증에 실패하였습니다.';
+					msg += '에러내용 : ' + rsp.error_msg;
+					alert(msg);
+				}
+			});
+			
+			
+		}
+	}
 }
 </script>
 
 <style scoped>
 .container{
-    text-align: center;
-    margin-top: 30px;
+	text-align: center;
+	margin-top: 30px;
 }
 .check{
-    display: inline-block;
+	display: inline-block;
 }
 .check p{
-    display: inline-block;
-    font-size: 10px;
-    margin: 0 auto;
+	display: inline-block;
+	font-size: 10px;
+	margin: 0 auto;
 }
 .check input{
-    display: inline-block;
+	display: inline-block;
 }
 .agreement textarea{
-    font-size: 13px;
-    text-align: center;
-    height: 300px;
-    width: 900px;
-    border: solid 2px #b3b3b3;
-    border-radius: 9px;
+	font-size: 13px;
+	text-align: center;
+	height: 300px;
+	width: 900px;
+	border: solid 2px #b3b3b3;
+	border-radius: 9px;
 }
 .personal-agreement textarea{
-    font-size: 13px;
-    text-align: center;
-    height: 300px;
-    width: 900px;
-    border: solid 2px #b3b3b3;
-    border-radius: 9px;
+	font-size: 13px;
+	text-align: center;
+	height: 300px;
+	width: 900px;
+	border: solid 2px #b3b3b3;
+	border-radius: 9px;
 }
 .button-area button{
-    margin-top: 20px;
+	margin-top: 20px;
 
-    padding: 5px 10px 5px 10px;
+	padding: 5px 10px 5px 10px;
 	border: solid 1px #CCC;
 
 	background: #fff;
 	text-shadow: 0px 1px 0px #000;
-    font-size: 15px;
-    color: #565656;
+	font-size: 15px;
+	color: #565656;
 
 	border-radius: 5px;
 	-moz-border-radius: 5px;

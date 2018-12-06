@@ -2,7 +2,7 @@
     <div class="header">
         <div class="logo"><nuxt-link to="/"><img src="/dongne_b.png"></nuxt-link></div>
         <div class="cols"><nuxt-link to="/notice">공지사항</nuxt-link></div>
-        <div class="cols"><nuxt-link to="/">상품</nuxt-link></div>
+        <div class="cols"><nuxt-link to="/main">상품</nuxt-link></div>
         <div class="cols"><nuxt-link to="/">제작가이드</nuxt-link></div>
         <div class="cols"><nuxt-link to="/event">이밴트</nuxt-link></div>
         <sidebar class ="sidebar" @close-tab="displayToggle()" style="width:0px"/>
