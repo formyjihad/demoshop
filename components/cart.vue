@@ -95,6 +95,7 @@ export default {
             return parseInt(this.totalDiscountAmount())
         },
         ...mapGetters({
+            isLogin: 'users/isLogin',
             cart:'carts/cart',
             totalAmount:'carts/totalAmount',
             totalDiscountAmount:'carts/totalDiscountAmount'
@@ -207,9 +208,13 @@ export default {
                 alert("장바구니가 비어있습니다.")
             }
             else{
-                
-                alert("주문 페이지로 이동합니다.")
-                this.$nuxt.$router.replace({path:'/checkout'})
+                if(!this.isLogin){
+                    alert("로그인이 필요합니다.")
+                }
+                else{
+                    alert("주문 페이지로 이동합니다.")
+                    this.$nuxt.$router.replace({path:'/checkout'})
+                }
             }
         },
         ...mapActions({
