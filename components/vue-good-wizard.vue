@@ -328,7 +328,7 @@ export default {
   position:  absolute;
   top:150px;
   width:100%;  
-  z-index: 1;
+  pointer-events:none;        
  /* border-top:  1px solid #aebac4;*/
   /*background-color: #b9c7d2;*/
 }
@@ -336,15 +336,18 @@ export default {
 .wizard__body__actions .leftBtn{
   width:100px;
   height:150px;
+	pointer-events:auto;        
   float:left !important
 }
 
 .wizard__body__actions .rightBtn{
   width:100px;
-  float:right !important
+  float:right !important;
+	pointer-events:auto;
 }
 .wizard__body__actions .finalBtn{
   width:200px;
+	pointer-events:auto;
   float:right !important
 }
 .wizard__body__actions .finalBtn a{
@@ -354,6 +357,7 @@ export default {
   position: relative;
   cursor: pointer;
   white-space: nowrap;
+	pointer-events:auto;
   background: rgba(77.06191214211341%,45.128128767078024%,41.57993061429631%,0);
   border-radius: 39px;
   border: 6px solid #464646;
