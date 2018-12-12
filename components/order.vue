@@ -693,181 +693,181 @@ p {
 	margin-top: 3%;
 }
 #T0_7{
-	background-image:url("/SVG/0.7mm_기본.svg");
+	background-image:url("/svg/0.7mm_기본.svg");
 }
 #T0_7:hover{
-	background-image: url("/SVG/0.7mm_기본.svg");
+	background-image: url("/svg/0.7mm_기본.svg");
 }
 #T0_7:active{
-	background-image: url("/SVG/0.7mm_확정.svg");
+	background-image: url("/svg/0.7mm_확정.svg");
 }
 #T1{
-	background-image:url("/SVG/1mm_기본.svg");
+	background-image:url("/svg/1mm_기본.svg");
 }
 #T1:hover{
-	background-image: url("/SVG/1mm_기본.svg");
+	background-image: url("/svg/1mm_기본.svg");
 }
 #T1:active{
-	background-image: url("/SVG/1mm_확정.svg");
+	background-image: url("/svg/1mm_확정.svg");
 }
 #T3{
-	background-image:url("/SVG/3mm_기본.svg");
+	background-image:url("/svg/3mm_기본.svg");
 }
 #T3:hover{
-	background-image: url("/SVG/3mm_기본.svg");
+	background-image: url("/svg/3mm_기본.svg");
 }
 #T3:active{
-	background-image: url("/SVG/3mm_확정.svg");
+	background-image: url("/svg/3mm_확정.svg");
 }
 #T5{
-	background-image:url("/SVG/5mm_기본.svg");
+	background-image:url("/svg/5mm_기본.svg");
 }
 #T5:hover{
-	background-image: url("/SVG/5mm_기본.svg");
+	background-image: url("/svg/5mm_기본.svg");
 }
 #T5:active{
-	background-image: url("/SVG/5mm_확정.svg");
+	background-image: url("/svg/5mm_확정.svg");
 }
 
 #cm4{
-	background-image:url("/SVG/4cm_기본.svg");
+	background-image:url("/svg/4cm_기본.svg");
 }
 #cm4:hover{
-	background-image: url("/SVG/4cm_기본.svg");
+	background-image: url("/svg/4cm_기본.svg");
 }
 #cm4:active{
-	background-image: url("/SVG/4cm_확정.svg");
+	background-image: url("/svg/4cm_확정.svg");
 }
 #cm6{
-	background-image:url("/SVG/6cm_기본.svg");
+	background-image:url("/svg/6cm_기본.svg");
 }
 #cm6:hover{
-	background-image: url("/SVG/6cm_기본.svg");
+	background-image: url("/svg/6cm_기본.svg");
 }
 #cm6:active{
-	background-image: url("/SVG/6cm_확정.svg");
+	background-image: url("/svg/6cm_확정.svg");
 }
 #cm8{
-	background-image:url("/SVG/8cm_기본.svg");
+	background-image:url("/svg/8cm_기본.svg");
 }
 #cm8:hover{
-	background-image: url("/SVG/8cm_기본.svg");
+	background-image: url("/svg/8cm_기본.svg");
 }
 #cm8:active{
-	background-image: url("/SVG/8cm_확정.svg");
+	background-image: url("/svg/8cm_확정.svg");
 }
 #화살표{
-	background-image:url("/SVG/화살표_1.svg");
+	background-image:url("/svg/화살표_1.svg");
 }
 
 #none{
-	background-image:url("/SVG/없음_기본.svg");
+	background-image:url("/svg/없음_기본.svg");
 }
 #none:hover{
-	background-image: url("/SVG/없음_기본.svg");
+	background-image: url("/svg/없음_기본.svg");
 }
 #none:active{
-	background-image: url("/SVG/없음_확정.svg");
+	background-image: url("/svg/없음_확정.svg");
 }
 #OPP{
-	background-image:url("/SVG/OPP만_기본.svg");
+	background-image:url("/svg/OPP만_기본.svg");
 }
 #OPP:hover{
-	background-image: url("/SVG/OPP만_기본.svg");
+	background-image: url("/svg/OPP만_기본.svg");
 }
 #OPP:active{
-	background-image: url("/SVG/OPP만_확정.svg");
+	background-image: url("/svg/OPP만_확정.svg");
 }
 #o링{
-	background-image:url("/SVG/O링_기본.svg");
+	background-image:url("/svg/O링_기본.svg");
 }
 #o링:hover{
-	background-image: url("/SVG/O링_기본.svg");
+	background-image: url("/svg/O링_기본.svg");
 }
 #o링:active{
-	background-image: url("/SVG/O링_확정.svg");
+	background-image: url("/svg/O링_확정.svg");
 }
 #군번줄{
-	background-image:url("/SVG/군번줄_기본.svg");
+	background-image:url("/svg/군번줄_기본.svg");
 }
 #군번줄:hover{
-	background-image: url("/SVG/군번줄_기본.svg");
+	background-image: url("/svg/군번줄_기본.svg");
 }
 #군번줄:active{
-	background-image: url("/SVG/군번줄_확정.svg");
+	background-image: url("/svg/군번줄_확정.svg");
 }
 #O링군번줄{
-	background-image:url("/SVG/O링+군번줄_기본.svg");
+	background-image:url("/svg/O링+군번줄_기본.svg");
 }
 #O링군번줄:hover{
-	background-image: url("/SVG/O링+군번줄_기본.svg");
+	background-image: url("/svg/O링+군번줄_기본.svg");
 }
 #O링군번줄:active{
-	background-image: url("/SVG/O링+군번줄_확정.svg");
+	background-image: url("/svg/O링+군번줄_확정.svg");
 }
 #O링휴대폰줄{
-	background-image:url("/SVG/O링+휴대폰줄_기본.svg");
+	background-image:url("/svg/O링+휴대폰줄_기본.svg");
 }
 #O링휴대폰줄:hover{
-	background-image: url("/SVG/O링+휴대폰줄_기본.svg");
+	background-image: url("/svg/O링+휴대폰줄_기본.svg");
 }
 #O링휴대폰줄:active{
-	background-image: url("/SVG/O링+휴대폰줄_확정.svg");
+	background-image: url("/svg/O링+휴대폰줄_확정.svg");
 }
 #키링{
-	background-image:url("/SVG/키링_기본.svg");
+	background-image:url("/svg/키링_기본.svg");
 }
 #키링:hover{
-	background-image: url("/SVG/키링_기본.svg");
+	background-image: url("/svg/키링_기본.svg");
 }
 #키링:active{
-	background-image: url("/SVG/키링_확정.svg");
+	background-image: url("/svg/키링_확정.svg");
 }
 
 #O링조립{
-	background-image:url("/SVG/오링조립_기본.svg");
+	background-image:url("/svg/오링조립_기본.svg");
 }
 #O링조립:hover{
-	background-image: url("/SVG/오링조립_기본.svg");
+	background-image: url("/svg/오링조립_기본.svg");
 }
 #O링조립:active{
-	background-image: url("/SVG/오링조립_확정.svg");
+	background-image: url("/svg/오링조립_확정.svg");
 }
 #OPP개별포장{
-	background-image:url("/SVG/OPP개별포장_기본.svg");
+	background-image:url("/svg/OPP개별포장_기본.svg");
 }
 #OPP개별포장:hover{
-	background-image: url("/SVG/OPP개별포장_기본.svg");
+	background-image: url("/svg/OPP개별포장_기본.svg");
 }
 #OPP개별포장:active{
-	background-image: url("/SVG/OPP개별포장_확정.svg");
+	background-image: url("/svg/OPP개별포장_확정.svg");
 }
 #다포장{
-	background-image:url("/SVG/많음_기본.svg");
+	background-image:url("/svg/많음_기본.svg");
 }
 #다포장:hover{
-	background-image: url("/SVG/많음_기본.svg");
+	background-image: url("/svg/많음_기본.svg");
 }
 #다포장:active{
-	background-image: url("/SVG/많음_확정.svg");
+	background-image: url("/svg/많음_확정.svg");
 }
 #단면{
-	background-image:url("/SVG/단면_기본.svg");
+	background-image:url("/svg/단면_기본.svg");
 }
 #단면:hover{
-	background-image: url("/SVG/단면_기본.svg");
+	background-image: url("/svg/단면_기본.svg");
 }
 #단면:active{
-	background-image: url("/SVG/단면_확정.svg");
+	background-image: url("/svg/단면_확정.svg");
 }
 #양면{
-	background-image:url("/SVG/양면_기본.svg");
+	background-image:url("/svg/양면_기본.svg");
 }
 #양면:hover{
-	background-image: url("/SVG/양면_기본.svg");
+	background-image: url("/svg/양면_기본.svg");
 }
 #양면:active{
-	background-image: url("/SVG/양면_확정.svg");
+	background-image: url("/svg/양면_확정.svg");
 }
 
 #productsizeview{
