@@ -202,9 +202,9 @@ router.post('/phoneCheck', async (req,res)=>{
             headers: { "Authorization": accessToken } // 인증 토큰 Authorization header에 추가
         });
         const certificationsInfo = getCertifications.data.response; // 조회한 인증 정보
-        //console.log(certificationsInfo)
-        //res.status(201).json({}) crtificationsInfo에서 필요한 정보만 전송.
-        res.status(200).redirect('/signup')
+        console.log(certificationsInfo)
+        res.status(200).json({certificationsInfo}) //crtificationsInfo에서 필요한 정보만 전송.
+        //res.status(200).redirect('/signup')
     } catch(e) {
         console.error(e);
         res.status(204).json();

@@ -3,7 +3,7 @@
             
         <div class="section1">
             <h1>My Page</h1>
-            <div class="sec1_1"><p>내용잔뜩</p></div>
+            <div class="sec1_1"><!--<p>내용잔뜩</p>--></div>
         </div>
         <h2>최근주문내역</h2>
         <div class = "section2">

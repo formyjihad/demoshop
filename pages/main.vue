@@ -5,19 +5,19 @@
                 <nuxt-link :to='{path:"/goods/"+good["_id"]}'>
                     <img :src="'/uploads/' + good['img']">
                     <div class="item">{{good['name']}}</div>
-                    <div class="item-e">{{good['price']}} 원</div>
+                    제작하기
                 </nuxt-link>
             </div>
-        </section>
+        </section><!--
         <div class = "pagination">
             <a href="#" @click='getPage(p)' v-for="p in pagination" :key="p">{{p+1}}</a>
-        </div>
+        </div>-->
     </div>
 </template>
 
 <script>
 import axios from 'axios'
-function getPagination ({currentPage, totalCount, limit}){
+/*function getPagination ({currentPage, totalCount, limit}){
     let pn = []
     let maxPage = Math.floor(totalCount/limit)
     for(let i = currentPage -3; i<currentPage+3 && i<=maxPage; i++){
@@ -27,7 +27,7 @@ function getPagination ({currentPage, totalCount, limit}){
     }
     return pn
 }
-
+*/
 export default {
     async asyncData(){
         let url = "/api/goods"
@@ -37,11 +37,11 @@ export default {
             totalCount:data.data.totalCount,
             limit : data.data.limit,
             currentPage: data.data.currentPage,
-            pagination:getPagination({
-                currentPage:data.data.currentPage,
-                totalCount:data.data.totalCount,
-                limit:data.data.limit
-            })
+            //pagination:getPagination({
+            //    currentPage:data.data.currentPage,
+            //    totalCount:data.data.totalCount,
+            //    limit:data.data.limit
+            //})
         } 
     },
     methods : {
@@ -53,11 +53,11 @@ export default {
             this.totalCount = data.data.totalCount
             this.limit = data.data.limit
             this.currentPage = data.data.currentPage
-            this.pagination = getPagination({
+            /*this.pagination = getPagination({
                 currentPage:data.data.currentPage,
                 totalCount:data.data.totalCount,
                 limit:data.data.limit
-            })
+            })*/
             
        // console.log(data.data.good)
         }

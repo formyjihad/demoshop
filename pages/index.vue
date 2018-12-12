@@ -1,13 +1,13 @@
 <template>
     <div class="index">
-        <div class="main_img_container">
-            <img class="main_img" src="/main_C2.jpg">
+        <div class="main_img_container right-3 up-3">
+            <div><img class="main_img" src="/main_C2.jpg"></div>
         </div>
         <section class = "container">
             <div class="pi_imgs" v-for ="good in goods" :key="good['_id']">
                 <nuxt-link :to='{path:"/goods/"+good["_id"]}'>
                     <img :src="'/uploads/' + good['img']">
-                    <div class="item">{{good['name']}}제작하기</div>
+                    <div class="item">{{good['name']}} 제작하기</div>
                 </nuxt-link>
             </div>
         </section>
@@ -73,11 +73,6 @@ export default {
     font-size: 15px;
     text-align: center;
 }
-.item_e{
-    font-family: "KBIZ한마음고딕 L", "맑은고딕", "나눔고딕","고딕", arial, helvetica, sans-serif;
-    color: #454545;
-    font-size: 12px;
-}
 .main_img_container{
     width:100%;
     height:auto;
@@ -85,9 +80,14 @@ export default {
 }
 .main_img_container .main_img{
     width:100%;
+    max-width:100%;
     height:auto;
-    overflow:hidden;
-    margin: 0 auto;
+    -ms-interpolation-mode: bicubic;
+}
+.main_img_container div{
+    position: relative;
+    max-width: none;
+    height:auto;
 }
 
 .COMPANY_INFO{
@@ -104,16 +104,17 @@ export default {
     font-size: 14px;
     color: #454545;
 }
-@media(min-width: 986px){
-    .main_img_container{
-        width:100%;
-        height: auto;
-        overflow: hidden;
+@media(max-width: 986px){
+    .main_img_container div{
+        margin:-3em -3em; 
     }
-    .main_img_container .main_img{
-        width:100%;
-        height:auto;
+    .up-3 div{
+        margin-top:-1.5em;
+        margin-bottom:-1.5em;
     }
-
+    .right-3 div{
+        margin-left:-6em;
+        margin-right:-6em;
+    }
 }
 </style>

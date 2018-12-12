@@ -6,6 +6,13 @@
     
         <div class="addressList">
             <table>
+                <thead>
+                    <tr>
+                        <th class="cols_no">우편번호</th>
+                        <th class="cols">(구)지번주소</th>
+                        <th class="cols">(신)도로명주소</th>
+                    </tr>
+                </thead>
                 <tr v-for="address in address" :key="address" @click="sendToConfirm(address)">
                     <td>{{address.zipNo}}</td>
                     <td>{{address.jibunAddr}}</td>
@@ -154,6 +161,13 @@ export default {
     text-align: center;}
 
 .number a{margin-left:10px;}
+.cols_no{
+    width:50px;
+    text-align: center;
+}
+.cols{
+    text-align: center;
+}
 </style>
 
 

@@ -88,7 +88,7 @@
             <ul class="box2">
                 <li>
                     <div class="left">
-                      <h3>step1<img class="quest" src="/svg/느낌표.svg"></h3>
+                      <h3>step1<img class="quest" src="/svg/느낌표.svg" @mouseover="detail(0)"></h3>
                       <p class="step1">결제대기</p>
                     </div>
                     <div class="right">
@@ -97,7 +97,7 @@
                 </li>
                 <li>
                     <div class="left">
-                     <h3>step2<img class="quest" src="/svg/느낌표.svg"></h3>
+                     <h3>step2<img class="quest" src="/svg/느낌표.svg" @mouseover="detail(1)"></h3>
                       <p class="step2">주문접수</p>
                     </div>
                     <div class="right">
@@ -106,7 +106,7 @@
                 </li>
                 <li>
                     <div class="left">
-                     <h3>step3<img class="quest" src="/svg/느낌표.svg"></h3>
+                     <h3>step3<img class="quest" src="/svg/느낌표.svg" @mouseover="detail(2)"></h3>
                       <p class="step3">도안검수</p>
                     </div>
                     <div class="right">
@@ -115,7 +115,7 @@
                 </li>
                 <li>
                     <div class="left">
-                     <h3>step4<img class="quest" src="/svg/느낌표.svg"></h3>
+                     <h3>step4<img class="quest" src="/svg/느낌표.svg" @mouseover="detail(3)"></h3>
                       <p class="step4">제작중</p>
                     </div>
                     <div class="right">
@@ -124,7 +124,7 @@
                 </li>
                 <li>
                     <div class="left">
-                      <h3>step5<img class="quest" src="/svg/느낌표.svg"></h3>
+                      <h3>step5<img class="quest" src="/svg/느낌표.svg" @mouseover="detail(4)"></h3>
                       <p class="step5">배송중</p>
                     </div>
                     <div class="right">
@@ -133,7 +133,7 @@
                 </li>
                 <li>
                     <div class="left">
-                      <h3>step6<img class="quest" src="/svg/느낌표.svg"></h3>
+                      <h3>step6<img class="quest" src="/svg/느낌표.svg" @mouseover="detail(5)"></h3>
                       <p class="step6">주문완료</p>
                     </div>
                     <div class="right">
@@ -151,7 +151,7 @@
             <div class="se3">
                 <p>배송/교환/환불/취소 안내</p>
                 <div class="box3">
-                    <h4>내용입니다. 내용이 잔뜩 들어갑니다.</h4>
+                    <!--<h4>내용입니다. 내용이 잔뜩 들어갑니다.</h4>-->
                 </div>
             </div>
         </div>
@@ -230,6 +230,22 @@ export default {
         }
     },
     methods:{
+        detail(index){
+            let target = document.getElementsByClassName("quest");
+            if(index == 0){
+                target[index].title = "주문 후 입금 확인이 되지 않음"
+            }else if(index == 1){
+                target[index].title = "입금 확인 되었지만 도안 검수가 진행 되지 않음"
+            }else if(index == 2){
+                target[index].title = "도안 검수 후 메일 회신"
+            }else if(index == 3){
+                target[index].title = "최종 도안이 회신되어 제작이 진행 중"
+            }else if(index == 4){
+                target[index].title = "제작이 완료되어 발송됨"
+            }else if(index == 5){
+                target[index].title = "고객님께서 제품을 받음"
+            }
+        },
         async modalCheck(){
             //console.log("modalCheck")
             if (this.order.status == "결제대기" || this.order.status == "도안 업로드 대기"){

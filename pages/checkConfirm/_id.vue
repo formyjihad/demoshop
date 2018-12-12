@@ -59,13 +59,16 @@
         <div class="section2">
             <div class="sec2_1">
                 <ul>
-                    <li>상품</li><li>가격</li><li>수량</li><li>할인</li><li>총계</li>
+                    <li>상품</li><li>가격</li><li>수량</li><li>총계</li>
                 </ul>
             </div>
             <div class="sec2_2">
                 <div class="sec2_2_1">
                     <ul v-for="orderDetail in orderDetail" :key="orderDetail">
-                        <li>{{orderDetail.goodsType}}</li><li>{{orderDetail.price*orderDetail.quantity+(orderDetail.design*5500)}}</li><li>{{orderDetail.quantity}}</li><li><!--{{sale}}--></li><li>{{order.totalAmount}}</li>
+                        <li>{{orderDetail.goodsType}}</li>
+                        <li>{{orderDetail.price*orderDetail.quantity+(orderDetail.design*5500)}}</li>
+                        <li>{{orderDetail.quantity}}</li>
+                        <li>{{order.totalAmount}}</li>
                     </ul>
                 </div>
                 <div class="box">
@@ -76,7 +79,7 @@
                         </tr>
                         <tr>
                             <td>배송비</td>
-                            <td>3500</td>
+                            <td>{{deliveryPrice}}</td>
                         </tr>
                         <tr>
                             <td>지불방법</td>
@@ -146,6 +149,7 @@ export default {
             this.status = orderData.status
             this.paymentType = paymentType
             this.price = total;
+            this.deliveryPrice = orderData.deliveryPrice
         }
         
     }

@@ -46,10 +46,10 @@ export default {
     },
     methods : {
         displayToggle(index){
-            //console.log("work")
+            console.log("work")
             const targetIndex = index
             let target = document.getElementsByClassName("notice-detail")
-            //console.log(target)
+            console.log(target)
             if(target[targetIndex].style.display=='none'){
                 target[targetIndex].style.display= 'block'
             }
@@ -76,5 +76,22 @@ export default {
 </script>
 
 <style>
-
+.notice-container{
+    text-align: center;
+}
+.notice-title{
+    font-size: 20px;
+    font-weight: 400;
+    display: block;
+    width: 60px;
+    border-bottom: 2px solid #bcbcbc;
+    margin: 10px auto;
+}
+.notice-detail{
+    font-size: 13px;
+    margin-top: 5px;
+}
+.pagination{
+    display: inline-block;
+}
 </style>
