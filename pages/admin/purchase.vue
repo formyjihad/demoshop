@@ -64,7 +64,7 @@ export default {
             
         },
         async detail(order, index){
-            console.log(order);
+            //console.log(order);
             let detail = document.getElementsByClassName('orderDetail')
             let detailData = ""
             let orderIndex = index;
@@ -76,7 +76,7 @@ export default {
                     detailData = detailData + "\n\n" + "사이즈 : "+order.orderDetail[i].xSize+"*"+order.orderDetail[i].ySize+"\n"+"두께 : "+order.orderDetail[i].thick+"\n포장 : "+order.orderDetail[i].packing+"\n부자재 : "+order.orderDetail[i].subItem+"\n인쇄면 : "+order.orderDetail[i].printside
                 }
             }
-            console.log(detailData)
+            //console.log(detailData)
             detail[orderIndex].title = detailData
         }
     },

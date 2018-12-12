@@ -3,7 +3,7 @@
         <button class="close" @click="closetab"><img class='menuimg' src='/menu_logo.png'></button>
             <div class="login">
                 <div class="id">
-                <form class="signinform" @submit="signin" v-if="!isLogin">
+                <form class="signinform" @submit.prevent="signin" v-if="!isLogin">
                     <div class="signin">
                         <input type="text" id ="id" v-model="uid" autocomplete="off"/>
                         <label for="id">ID</label>
@@ -24,7 +24,7 @@
                 </form>
                 <div class="after-login" v-else>
                     <div class="login-info">
-                        <h4>{{uid}}님</h4>
+                        <h4>{{user}}님</h4>
                         반갑습니다.
                     </div>
                     <div class="signout" @click="signout()">
@@ -76,13 +76,21 @@ export default {
         return{
             uid:'',
             password:'',
-            status:''
+            status:'',
+            user:'default',
         }
     },
     computed: {
         ...mapGetters({
             isLogin: 'users/isLogin'
         })
+    },
+    async mounted(){
+        if(this.isLogin){
+            let url = '/api/users/collectId'
+            let uidData = await axios.get(url)
+            this.user=uidData.data.uid
+        }
     },
     methods:{
         async signin(){
@@ -92,6 +100,7 @@ export default {
                 password:this.password
             })
             if(data.status == 200){
+                window.location.reload(true)
                 this.login()
             }else if(data.status == 204){
                 alert('잘못된 정보입니다.');
@@ -99,11 +108,12 @@ export default {
         },
         async signout(){
             let confirmed = confirm("로그아웃 하시겠습니까?")
-            console.log("확인 결과 "+confirmed)
+            //console.log("확인 결과 "+confirmed)
             if (confirmed == true){
-                console.log("try to sign out")
+                //console.log("try to sign out")
                 let url = '/api/users/signout'
                 let data = await axios.put(url)
+                window.location.reload(true)
                 this.logout();
             }
         },
@@ -114,12 +124,6 @@ export default {
             login:'users/login',
             logout:'users/logout'
         })
-    },
-    async created(){
-        let url = "/api/users/sidebarId"
-        let infoData = await axios.get(url)
-        //this.status = infoData.data.userData.status
-        this.uid = infoData.data.userId
     }
 }
 </script>

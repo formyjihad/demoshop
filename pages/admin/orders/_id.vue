@@ -110,9 +110,9 @@ export default {
                 orderId:orderId,
                 index:orderDetailIndex
             })
-            console.log(deleteData)
+            //console.log(deleteData)
             if(deleteData.status == 204){
-                console.log('error');
+                //console.log('error');
             }else if(deleteData.status == 200){
                 alert(index + "번째 주문을 삭제하였습니다.")
                 this.orderDetail.splice(index, 1);
@@ -141,7 +141,7 @@ export default {
         let url = `/api/admin/purchase/update?orderId=${this.orderId}`
         let orderData = await axios.get(url)
         
-        console.log(orderData.data.orderData)
+        //console.log(orderData.data.orderData)
         this.order = orderData.data.orderData
         this.orderDetail = orderData.data.orderData.orderDetail
     }

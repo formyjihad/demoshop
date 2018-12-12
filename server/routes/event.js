@@ -38,7 +38,7 @@ router.post('/', file.single('img'), async (req,res)=>{
     //console.log(saveData)
     try{
         let saveData = await event.save();
-        console.log(saveData);
+        //console.log(saveData);
         res.status(200).json();
 
     }catch(err){

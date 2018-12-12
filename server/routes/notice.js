@@ -30,21 +30,21 @@ router.post('/', file.single('img'), async (req,res)=>{
     //console.log(req.body.price)
     //console.log(req.file.filename)
 
-    console.log(req.body)
+    //console.log(req.body)
 
     notice.title = req.body.title;
     notice.detail = req.body.detail;
     /*if(req.file.filename != undefined){
         notice.img = req.file.filename;
     }*/
-    console.log(notice)
+    //console.log(notice)
 
     //console.log("this is working?")
     
     //console.log(saveData)
     try{
         let saveData = await notice.save();
-        console.log(saveData);
+        //console.log(saveData);
         res.status(200).json();
 
     }catch(err){

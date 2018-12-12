@@ -135,7 +135,7 @@ export default {
 		return true
 	},
 	mounted(){
-		console.log("ready function")
+		//console.log("ready function")
 		this.productsizing(4,4);
 	},
 	data(){
@@ -256,7 +256,7 @@ export default {
 					document.getElementById("sizebox").style.left = "0px";
 					document.getElementById("heightbox").style.left = "0px";
 					let coinsize = productsizeviewHeight*2.4/widthInputvalue;
-					console.log(heightInputvalue);
+					//console.log(heightInputvalue);
 					document.getElementById("fiveWonCoin").style.width = coinsize+"px";
 					document.getElementById("fiveWonCoin").style.height = coinsize+"px";
 					document.getElementById("fiveWonCoin").style.top = productsizeviewHeight-2*margintopValue-coinsize+"px";
@@ -271,7 +271,7 @@ export default {
 					document.getElementById("sizebox").style.top = "0px";
 					document.getElementById("heightbox").style.top = "0px";
 					let coinsize = productsizeviewWidth*2.4/heightInputvalue;
-					console.log(heightInputvalue);
+					//console.log(heightInputvalue);
 					document.getElementById("fiveWonCoin").style.width = coinsize+"px";
 					document.getElementById("fiveWonCoin").style.height = coinsize+"px";
 					document.getElementById("fiveWonCoin").style.top = productsizeviewWidth-coinsize+"px";
@@ -285,7 +285,7 @@ export default {
 					document.getElementById("sizebox").style.top = "0px";
 					document.getElementById("heightbox").style.top = "0px";
 					let coinsize = productsizeviewHeight*2.4/widthInputvalue;
-					console.log(heightInputvalue);
+					//console.log(heightInputvalue);
 					document.getElementById("fiveWonCoin").style.width = coinsize+"px";
 					document.getElementById("fiveWonCoin").style.height = coinsize+"px";
 					document.getElementById("fiveWonCoin").style.top = productsizeviewHeight-coinsize+"px";
@@ -464,7 +464,7 @@ export default {
 				})
 				if (cartIndex == -1){
 					this.addToCart(goods);
-					console.log("post 대기")
+					//console.log("post 대기")
 					/*let fileData = await axios.post('/api/fileUpload',formData,{
 						headers:{
 							'Content-Type':'multipart/form-data'
@@ -489,12 +489,12 @@ export default {
 			return true; //return false if you want to prevent moving to next page
 		},
 		async nextClicked(currentPage) {
-			console.log('next clicked', currentPage)
+			//console.log('next clicked', currentPage)
 			if(currentPage == 7){
 				/*
 				let formData = new FormData();
 				let fileDom = document.querySelector('#uploadImg');
-				console.log(fileDom)
+				//console.log(fileDom)
 				let uploadImg = fileDom.files[0];
 				formData.append("img", fileDom.files[0]);*/
 				const date = new Date()
@@ -571,7 +571,7 @@ export default {
 					})
 					if (cartIndex == -1){
 						this.addToCart(goods);
-						console.log("post 대기")
+						//console.log("post 대기")
 						/*let fileData = await axios.post('/api/fileUpload',formData,{
 							headers:{
 								'Content-Type':'multipart/form-data'
@@ -597,7 +597,7 @@ export default {
 			return true; //return false if you want to prevent moving to next page
 		},
 		backClicked(currentPage) {
-			console.log('back clicked', currentPage);
+			//console.log('back clicked', currentPage);
 			return true; //return false if you want to prevent moving to previous page
 		},
 			

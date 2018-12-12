@@ -11,9 +11,9 @@ export default {
     
     async mounted() {
         let confirmed = confirm("로그아웃 하시겠습니까?")
-        console.log("확인 결과 "+confirmed)
+        //console.log("확인 결과 "+confirmed)
         if (confirmed == true){
-            console.log("try to sign out")
+            //console.log("try to sign out")
             let url = '/api/users/signout'
             let data = await axios.put(url)
             this.logout();

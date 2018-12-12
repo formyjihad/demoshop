@@ -406,35 +406,23 @@ export default {
 				sendBtn.disabled = false
 			}
 		},
-		send(){
+		async send(){
+			const url = '/api/users/phoneCheck'
 			IMP.certification({
-				merchant_uid : 'merchant_' + new Date().getTime() //본인인증과 연관된 가맹점 내부 주문번호가 있다면 넘겨주세요
-			}, function(rsp) {
-				if ( rsp.success ) {
-					// 인증성공
-					//console.log(rsp.imp_uid);
-					//console.log(rsp.merchant_uid);
-					$.ajax({
-							type : 'POST',
-							url : '/certifications/confirm',
-							dataType : 'json',
-							data : {
-								imp_uid : rsp.imp_uid
-							}
-					}).done(function(rsp) {
-						console.log(rsp);
-						this.$nuxt.$router.replace({path:'/signup'})
-							// 이후 Business Logic 처리하시면 됩니다.
-					});
+				merchant_uid : 'merchant_' + new Date().getTime(),
+				popup:true // param
+			}, async (res) => { // callback
+				//console.log(res)
+				if (res.success) {
+					alert("본인 인증에 성공하였습니다. \n회원 가입 페이지로 이동합니다.")
+					const checkData = await axios.post(url,{
+						impUid:res.imp_uid
+					})
+					location.replace('/signup')
 				} else {
-					// 인증취소 또는 인증실패
-					var msg = '인증에 실패하였습니다.';
-					msg += '에러내용 : ' + rsp.error_msg;
-					alert(msg);
+					alert(`인증에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
 				}
-			});
-			
-			
+			})
 		}
 	}
 }

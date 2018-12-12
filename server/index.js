@@ -56,14 +56,14 @@ app.use('/api', routes);
 app.use(nuxt.render);
 
 server.listen(port, () =>{
-    console.log("server is now on 80 port")
+    //console.log("server is now on 80 port")
 });
 
 let db = mongoose.connection;
 
 db.on('error', console.error);
 db.once('open', function(){
-    console.log("Connected to mongod server");
+    //console.log("Connected to mongod server");
 });
 
 mongoose.connect('mongodb://localhost:27017/shopdemoDB');

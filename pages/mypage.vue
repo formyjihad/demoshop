@@ -109,7 +109,7 @@ export default {
             if(getData.data.order.orderDetail.length > 1){
                 goodsName = getData.data.order.orderDetail[0].goodsName + "외 " + getData.data.order.orderDetail.length +"건"
             }*/
-            console.log(orderData);
+            //console.log(orderData);
             this.orders = orderData
             this.orderDetail = getData.data.order.orderDetail
             this.totalCount = getData.data.totalCount

@@ -59,27 +59,11 @@ export default {
             userName:'',
         }
     },
-    beforeMount() {
-        IMP.init(IMP_CODE)
+    created(){
+        IMP.init(IMP_CODE);
     },
-    methods:{/*
-        phoneCheck(){
-            const url = '/api/users/phoneCheck'
-            IMP.certification({
-                popup:true // param
-            }, async (res) => { // callback
-                console.log(res)
-                if (res.success) {
-                    let checkData = await axios.post(url,{
-                        impUid:res.imp_uid
-                    })
-
-
-                } else {
-                    alert(`인증에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
-                }
-            });
-        },*/
+    methods:{
+        
         passwordCheck(value){
             if(value != this.password){
                 alert("패스워드가 잘못되었습니다");
@@ -138,7 +122,7 @@ export default {
                     postCode:this.postCode,
                     password:this.password,
                 })
-                console.log(data)
+                //console.log(data)
                 if(signData.status == 200){
                     alert('해당 아이디는 이미 존재합니다.');
                 }else if(signData.status == 201){

@@ -17,7 +17,7 @@ async function createToken(){
         // Scopes can be specified either as an array or as a single, space-delimited string.
     try{
         let tokens = await auth.authorize()
-        console.log(tokens)
+        //console.log(tokens)
         return tokens
     }catch(err){
         console.error(err)

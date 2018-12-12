@@ -40,10 +40,10 @@ router.get('/purchase', (req, res) => {
 
 router.get('/purchase/update', async (req, res) => {
     let id = req.query.orderId;
-    console.log(id)
+    //console.log(id)
     try {
         let orderData = await orders.findOne({'_id':id})
-        console.log(orderData)
+        //console.log(orderData)
         res.status(200).json({orderData})
     }catch(err){
         console.error(err)
@@ -61,7 +61,7 @@ router.post('/purchase/delete', async (req, res) => {
         let deleteData = order.orderDetail[index]._id
         let newOrder = await orders.findOneAndUpdate({"_id":orderId},{orderDetail:index},{"orderDetail.$":""});
 
-        console.log(newOrder)
+        //console.log(newOrder)
         res.status(200).json({})
     }catch(err){
         return res.status(204).json({err});
@@ -169,22 +169,22 @@ router.get('/users', (req, res)=>{
 
 router.post('/goods/registry', file.single('img'), (req,res)=>{
     let good = new goods()
-    console.log(req.body.name)
-    console.log(req.body.price)
-    console.log(req.file.filename)
+    //console.log(req.body.name)
+    //console.log(req.body.price)
+    //console.log(req.file.filename)
 
     good.name = req.body.name;
     good.price = req.body.price;
     good.img = req.file.filename;
 
-    console.log("this is working?")
+    //console.log("this is working?")
     good.save(function(err, good){
         if(err){
             console.error(err);
             res.status(204).json();
             return;
         }
-        console.log(good)
+        //console.log(good)
         res.status(200).json({});
     });
 });
@@ -264,7 +264,7 @@ router.post('/google', async(req, res)=>{
             }
         })
     
-        console.log(sheetData)
+        //console.log(sheetData)
         let sheet = JSON.stringify(sheetData.data)
         res.status(200).json({sheet});
     }

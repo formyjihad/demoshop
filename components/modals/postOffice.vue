@@ -86,7 +86,7 @@ export default {
         async getPage(value, page){
             let regkey = 'U01TX0FVVEgyMDE4MDkwNDExNDgxNzEwODExMTI='
             let currentPage = page+1;
-          //  console.log(currentPage)
+          //  //console.log(currentPage)
             let countPerPage = 10;
             let url = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=${currentPage}&countPerPage=${countPerPage}&keyword=${value}&confmKey=${regkey}&resultType=json`
             let axiosData = await axios.get(url)
@@ -95,7 +95,7 @@ export default {
                 this.address = axiosData.data.results.juso;
                 this.currentPage = axiosData.data.results.common.currentPage;
                 this.pagination = getPagination(currentPage, totalCount, countPerPage);
-              //  console.log(this.address)
+              //  //console.log(this.address)
             }
             else{
                 alert("오류 발생")

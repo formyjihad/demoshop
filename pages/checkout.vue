@@ -291,7 +291,7 @@ export default {
             let url = '/api/coupon/';
             let couponData = await axios.post(url, {code:this.couponCode,totalAmount:this.totalAmount});
             if(couponData.status==200){
-                console.log(couponData)
+                //console.log(couponData)
                 this.couponDiscount = parseInt(couponData.data.discountAmount)
             }
             else if(couponData.status==204){
@@ -331,7 +331,7 @@ export default {
             let url;
             //console.log(this.cart)
             if(this.isLogin==null){
-                console.log("비로그인 감지");
+                //console.log("비로그인 감지");
                 //let tempid = "DN"+Date.now;
                 url = '/api/purchase/noSign'
             }// 비로그인 주문 코드. DN + 현재 시간.
@@ -428,7 +428,7 @@ export default {
                             phoneNumber:res.custom_data.phoneNumber
                         })
                         //console.log(saveData)
-                        location.href = "/checkConfirm/"+postData.data.purchase._id
+                        location.replace("/checkConfirm/"+postData.data.purchase._id)
                     }else if(postData.status == 204){
                         alert('잘못된 정보입니다.');
                     }else if(postData.status == 206){
@@ -441,7 +441,7 @@ export default {
                 }
             })
 /*
-            console.log("post 시작");
+            //console.log("post 시작");
             */
         },
         ...mapActions({

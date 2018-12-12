@@ -6,7 +6,7 @@ let purchaseSchema = new Schema({
         type:String
     },
     bankNum:{
-        type:Number
+        type:String
     },
     bankHolder:{
         type:String

@@ -12,11 +12,11 @@ module.exports = new LocalStrategy({
     
     async function(req, userid, password, done){
         if(!userid || !password) return done(null, false);
-        console.log("Try to sign in");
+        //console.log("Try to sign in");
         let loginData = await users.findOne({'uid':userid})/*, function(err, user){
             if(err) return done(err);
             if(!user){ 
-                console.log("fail to sign in"); 
+                //console.log("fail to sign in"); 
                 done(null, false); 
             }
             return done(null, user);
@@ -28,7 +28,7 @@ module.exports = new LocalStrategy({
         try
         {
             if(loginData.password == password){
-                console.log(Secret_key)
+                //console.log(Secret_key)
                 const accessToken = jwt.sign({id:userid, status:loginData.status}, Secret_key ,{expiresIn:'1d'});
                 return done(null, {
                     uid:loginData.uid,
@@ -41,7 +41,7 @@ module.exports = new LocalStrategy({
             }
         }
         catch(err){
-            console.log("fail to sign in"); 
+            //console.log("fail to sign in"); 
             console.error(err);
             return done(null, false)
             

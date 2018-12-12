@@ -23,7 +23,7 @@ router.post('/', (req, res)=>{
         }
     }).then((result) =>{
         if(result.data.code !== 0){
-            console.log("토큰 취득 실패")
+            //console.log("토큰 취득 실패")
             
             res.status(204).json({});
         }else{
@@ -43,7 +43,7 @@ router.post('/', (req, res)=>{
     }).then((result)=>{
         //console.log(result)
         if(result.data.code !== 0){
-            console.log("this error is shit-ass-fuck")
+            //console.log("this error is shit-ass-fuck")
             res.status(204).json({});
         }
         else{
@@ -159,7 +159,7 @@ router.post('/save', async (req, res)=>{
     //주문정보 저장
     let order = new orders();
     let values = []
-    let value = []
+    
     //console.log(req.body.length)
     //console.log("breakpoint2")
     //console.log(req.body)
@@ -183,30 +183,31 @@ router.post('/save', async (req, res)=>{
     order.orderDate = nowTime;
     order.count = 3;
     order.status = "ready"
-    
-    
-    for(let i=0; i<req.body.cart.length; i++){
-        //console.log(order.orderDetail[i].xSize)
-        order.orderDetail[i] = data.cart[i]
-
-        value.push(data.orderId, nowTime, data.dName, data.orderName, "", "", data.phoneNumber,data.address)
-        value.push(data.cart[i].goodsType)  //아크릴 상품 타입
-        value.push(data.cart[i].printside)
-        value.push(data.cart[i].xsize)
-        value.push(data.cart[i].ysize)
-        value.push(data.cart[i].stand)    //바닥부품
-        value.push(data.cart[i].thick)
-        value.push(data.cart[i].quantity)    //갯수
-        value.push(data.cart[i].subItem)   //부속품
-        value.push(data.cart[i].packing)
-        value.push(data.totalAmount)
-        value.push(data.deliveryPrice)
-        value.push(order.orderId+"-DesignFile", "", "")
-        values.pop(value)
-    }
-    
     try{
+        for(let i=0; i<req.body.cart.length; i++){
+            //console.log(order.orderDetail[i].xSize)
+            order.orderDetail[i] = data.cart[i]
+            let value = []
+            value.push(data.orderId, nowTime, data.dName, data.orderName, "", "", data.phoneNumber,data.address)
+            value.push(data.cart[i].goodsType)  //아크릴 상품 타입
+            value.push(data.cart[i].printside)
+            value.push(data.cart[i].xsize)
+            value.push(data.cart[i].ysize)
+            value.push(data.cart[i].stand)    //바닥부품
+            value.push(data.cart[i].thick)
+            value.push(data.cart[i].quantity)    //갯수
+            value.push(data.cart[i].subItem)   //부속품
+            value.push(data.cart[i].packing)
+            value.push(data.totalAmount)
+            value.push(data.deliveryPrice)
+            value.push(order.orderId+"-DesignFile", "", "")
+            values.push(value)
+        }
         let sheet = await sheetPost(values)
+    }catch(err){
+        res.status(204).json();
+    }
+    try{
         let findUser = await users.findOne({"uid":order.uid})
         let point = 0;
         if(!findUser){
@@ -272,12 +273,12 @@ router.get('/checkStatus', async(req,res)=>{
             })
             //console.log(tokenData)
             if(tokenData.data.code !== 0){
-                console.log("토큰 취득 실패")
+                //console.log("토큰 취득 실패")
                 
                 res.status(204).json({});
             }else{
                 //console.log(result)
-               // console.log(impUid)
+               // //console.log(impUid)
                 //console.log(tokenData.data.response.access_token)
                 const author = "Bearer "+tokenData.data.response.access_token
                 //console.log(author)
@@ -339,12 +340,12 @@ router.get('/checkOrder', async (req, res)=>{
             })
             //console.log(tokenData)
             if(tokenData.data.code !== 0){
-                console.log("토큰 취득 실패")
+                //console.log("토큰 취득 실패")
                 
                 res.status(204).json({});
             }else{
                 //console.log(result)
-               // console.log(impUid)
+               // //console.log(impUid)
                 //console.log(tokenData.data.response.access_token)
                 const author = "Bearer "+tokenData.data.response.access_token
                 //console.log(author)
@@ -356,7 +357,7 @@ router.get('/checkOrder', async (req, res)=>{
                     },
                 })
                 let orderData = await orders.findOneAndUpdate({"purchaseId":purchaseId},{$set:{status:statusData.data.response.status}})
-                console.log(orderData);
+                //console.log(orderData);
                 if(orderData.status == 'ready'){
                     let status = '결제대기'
                     orderData.status = status

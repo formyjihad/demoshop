@@ -28,7 +28,7 @@ export default {
     ],
     methods:{
         async uploadImg(){
-            console.log("등록 대기")
+            //console.log("등록 대기")
             let formData = new FormData();
             let fileDom = document.querySelector('#img');
             formData.append("img", fileDom.files[0]);
@@ -39,7 +39,7 @@ export default {
                     'Content-Type':'multipart/form-data'
                 }
             })
-            console.log("post 종료");
+            //console.log("post 종료");
             if(data.status == 200){
                 let url = '/api/purchase/updateStatus'
                 let postData = await axios.post(url, {

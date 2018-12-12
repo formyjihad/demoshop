@@ -30,14 +30,14 @@ export default {
                 formData.append("img", fileDom.files[0]);
                 formData.append("name",this.name);
                 formData.append("price", this.price);
-                console.log("post 대기");
+                //console.log("post 대기");
             
             let data = await axios.post('/api/admin/goods/registry',formData,{
                 headers:{
                     'Content-Type':'multipart/form-data'
                 }
             })
-            console.log("post 종료");
+            //console.log("post 종료");
             if(data.status == 200){
                 alert('제품이 정상적으로 등록되었습니다.');
             }else if(data.status == 204){

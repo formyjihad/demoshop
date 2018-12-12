@@ -4,6 +4,7 @@ const users = require('../models/user.js')
 const { IMP_KEY, IMP_SECRET } = require('../../config/constants');
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
+const axios = require('axios')
 
 router.get('/',(req,res,next)=>{
     res.send('/users');
@@ -133,12 +134,9 @@ router.get('/checkinfo', async (req,res)=>{
     //res.status(200).json({userId, userName, userAddress, userPhoneNum})
     
 })
-router.get('/sidebarId', async (req,res)=>{
+router.get('/collectId', async(req,res)=>{
     let uid = req.user.uid
-    let userData = await users.findOne({"uid":uid})
-    let userId = userData.uid;
-
-    res.status(200).json({userId})
+    res.status(200).json({uid});
 })
 
 router.post('/idCheck', async (req,res)=>{
@@ -198,17 +196,18 @@ router.post('/phoneCheck', async (req,res)=>{
             imp_key: IMP_KEY, // REST API키
             imp_secret: IMP_SECRET // REST API Secret
         });
-        const accessToken = getToken.data.response; // 인증 토큰
-
+        const accessToken = "Bearer " + getToken.data.response.access_token; // 인증 토큰
         // imp_uid로 인증 정보 조회
         const getCertifications = await axios.get(certUrl,{
             headers: { "Authorization": accessToken } // 인증 토큰 Authorization header에 추가
         });
         const certificationsInfo = getCertifications.data.response; // 조회한 인증 정보
-        console.log(certificationsInfo)
+        //console.log(certificationsInfo)
         //res.status(201).json({}) crtificationsInfo에서 필요한 정보만 전송.
+        res.status(200).redirect('/signup')
     } catch(e) {
         console.error(e);
+        res.status(204).json();
     }
 });
 
@@ -237,12 +236,12 @@ router.get('/session-check', (req, res) =>{
 });
 
 router.get('/signin/success',(req,res)=>{
-    console.log("Sign in Success")
+    //console.log("Sign in Success")
     res.status(200).json();
 });
 
 router.get('/signin/fail',(req,res)=>{
-    console.log("Sign in Fail")
+    //console.log("Sign in Fail")
     res.status(204).json({});
 });
 

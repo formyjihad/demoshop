@@ -65,7 +65,7 @@ export const actions ={
     getCart({ commit }){
         axios.get('/api/cart').then(res =>{
             if(res.data == 'no data'){
-                console.log("cart empty")
+                //console.log("cart empty")
                 return [];
             }
             commit(GET_CART, res.data);

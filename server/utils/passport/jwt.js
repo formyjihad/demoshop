@@ -17,13 +17,13 @@ module.exports = new JWTStrategy({
 }, async function(jwtPayload, done) {
     try{
         let userId = jwtPayload.id
-        console.log("jwtpayload")
+        //console.log("jwtpayload")
         //console.log(jwtPayload)
         let userData = await users.findOne({uid:userId})
         //console.log(userData)
         if(userData.status==0){
             const accessToken = jwt.sign({id:userData.uid, status:userData.status}, Secret_key ,{expiresIn:'1d'});
-            console.log(accessToken)
+            //console.log(accessToken)
             return done(null, {
                 access_token:accessToken
             })

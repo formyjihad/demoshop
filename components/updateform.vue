@@ -55,7 +55,7 @@ export default {
             let form = this.form;
             for (let field in this.orderDetail){
                 form[field] = this.orderDetail[field];
-                console.log(field)
+                //console.log(field)
             }
             
             return form;

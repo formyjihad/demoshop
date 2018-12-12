@@ -62,11 +62,11 @@ router.post('/order', file.single('img'), async(req,res)=>{
         orderData.imgName = imgName;    //도메인 주소로 변경하여 API 호출하기
     
         let sheet = await sheetPost(targetValues,imgName)
-//        console.log("this is working?")
+//        //console.log("this is working?")
         
         let updateData = await orderData.save();
         let updateCount = await orders.findOneAndUpdate({"purchaseId":purchaseId},{$inc:{count:-1}})
-        console.log(updateCount)
+        //console.log(updateCount)
         let count = updateCount.count
         res.status(200).json({count})
     }

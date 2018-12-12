@@ -1,35 +1,33 @@
 <template>
     <div class="index">
-        <div>
-            <img src="/main.png">
+        <div class="main_img_container">
+            <img class="main_img" src="/main_C2.jpg">
         </div>
         <section class = "container">
             <div class="pi_imgs" v-for ="good in goods" :key="good['_id']">
                 <nuxt-link :to='{path:"/goods/"+good["_id"]}'>
                     <img :src="'/uploads/' + good['img']">
-                    <div class="item">{{good['name']}}</div>
-                    <div class="item-e">{{good['price']}} 원</div>
+                    <div class="item">{{good['name']}}제작하기</div>
                 </nuxt-link>
             </div>
         </section>
-        <div class = "pagination">
-            <a href="#" @click='getPage(p)' v-for="p in pagination" :key="p">{{p+1}}</a>
+        <div class="COMPANY_INFO">
+            <div class="company">
+                <h3>COMPANY INFO</h3>
+            </div>
+            <div class="Info">
+                <p>© Copyright 2018 | All Rights Reserved by 동네공작소 |</p>
+                <p>사업자 등록 번호 875-29-00481 | 통신 판매업 신고번호 제2018-서울동작-0422호 |</p>
+                <p>서울시 동작구 상도로34나길 12, A동 지하 301호 | 070-8848-8489 | craft.dongne@gmail.com |</p>
+                <P>이용약관 | 개인정보취급방침</P>
+            </div>
         </div>
+            
     </div>
 </template>
 
 <script>
 import axios from 'axios'
-function getPagination ({currentPage, totalCount, limit}){
-    let pn = []
-    let maxPage = Math.floor(totalCount/limit)
-    for(let i = currentPage -3; i<currentPage+3 && i<=maxPage; i++){
-        if(i>-1){
-            pn.push(i);
-        }
-    }
-    return pn
-}
 
 export default {
     async asyncData(){
@@ -40,31 +38,8 @@ export default {
             totalCount:data.data.totalCount,
             limit : data.data.limit,
             currentPage: data.data.currentPage,
-            pagination:getPagination({
-                currentPage:data.data.currentPage,
-                totalCount:data.data.totalCount,
-                limit:data.data.limit
-            })
         } 
     },
-    methods : {
-        async getPage(page){
-            let url = `/api/goods?page=${page}`
-            let data = await axios.get(url)
-            
-            this.goods = data.data.good
-            this.totalCount = data.data.totalCount
-            this.limit = data.data.limit
-            this.currentPage = data.data.currentPage
-            this.pagination = getPagination({
-                currentPage:data.data.currentPage,
-                totalCount:data.data.totalCount,
-                limit:data.data.limit
-            })
-            
-       // console.log(data.data.good)
-        }
-    }
 }
 </script>
 
@@ -76,17 +51,18 @@ export default {
     margin: 0 auto; padding: 20px; height: 400px;
 }
 .pi_imgs{
-    width: 49%;
+    width: 30%;
     display: inline-block;
     text-align: center;
-    margin-top: 10%;  
+    margin-top: 10%;
+    margin-bottom: 10%;
     
     text-decoration: none;
     color:#454545;
 }
 .pi_imgs img{
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
 }    
 .a_item img{
     width: 400px;
@@ -94,11 +70,50 @@ export default {
 .item{
     font-family: "KBIZ한마음고딕 B", "맑은고딕", "나눔고딕","고딕", arial, helvetica, sans-serif;
     color: #454545;
-    font-size: 20px;
+    font-size: 15px;
+    text-align: center;
 }
 .item_e{
     font-family: "KBIZ한마음고딕 L", "맑은고딕", "나눔고딕","고딕", arial, helvetica, sans-serif;
     color: #454545;
     font-size: 12px;
+}
+.main_img_container{
+    width:100%;
+    height:auto;
+    overflow: hidden;
+}
+.main_img_container .main_img{
+    width:100%;
+    height:auto;
+    overflow:hidden;
+    margin: 0 auto;
+}
+
+.COMPANY_INFO{
+    background-color: #dfdfdf;
+    padding: 50px 50px 50px 50px;
+}
+.company{
+    text-align: center;
+    margin-bottom: 30px;
+    color: #454545
+}
+.Info{
+    text-align: center;
+    font-size: 14px;
+    color: #454545;
+}
+@media(min-width: 986px){
+    .main_img_container{
+        width:100%;
+        height: auto;
+        overflow: hidden;
+    }
+    .main_img_container .main_img{
+        width:100%;
+        height:auto;
+    }
+
 }
 </style>

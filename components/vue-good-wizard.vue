@@ -168,12 +168,12 @@ export default {
 		},
 
 		handleResize() {
-			console.log('handle resize')
+			//console.log('handle resize')
 			if (this.resizer) {
 				clearTimeout(this.resizer);
 			}
 			this.resizer = setTimeout(() => {
-				console.log('resizing...');
+				//console.log('resizing...');
 				this.isMobile = this.$refs['wizard-body'].clientWidth < 620;
 			}, 100);
 		},

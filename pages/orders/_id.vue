@@ -231,7 +231,7 @@ export default {
     },
     methods:{
         async modalCheck(){
-            console.log("modalCheck")
+            //console.log("modalCheck")
             if (this.order.status == "결제대기" || this.order.status == "도안 업로드 대기"){
                 this.$modal.show(fileUpload,{
                     purchaseId:this.orderid,

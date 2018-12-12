@@ -122,7 +122,7 @@ export default {
     async created (){
         let url = `/api/purchase/checkOrder?id=${this.orderId}`
         const checkData = await axios.get(url)
-        console.log("break")
+        //console.log("break")
         let paymentType = ''
         if(checkData.data.purchase.bankHolder){
             paymentType = '무통장입금'            
