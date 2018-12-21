@@ -48,7 +48,6 @@ export default {
 <style scoped>
 .header{
     display: inline-block;
-    height:18vh;
     width:100%;
     background-color: #565656;
     vertical-align:middle;

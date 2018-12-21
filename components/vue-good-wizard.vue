@@ -269,6 +269,7 @@ export default {
   margin-left:  -10px;
   bottom:  2px;
   z-index: 1;
+	cursor: pointer;
 }
 
 .wizard__step.active .wizard__step__indicator{
@@ -282,6 +283,7 @@ export default {
 .wizard__step__label{
   color:  #98a4af;
   font-weight: bold;
+	cursor: pointer;
 }
 
 /* Wizard body 
