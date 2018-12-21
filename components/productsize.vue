@@ -32,6 +32,33 @@ export default {
 	},
     methods:{
         productsizing (x,y){
+            let parseX = parseInt(x);
+            let parseY = parseInt(y);
+            if(parseX!=x){
+                x = parseX;
+                this.xsize = parseX;
+            }
+            if(parseY != y){
+                y = parseY;
+                this.ysize = parseY;
+            }
+            if(x>=30){
+                x = 29;
+                this.xsize = 29;
+            }
+            else if(x<=3){
+                x = 4
+                this.xsize = 4;
+            }
+
+            if(y>=60){
+                y = 59;
+                this.ysize = 59;
+            }
+            else if(y<=3){
+                y = 4;
+                this.ysize = 4;
+            }
 			let productsizeviewWidth = window.getComputedStyle(document.getElementById("productsizeview"),null).getPropertyValue('width').replace("px","")*1-70;
 			let productsizeviewHeight = window.getComputedStyle(document.getElementById("productsizeview"),null).getPropertyValue('height').replace("px","")*1-70;
 			let widthInputvalue=x*1;
