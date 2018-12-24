@@ -127,8 +127,7 @@ export default {
 			document.getElementById("widthInputP").style.lineHeight=widthboxheight+"px";
 			document.getElementById("abovebar").style.height=(heightboxheight-heightInputheight)/2+"px";
             document.getElementById("underbar").style.height=(heightboxheight-heightInputheight)/2+"px";
-            this.$nuxt.$emit('size', {x,y})
-            this.$emit('emited')
+            this.$emit('emited_size', {x,y})
 		},
     }
 }

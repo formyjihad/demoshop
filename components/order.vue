@@ -3,56 +3,35 @@
 		<vue-good-wizard :steps="steps" :onNext="nextClicked" :onBack="backClicked" :onCart="cartClicked">
 			<div class="slots" slot="slot1">
 				<p>칼선을 포함한 가로와 세로길이를 입력해주세요. </p>
-				<productsize :xsize="xsize" :ysize="ysize" @emited="emited"/>
+				<productsize :xsize="xsize" :ysize="ysize" 
+					@emited_size="data=>{
+					this.xsize = Number(data.x)
+					this.ysize = Number(data.y)}"
+				/>
 			</div>
 			<div class="slots" slot="slot2">
 				<p>원하시는 아크릴의 두께를 선택하세요</p>
-				<div class="buttons">
-					<div class="button1" id="T0_7" @click="checkThick(1)"><img></div>
-					<div class="button1" id="T1" @click="checkThick(2)"><img></div>
-					<div class="button1" id="T3" @click="checkThick(3)"><img></div>
-					<div class="button1" id="T5" @click="checkThick(4)"><img></div>
-				</div>
-				<span>선택 : {{ thick }}</span>
+				<thickness :thick="thick" @emited_thick="data =>{thick=data}"/>
+				<span>선택:{{thick}}</span>
 			</div>
 			<div class="slots" slot="slot3">
 				<p>원하시는 아크릴 바닥 부품의 크기를 선택하세요.</p>
-				<div class="buttons">
-					<div class="button1" id="cm4" @click="checkStand(1)"><img></div>
-					<div class="button1" id="cm6" @click="checkStand(2)"><img></div>
-					<div class="button1" id="cm8" @click="checkStand(3)"><img></div>
-				</div>
+				<standsize :stand="stand" @emited_stand="data =>{stand=data}"/>
 				<span>선택:{{stand}}</span>
 			</div>
 			<div class="slots" slot="slot4">
 				<p>원하시는 부자재 옵션을 선택하세요</p>
-				<div class="buttons">
-					<div class="button1" id="none" @click="checkSubitem(1)"><img></div>
-					<div class="button1" id="OPP" @click="checkSubitem(2)"><img></div>
-					<div class="button1" id="o링" @click="checkSubitem(3)"><img></div>
-					<div class="button1" id="군번줄" @click="checkSubitem(4)"><img></div>
-					<div class="button1" id="O링군번줄" @click="checkSubitem(5)"><img></div>
-					<div class="button1" id="O링휴대폰줄" @click="checkSubitem(6)"><img></div>
-					<div class="button1" id="키링" @click="checkSubitem(7)"><img></div>
-				</div> 
+				<itemkind :subitem="subitem" @emited_item="data=>{subitem=data}"/>
 				<span>선택 : {{ subitem }}</span>
 			</div>
 			<div class="slots" slot="slot5">
 				<p>원하시는 포장 옵션을 선택하세요</p>
-				<div class="buttons">
-					<div class="button1" id="none" @click="checkPacking(1)"><img></div>
-					<div class="button1" id="O링조립" @click="checkPacking(2)"><img></div>
-					<div class="button1" id="OPP개별포장" @click="checkPacking(3)"><img></div>
-					<div class="button1" id="다포장" @click="checkPacking(4)"><img></div>
-				</div>
+				<packingkind :packing="packing" @emited_packing="data=>{packing=data}"/>
 				<span>선택 : {{ packing }}</span>
 			</div>
 			<div class="slots" slot="slot6">
 				<p>제작하는 제품의 인쇄면을 선택하세요</p>
-				<div class="buttons">
-					<div class="button1" id="단면" @click="checkPrintside(1)"><img></div>
-					<div class="button1" id="양면" @click="checkPrintside(2)"><img></div>
-				</div>
+				<sidekind :printside="printside" @emited_side="data=>{printside=data}"/> 
 				<span>선택 : {{ printside }}</span>
 			</div>
 			<div class="slots" slot="slot7">
@@ -108,11 +87,21 @@ import axios from "axios";
 import { mapActions, mapGetters } from 'vuex';
 import GoodWizard from './vue-good-wizard';
 import productSize from './productsize'
+import thickness from './thickness'
+import standSize from './standsize'
+import itemKind from './itemkind'
+import packingKind from './packingkind'
+import sideKind from './sidekind'
 
 export default {
 	components: {
 		'vue-good-wizard': GoodWizard,
-		'productsize':productSize
+		'productsize':productSize,
+		'thickness':thickness,
+		'standsize':standSize,
+		'itemkind':itemKind,
+		'packingkind':packingKind,
+		'sidekind':sideKind,
 	},
 	vaildate({params}){
 		return true
@@ -191,7 +180,7 @@ export default {
 		},
 		packing: {
 			type: String,
-			default: "none",
+			default: "조립 없음",
 			required: true
 		},
 		printside: {
@@ -219,92 +208,7 @@ export default {
 		})
 	},
 	methods:{
-		emited(){
-			this.$nuxt.$on('size',data=>{
-				this.xsize = Number(data.x)
-				this.ysize = Number(data.y)
-			})
-		},
-		async checkThick(i){
-			let index = ''
-			if(i==1){
-				index = "0.7mm"                
-			}
-			else if(i==2){
-				index = "1mm"
-			}
-			else if(i==3){
-				index = "3mm"
-			}
-			else if(i==4){
-				index = "5mm"
-			}
-			this.thick = index;
-		},
-		async checkStand(i){
-			let index = ''
-			if(i==1){
-				index = "4cm"                
-			}
-			else if(i==2){
-				index = "6cm"
-			}
-			else if(i==3){
-				index = "8cm"
-			}
-			this.stand = index;
-		},
-		async checkSubitem(i){
-			let index = ''
-			if(i==1){
-				index = "none"                
-			}
-			else if(i==2){
-				index = "OPP"
-			}
-			else if(i==3){
-				index = "o링"
-			}
-			else if(i==4){
-				index = "군번줄"
-			}
-			else if(i==5){
-				index = "O링군번줄"
-			}
-			else if(i==6){
-				index = "O링휴대폰줄"
-			}
-			else if(i==7){
-				index = "키링"
-			}
-			this.subitem = index;
-		},
-		async checkPacking(i){
-			let index = ''
-			if(i==1){
-				index = "none"                
-			}
-			else if(i==2){
-				index = "O링조립"
-			}
-			else if(i==3){
-				index = "OPP개별포장"
-			}
-			else if(i==4){
-				index = "다포장"
-			}
-			this.packing = index;
-		},
-		async checkPrintside(i){
-			let index = ''
-			if(i==1){
-				index = "단면"                
-			}
-			else if(i==2){
-				index = "양면"
-			}
-			this.printside = index;
-		},
+		
 		async cartClicked(currentPage){
 			const date = new Date()
 			const month = date.getMonth()+1;
@@ -529,21 +433,10 @@ export default {
 
 <style scoped>
 
-.buttons input[type="radio"] {
-	display:none;
-}
-
 .slots{
 	text-align: center;
 }
 
-.detail {
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	padding: 30px;
-	overflow: auto;
-}
 .table-body{
 	width:100%;
 	margin-top:50px;
@@ -553,30 +446,6 @@ export default {
 	display:inline-block
 }
 
-.item-image {
-  width: 300px;
-  height: 300px;
-}
-.product_img {
-	float: left;
-
-}
-.options{
-	float:right;
-	text-align: left;
-}
-.buttons{    
-	text-align: center;
-	margin-top: 4%;
-}
-
-.choice .c_mm{  
-	text-align: center;
-	margin-top: 7%;
-}
-.choice .item{
-	text-align: center;
-}
 p {
 	margin: 0 auto;
 	font-family: Arial, Helvetica, sans-serif;
@@ -584,206 +453,4 @@ p {
 	font-weight: bold;
 	font-size: x-large;
 }
-.choice div{
-}
-#content{
-	margin-top: 50px;
-}
-.button1 {
-	width: 13%;
-	height: 150px;
-	display: inline-block;
-	margin: 0 auto;
-	background-size: contain;
-	background-repeat: no-repeat;   
-	background-position: center center; 
-	margin: 2% 4%;    
-}
-.button1 img{
-	max-width: 100%;
-	height: auto;
-
-}
-.buttons{    
-	text-align: center;
-	margin-top: 3%;
-}
-#T0_7{
-	background-image:url("/svg/0.7mm_기본.svg");
-}
-#T0_7:hover{
-	background-image: url("/svg/0.7mm_기본.svg");
-}
-#T0_7:active{
-	background-image: url("/svg/0.7mm_확정.svg");
-}
-#T1{
-	background-image:url("/svg/1mm_기본.svg");
-}
-#T1:hover{
-	background-image: url("/svg/1mm_기본.svg");
-}
-#T1:active{
-	background-image: url("/svg/1mm_확정.svg");
-}
-#T3{
-	background-image:url("/svg/3mm_기본.svg");
-}
-#T3:hover{
-	background-image: url("/svg/3mm_기본.svg");
-}
-#T3:active{
-	background-image: url("/svg/3mm_확정.svg");
-}
-#T5{
-	background-image:url("/svg/5mm_기본.svg");
-}
-#T5:hover{
-	background-image: url("/svg/5mm_기본.svg");
-}
-#T5:active{
-	background-image: url("/svg/5mm_확정.svg");
-}
-
-#cm4{
-	background-image:url("/svg/4cm_기본.svg");
-}
-#cm4:hover{
-	background-image: url("/svg/4cm_기본.svg");
-}
-#cm4:active{
-	background-image: url("/svg/4cm_확정.svg");
-}
-#cm6{
-	background-image:url("/svg/6cm_기본.svg");
-}
-#cm6:hover{
-	background-image: url("/svg/6cm_기본.svg");
-}
-#cm6:active{
-	background-image: url("/svg/6cm_확정.svg");
-}
-#cm8{
-	background-image:url("/svg/8cm_기본.svg");
-}
-#cm8:hover{
-	background-image: url("/svg/8cm_기본.svg");
-}
-#cm8:active{
-	background-image: url("/svg/8cm_확정.svg");
-}
-#화살표{
-	background-image:url("/svg/화살표_1.svg");
-}
-
-#none{
-	background-image:url("/svg/없음_기본.svg");
-}
-#none:hover{
-	background-image: url("/svg/없음_기본.svg");
-}
-#none:active{
-	background-image: url("/svg/없음_확정.svg");
-}
-#OPP{
-	background-image:url("/svg/OPP만_기본.svg");
-}
-#OPP:hover{
-	background-image: url("/svg/OPP만_기본.svg");
-}
-#OPP:active{
-	background-image: url("/svg/OPP만_확정.svg");
-}
-#o링{
-	background-image:url("/svg/O링_기본.svg");
-}
-#o링:hover{
-	background-image: url("/svg/O링_기본.svg");
-}
-#o링:active{
-	background-image: url("/svg/O링_확정.svg");
-}
-#군번줄{
-	background-image:url("/svg/군번줄_기본.svg");
-}
-#군번줄:hover{
-	background-image: url("/svg/군번줄_기본.svg");
-}
-#군번줄:active{
-	background-image: url("/svg/군번줄_확정.svg");
-}
-#O링군번줄{
-	background-image:url("/svg/O링+군번줄_기본.svg");
-}
-#O링군번줄:hover{
-	background-image: url("/svg/O링+군번줄_기본.svg");
-}
-#O링군번줄:active{
-	background-image: url("/svg/O링+군번줄_확정.svg");
-}
-#O링휴대폰줄{
-	background-image:url("/svg/O링+휴대폰줄_기본.svg");
-}
-#O링휴대폰줄:hover{
-	background-image: url("/svg/O링+휴대폰줄_기본.svg");
-}
-#O링휴대폰줄:active{
-	background-image: url("/svg/O링+휴대폰줄_확정.svg");
-}
-#키링{
-	background-image:url("/svg/키링_기본.svg");
-}
-#키링:hover{
-	background-image: url("/svg/키링_기본.svg");
-}
-#키링:active{
-	background-image: url("/svg/키링_확정.svg");
-}
-
-#O링조립{
-	background-image:url("/svg/오링조립_기본.svg");
-}
-#O링조립:hover{
-	background-image: url("/svg/오링조립_기본.svg");
-}
-#O링조립:active{
-	background-image: url("/svg/오링조립_확정.svg");
-}
-#OPP개별포장{
-	background-image:url("/svg/OPP개별포장_기본.svg");
-}
-#OPP개별포장:hover{
-	background-image: url("/svg/OPP개별포장_기본.svg");
-}
-#OPP개별포장:active{
-	background-image: url("/svg/OPP개별포장_확정.svg");
-}
-#다포장{
-	background-image:url("/svg/많음_기본.svg");
-}
-#다포장:hover{
-	background-image: url("/svg/많음_기본.svg");
-}
-#다포장:active{
-	background-image: url("/svg/많음_확정.svg");
-}
-#단면{
-	background-image:url("/svg/단면_기본.svg");
-}
-#단면:hover{
-	background-image: url("/svg/단면_기본.svg");
-}
-#단면:active{
-	background-image: url("/svg/단면_확정.svg");
-}
-#양면{
-	background-image:url("/svg/양면_기본.svg");
-}
-#양면:hover{
-	background-image: url("/svg/양면_기본.svg");
-}
-#양면:active{
-	background-image: url("/svg/양면_확정.svg");
-}
-
 </style>
