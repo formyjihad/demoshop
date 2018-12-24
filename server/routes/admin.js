@@ -167,7 +167,7 @@ router.get('/users', (req, res)=>{
     });*/
 });
 
-router.post('/goods/registry', file.single('img'), (req,res)=>{
+router.post('/goods/registry', file.single('img'), async (req,res)=>{
     let good = new goods()
     //console.log(req.body.name)
     //console.log(req.body.price)
@@ -178,15 +178,16 @@ router.post('/goods/registry', file.single('img'), (req,res)=>{
     good.img = req.file.filename;
 
     //console.log("this is working?")
-    good.save(function(err, good){
-        if(err){
-            console.error(err);
-            res.status(204).json();
-            return;
-        }
-        //console.log(good)
-        res.status(200).json({});
-    });
+    try{
+        await good.save(good)
+        res.status(200).json();
+    }
+    catch(err){
+        console.error(err);
+        res.status(204).json();
+    }
+    
+
 });
 
 router.get('/goods', (req,res)=>{
