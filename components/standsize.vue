@@ -17,28 +17,28 @@ export default {
         
         let stand = this.stand
         if(stand=="none"){
-            target[0].src = '/svg/none_active.svg'
-            target[1].src = '/svg/4cm_nomal.svg'
-            target[2].src = '/svg/6cm_nomal.svg'
-            target[3].src = '/svg/8cm_nomal.svg'
+            target[0].src = '/SVG/none_active.svg'
+            target[1].src = '/SVG/4cm_nomal.svg'
+            target[2].src = '/SVG/6cm_nomal.svg'
+            target[3].src = '/SVG/8cm_nomal.svg'
         }
         else if(stand=="4cm"){
-            target[0].src = '/svg/none_nomal.svg'
-            target[1].src = '/svg/4cm_active.svg'
-            target[2].src = '/svg/6cm_nomal.svg'
-            target[3].src = '/svg/8cm_nomal.svg'
+            target[0].src = '/SVG/none_nomal.svg'
+            target[1].src = '/SVG/4cm_active.svg'
+            target[2].src = '/SVG/6cm_nomal.svg'
+            target[3].src = '/SVG/8cm_nomal.svg'
         }
         else if(stand=="6cm"){
-            target[0].src = '/svg/none_nomal.svg'
-            target[1].src = '/svg/4cm_nomal.svg'
-            target[2].src = '/svg/6cm_active.svg'
-            target[3].src = '/svg/8cm_nomal.svg'
+            target[0].src = '/SVG/none_nomal.svg'
+            target[1].src = '/SVG/4cm_nomal.svg'
+            target[2].src = '/SVG/6cm_active.svg'
+            target[3].src = '/SVG/8cm_nomal.svg'
         }
         else if(stand=="8cm"){
-            target[0].src = '/svg/none_nomal.svg'
-            target[1].src = '/svg/4cm_nomal.svg'
-            target[2].src = '/svg/6cm_nomal.svg'
-            target[3].src = '/svg/8cm_active.svg'
+            target[0].src = '/SVG/none_nomal.svg'
+            target[1].src = '/SVG/4cm_nomal.svg'
+            target[2].src = '/SVG/6cm_nomal.svg'
+            target[3].src = '/SVG/8cm_active.svg'
         }
 
     },
@@ -49,31 +49,31 @@ export default {
             
             if(i==0){
                 index = "4cm"
-                target[0].src = '/svg/none_active.svg'
-                target[1].src = '/svg/4cm_nomal.svg'
-                target[2].src = '/svg/6cm_nomal.svg'
-                target[3].src = '/svg/8cm_nomal.svg'
+                target[0].src = '/SVG/none_active.svg'
+                target[1].src = '/SVG/4cm_nomal.svg'
+                target[2].src = '/SVG/6cm_nomal.svg'
+                target[3].src = '/SVG/8cm_nomal.svg'
             }
             else if(i==1){
                 index = "6cm"
-                target[0].src = '/svg/none_nomal.svg'
-                target[1].src = '/svg/4cm_active.svg'
-                target[2].src = '/svg/6cm_nomal.svg'
-                target[3].src = '/svg/8cm_nomal.svg'
+                target[0].src = '/SVG/none_nomal.svg'
+                target[1].src = '/SVG/4cm_active.svg'
+                target[2].src = '/SVG/6cm_nomal.svg'
+                target[3].src = '/SVG/8cm_nomal.svg'
             }
             else if(i==2){
                 index = "8cm"
-                target[0].src = '/svg/none_nomal.svg'
-                target[1].src = '/svg/4cm_nomal.svg'
-                target[2].src = '/svg/6cm_active.svg'
-                target[3].src = '/svg/8cm_nomal.svg'
+                target[0].src = '/SVG/none_nomal.svg'
+                target[1].src = '/SVG/4cm_nomal.svg'
+                target[2].src = '/SVG/6cm_active.svg'
+                target[3].src = '/SVG/8cm_nomal.svg'
             }
             else if(i==3){
                 index = "8cm"
-                target[0].src = '/svg/none_nomal.svg'
-                target[1].src = '/svg/4cm_nomal.svg'
-                target[2].src = '/svg/6cm_nomal.svg'
-                target[3].src = '/svg/8cm_active.svg'
+                target[0].src = '/SVG/none_nomal.svg'
+                target[1].src = '/SVG/4cm_nomal.svg'
+                target[2].src = '/SVG/6cm_nomal.svg'
+                target[3].src = '/SVG/8cm_active.svg'
             }
             this.$emit('emited_stand', index)
         },

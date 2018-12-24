@@ -18,28 +18,28 @@ export default {
         
         let thick = this.thick
         if(thick=="0.7mm"){
-            target[0].src = '/svg/0.7mm_active.svg'
-            target[1].src = '/svg/1mm_nomal.svg'
-            target[2].src = '/svg/3mm_nomal.svg'
-            target[3].src = '/svg/5mm_nomal.svg'
+            target[0].src = '/SVG/0.7mm_active.svg'
+            target[1].src = '/SVG/1mm_nomal.svg'
+            target[2].src = '/SVG/3mm_nomal.svg'
+            target[3].src = '/SVG/5mm_nomal.svg'
         }
         else if(thick=="1mm"){
-            target[0].src = '/svg/0.7mm_nomal.svg'
-            target[1].src = '/svg/1mm_active.svg'
-            target[2].src = '/svg/3mm_nomal.svg'
-            target[3].src = '/svg/5mm_nomal.svg'
+            target[0].src = '/SVG/0.7mm_nomal.svg'
+            target[1].src = '/SVG/1mm_active.svg'
+            target[2].src = '/SVG/3mm_nomal.svg'
+            target[3].src = '/SVG/5mm_nomal.svg'
         }
         else if(thick=="3mm"){
-            target[0].src = '/svg/0.7mm_nomal.svg'
-            target[1].src = '/svg/1mm_nomal.svg'
-            target[2].src = '/svg/3mm_active.svg'
-            target[3].src = '/svg/5mm_nomal.svg'
+            target[0].src = '/SVG/0.7mm_nomal.svg'
+            target[1].src = '/SVG/1mm_nomal.svg'
+            target[2].src = '/SVG/3mm_active.svg'
+            target[3].src = '/SVG/5mm_nomal.svg'
         }
         else if(thick=="5mm"){
-            target[0].src = '/svg/0.7mm_nomal.svg'
-            target[1].src = '/svg/1mm_nomal.svg'
-            target[2].src = '/svg/3mm_nomal.svg'
-            target[3].src = '/svg/5mm_active.svg'
+            target[0].src = '/SVG/0.7mm_nomal.svg'
+            target[1].src = '/SVG/1mm_nomal.svg'
+            target[2].src = '/SVG/3mm_nomal.svg'
+            target[3].src = '/SVG/5mm_active.svg'
         }
 
     },
@@ -50,31 +50,31 @@ export default {
             
             if(i==0){
                 index = "0.7mm"
-                target[0].src = '/svg/0.7mm_active.svg'
-                target[1].src = '/svg/1mm_nomal.svg'
-                target[2].src = '/svg/3mm_nomal.svg'
-                target[3].src = '/svg/5mm_nomal.svg'
+                target[0].src = '/SVG/0.7mm_active.svg'
+                target[1].src = '/SVG/1mm_nomal.svg'
+                target[2].src = '/SVG/3mm_nomal.svg'
+                target[3].src = '/SVG/5mm_nomal.svg'
             }
             else if(i==1){
                 index = "1mm"
-                target[0].src = '/svg/0.7mm_nomal.svg'
-                target[1].src = '/svg/1mm_active.svg'
-                target[2].src = '/svg/3mm_nomal.svg'
-                target[3].src = '/svg/5mm_nomal.svg'
+                target[0].src = '/SVG/0.7mm_nomal.svg'
+                target[1].src = '/SVG/1mm_active.svg'
+                target[2].src = '/SVG/3mm_nomal.svg'
+                target[3].src = '/SVG/5mm_nomal.svg'
             }
             else if(i==2){
                 index = "3mm"
-                target[0].src = '/svg/0.7mm_nomal.svg'
-                target[1].src = '/svg/1mm_nomal.svg'
-                target[2].src = '/svg/3mm_active.svg'
-                target[3].src = '/svg/5mm_nomal.svg'
+                target[0].src = '/SVG/0.7mm_nomal.svg'
+                target[1].src = '/SVG/1mm_nomal.svg'
+                target[2].src = '/SVG/3mm_active.svg'
+                target[3].src = '/SVG/5mm_nomal.svg'
             }
             else if(i==3){
                 index = "5mm"
-                target[0].src = '/svg/0.7mm_nomal.svg'
-                target[1].src = '/svg/1mm_nomal.svg'
-                target[2].src = '/svg/3mm_nomal.svg'
-                target[3].src = '/svg/5mm_active.svg'
+                target[0].src = '/SVG/0.7mm_nomal.svg'
+                target[1].src = '/SVG/1mm_nomal.svg'
+                target[2].src = '/SVG/3mm_nomal.svg'
+                target[3].src = '/SVG/5mm_active.svg'
             }
             this.$emit('emited_thick', index)
         },

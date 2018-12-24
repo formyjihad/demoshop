@@ -23,13 +23,13 @@
 			</div>
 			<div class="wizard__body__actions clearfix">
 				<div class="leftBtn">
-					<img src="/svg/화살표_1.svg"
+					<img src="/SVG/화살표_1.svg"
 						v-if="backEnabled"
 						class="wizard__back pull-left"
 						@click="goBack()">
 				</div>
 				<div class="rightBtn">
-					<img src="/svg/화살표_2.svg"
+					<img src="/SVG/화살표_2.svg"
 						:class="{'disabled': options[currentStep].nextDisabled}"
 						v-if="currentStep != steps.length - 1" class="wizard__next pull-right"
 						@click="goNext()">
@@ -416,7 +416,7 @@ export default {
 }
 
 .vgw-icon.vgw-next::after{
-  background-image:url("/svg/화살표_1.svg");
+  background-image:url("/SVG/화살표_1.svg");
   width:100px;
   height: 100px;
 }

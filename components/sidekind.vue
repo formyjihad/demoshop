@@ -15,12 +15,12 @@ export default {
         
         let printside = this.printside
         if(printside=="단면"){
-            target[0].src = '/svg/oneSide_active.svg'
-            target[1].src = '/svg/bothSide_nomal.svg'
+            target[0].src = '/SVG/oneSide_active.svg'
+            target[1].src = '/SVG/bothSide_nomal.svg'
         }
         else if(printside=="양면"){
-            target[0].src = '/svg/oneSide_nomal.svg'
-            target[1].src = '/svg/bothSide_active.svg'
+            target[0].src = '/SVG/oneSide_nomal.svg'
+            target[1].src = '/SVG/bothSide_active.svg'
         }
     },
     methods:{
@@ -30,13 +30,13 @@ export default {
             
             if(i==0){
                 index = "단면"
-                target[0].src = '/svg/oneSide_active.svg'
-                target[1].src = '/svg/bothSide_nomal.svg'
+                target[0].src = '/SVG/oneSide_active.svg'
+                target[1].src = '/SVG/bothSide_nomal.svg'
             }
             else if(i==1){
                 index = "양면"
-                target[0].src = '/svg/oneSide_nomal.svg'
-                target[1].src = '/svg/bothSide_active.svg'
+                target[0].src = '/SVG/oneSide_nomal.svg'
+                target[1].src = '/SVG/bothSide_active.svg'
             }
             this.$emit('emited_side', index)
         },

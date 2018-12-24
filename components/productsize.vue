@@ -10,8 +10,8 @@
         </div>
         <div></div>
         <div id="sizebox">
-            <img src="/svg/크기 확인.svg"><!--상품이미지 -->
-            <div id="fiveWonCoin"><img src="/svg/백원 사이즈.svg"></div><!--100원이미지-->
+            <img src="/SVG/크기 확인.svg"><!--상품이미지 -->
+            <div id="fiveWonCoin"><img src="/SVG/백원 사이즈.svg"></div><!--100원이미지-->
         </div>
         <div id="heightbox">
             <div id="abovebar"></div>

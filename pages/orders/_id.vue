@@ -88,7 +88,7 @@
             <ul class="box2">
                 <li>
                     <div class="left">
-                      <h3>step1<img class="quest" src="/svg/느낌표.svg" @mouseover="detail(0)"></h3>
+                      <h3>step1<img class="quest" src="/SVG/느낌표.svg" @mouseover="detail(0)"></h3>
                       <p class="step1">결제대기</p>
                     </div>
                     <div class="right">
@@ -97,7 +97,7 @@
                 </li>
                 <li>
                     <div class="left">
-                     <h3>step2<img class="quest" src="/svg/느낌표.svg" @mouseover="detail(1)"></h3>
+                     <h3>step2<img class="quest" src="/SVG/느낌표.svg" @mouseover="detail(1)"></h3>
                       <p class="step2">주문접수</p>
                     </div>
                     <div class="right">
@@ -106,7 +106,7 @@
                 </li>
                 <li>
                     <div class="left">
-                     <h3>step3<img class="quest" src="/svg/느낌표.svg" @mouseover="detail(2)"></h3>
+                     <h3>step3<img class="quest" src="/SVG/느낌표.svg" @mouseover="detail(2)"></h3>
                       <p class="step3">도안검수</p>
                     </div>
                     <div class="right">
@@ -115,7 +115,7 @@
                 </li>
                 <li>
                     <div class="left">
-                     <h3>step4<img class="quest" src="/svg/느낌표.svg" @mouseover="detail(3)"></h3>
+                     <h3>step4<img class="quest" src="/SVG/느낌표.svg" @mouseover="detail(3)"></h3>
                       <p class="step4">제작중</p>
                     </div>
                     <div class="right">
@@ -124,7 +124,7 @@
                 </li>
                 <li>
                     <div class="left">
-                      <h3>step5<img class="quest" src="/svg/느낌표.svg" @mouseover="detail(4)"></h3>
+                      <h3>step5<img class="quest" src="/SVG/느낌표.svg" @mouseover="detail(4)"></h3>
                       <p class="step5">배송중</p>
                     </div>
                     <div class="right">
@@ -133,7 +133,7 @@
                 </li>
                 <li>
                     <div class="left">
-                      <h3>step6<img class="quest" src="/svg/느낌표.svg" @mouseover="detail(5)"></h3>
+                      <h3>step6<img class="quest" src="/SVG/느낌표.svg" @mouseover="detail(5)"></h3>
                       <p class="step6">주문완료</p>
                     </div>
                     <div class="right">

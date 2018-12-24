@@ -15,7 +15,7 @@
                     <button class="button" type="submit">
                         로그인
                         <div></div>
-                        <!--<nuxt-link class="button2" to="/agreement"><img src="/svg/회원가입.svg"></nuxt-link>-->
+                        <!--<nuxt-link class="button2" to="/agreement"><img src="/SVG/회원가입.svg"></nuxt-link>-->
                     </button>
                     <nuxt-link class="signup_btn" to="/agreement">
                         회원가입
@@ -61,7 +61,7 @@
             <div>
                 <span>점심시간 : 13:00 ~ 14:00</span>
                 <p class="call">
-                    <img src="/svg/전화기_2.svg">070-8848-8489
+                    <img src="/SVG/전화기_2.svg">070-8848-8489
                 </p>
             </div>
         </div>
@@ -246,7 +246,7 @@ span{
     font-size: 28px;
     font-weight: bold;
     line-height: 52px;
-    /*background: url("/svg/전화기_2.svg")no-repeat;*/
+    /*background: url("/SVG/전화기_2.svg")no-repeat;*/
     margin: 17px 0px 16px;
 }
 .call img{

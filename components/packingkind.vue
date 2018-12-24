@@ -17,28 +17,28 @@ export default {
         
         let packing = this.packing
         if(packing=="조립 없음"){
-            target[0].src = '/svg/none_active.svg'
-            target[1].src = '/svg/OPP_nomal.svg'
-            target[2].src = '/svg/OringAssamble_nomal.svg'
-            target[3].src = '/svg/itemAssamble_nomal.svg'
+            target[0].src = '/SVG/none_active.svg'
+            target[1].src = '/SVG/OPP_nomal.svg'
+            target[2].src = '/SVG/OringAssamble_nomal.svg'
+            target[3].src = '/SVG/itemAssamble_nomal.svg'
         }
         else if(packing=="OPP만"){
-            target[0].src = '/svg/none_nomal.svg'
-            target[1].src = '/svg/OPP_active.svg'
-            target[2].src = '/svg/OringAssamble_nomal.svg'
-            target[3].src = '/svg/itemAssamble_nomal.svg'
+            target[0].src = '/SVG/none_nomal.svg'
+            target[1].src = '/SVG/OPP_active.svg'
+            target[2].src = '/SVG/OringAssamble_nomal.svg'
+            target[3].src = '/SVG/itemAssamble_nomal.svg'
         }
         else if(packing=="오링 조립"){
-            target[0].src = '/svg/none_nomal.svg'
-            target[1].src = '/svg/OPP_nomal.svg'
-            target[2].src = '/svg/OringAssamble_active.svg'
-            target[3].src = '/svg/itemAssamble_nomal.svg'
+            target[0].src = '/SVG/none_nomal.svg'
+            target[1].src = '/SVG/OPP_nomal.svg'
+            target[2].src = '/SVG/OringAssamble_active.svg'
+            target[3].src = '/SVG/itemAssamble_nomal.svg'
         }
         else if(packing=="부자재 조립"){
-            target[0].src = '/svg/none_nomal.svg'
-            target[1].src = '/svg/OPP_nomal.svg'
-            target[2].src = '/svg/OringAssamble_nomal.svg'
-            target[3].src = '/svg/itemAssamble_active.svg'
+            target[0].src = '/SVG/none_nomal.svg'
+            target[1].src = '/SVG/OPP_nomal.svg'
+            target[2].src = '/SVG/OringAssamble_nomal.svg'
+            target[3].src = '/SVG/itemAssamble_active.svg'
         }
 
     },
@@ -49,31 +49,31 @@ export default {
             
             if(i==0){
                 index = "조립 없음"
-                target[0].src = '/svg/none_active.svg'
-                target[1].src = '/svg/OPP_nomal.svg'
-                target[2].src = '/svg/OringAssamble_nomal.svg'
-                target[3].src = '/svg/itemAssamble_nomal.svg'
+                target[0].src = '/SVG/none_active.svg'
+                target[1].src = '/SVG/OPP_nomal.svg'
+                target[2].src = '/SVG/OringAssamble_nomal.svg'
+                target[3].src = '/SVG/itemAssamble_nomal.svg'
             }
             else if(i==1){
                 index = "OPP만"
-                target[0].src = '/svg/none_nomal.svg'
-                target[1].src = '/svg/OPP_active.svg'
-                target[2].src = '/svg/OringAssamble_nomal.svg'
-                target[3].src = '/svg/itemAssamble_nomal.svg'
+                target[0].src = '/SVG/none_nomal.svg'
+                target[1].src = '/SVG/OPP_active.svg'
+                target[2].src = '/SVG/OringAssamble_nomal.svg'
+                target[3].src = '/SVG/itemAssamble_nomal.svg'
             }
             else if(i==2){
                 index = "오링 조립"
-                target[0].src = '/svg/none_nomal.svg'
-                target[1].src = '/svg/OPP_nomal.svg'
-                target[2].src = '/svg/OringAssamble_active.svg'
-                target[3].src = '/svg/itemAssamble_nomal.svg'
+                target[0].src = '/SVG/none_nomal.svg'
+                target[1].src = '/SVG/OPP_nomal.svg'
+                target[2].src = '/SVG/OringAssamble_active.svg'
+                target[3].src = '/SVG/itemAssamble_nomal.svg'
             }
             else if(i==3){
                 index = "부자재 조립"
-                target[0].src = '/svg/none_nomal.svg'
-                target[1].src = '/svg/OPP_nomal.svg'
-                target[2].src = '/svg/OringAssamble_nomal.svg'
-                target[3].src = '/svg/itemAssamble_active.svg'
+                target[0].src = '/SVG/none_nomal.svg'
+                target[1].src = '/SVG/OPP_nomal.svg'
+                target[2].src = '/SVG/OringAssamble_nomal.svg'
+                target[3].src = '/SVG/itemAssamble_active.svg'
             }
             this.$emit('emited_packing', index)
         },
