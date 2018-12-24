@@ -179,7 +179,7 @@ router.post('/goods/registry', file.single('img'), async (req,res)=>{
 
     //console.log("this is working?")
     try{
-        await goods.save(good)
+        await good.save()
         res.status(200).json();
     }
     catch(err){
