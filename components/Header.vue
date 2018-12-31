@@ -5,7 +5,7 @@
         <div class="cols"><nuxt-link to="/main">상품</nuxt-link></div>
         <div class="cols"><nuxt-link to="/">제작가이드</nuxt-link></div>
         <div class="cols"><nuxt-link to="/event">이밴트</nuxt-link></div>
-        <sidebar class ="sidebar" @close-tab="displayToggle()" style="width:0px"/>
+        
         <!--<nuxt-link to="/">리뷰</nuxt-link>-->
 <!--        <div class = "subMenu">
             <nuxt-link to="/agreement" v-if="! isLogin">회원가입</nuxt-link>
@@ -18,31 +18,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-import sidebar from "./sidebar"
-export default {
-    computed: {
-        ...mapGetters({
-            isLogin: 'users/isLogin'
-        })
-    },
-    methods:{
-        displayToggle(){
-            let target = document.getElementsByClassName("sidebar")
-            if(target[0].style.width=='0px'){
-                target[0].style.width = '300px'
-            }
-            else{
-                target[0].style.width = '0px'
-            }
-        },
-    },
-    components:{
-        sidebar:sidebar
-    }
-}
-
 </script>
 
 <style scoped>

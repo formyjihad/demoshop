@@ -35,14 +35,15 @@
 						@click="goNext()">
 				</div>
 				<div class="finalBtn">
+					<div v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step check-box"><input type="checkbox" id="checked" @click="checkboxChecked" > 구매 동의</div>
 					<a
 						:class="{'disabled': options[currentStep].nextDisabled}"
-						v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goCart()">
+						v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goCart()" style="display:none">
 						바로 주문하기
 					</a>
 					<a
 						:class="{'disabled': options[currentStep].nextDisabled}"
-						v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goNext()">
+						v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goNext()" style="display:none">
 						장바구니에 담기
 					</a>
 				</div>
@@ -121,6 +122,19 @@ export default {
 		}
 	},
 	methods: {
+		checkboxChecked(){
+			let checkbox = document.getElementById('checked');
+			let target = document.getElementsByClassName('wizard__next pull-right final-step')
+			console.log(checkbox.checked)
+			if(!checkbox.checked){
+				target[1].style.display = "none"
+				target[2].style.display = "none"
+			}
+			else if(checkbox.checked){
+				target[1].style.display = ''
+				target[2].style.display = ''
+			}
+		},
 		goNext (skipFunction) {
 			if (!skipFunction && typeof this.onNext == 'function'){
 				if(!this.onNext(this.currentStep)) {
@@ -194,257 +208,262 @@ export default {
 *******************************/
 
 .pull-left{
-  width:100px;
-  margin-top:55px;
-  height:100px;
-  cursor: pointer;
+	width:100px;
+	margin-top:55px;
+	height:100px;
+	cursor: pointer;
 }
 
 .pull-right{
-  margin-top:55px;
-  width:100px;
-  height:100px;
-  cursor: pointer;
+	margin-top:55px;
+	width:100px;
+	height:100px;
+	cursor: pointer;
+}
+
+.check-box{
+	margin-top: 0px;
+	margin-bottom:15px;
+	height:15px;
 }
 
 .clearfix::after {
-  display: block;
-  content: "";
-  clear: both;
+	display: block;
+	content: "";
+	clear: both;
 }
 
 /* Header Steps 
 *******************************/
 .wizard {
-  position: relative;
-  margin-top:100px;
-  width:  100%;
+	position: relative;
+	width:  100%;
 }
 
 .wizard__steps{
-  list-style-type:  none;
-  text-align: justify;
-  -ms-text-justify: distribute-all-lines;
-  text-justify: distribute-all-lines;
-  padding:  0;
-  height:  70px;
-  position:  relative;
+	list-style-type:  none;
+	text-align: justify;
+	-ms-text-justify: distribute-all-lines;
+	text-justify: distribute-all-lines;
+	padding:  0;
+	height:  70px;
+	position:  relative;
 }
 
 .stretch {
-  width: 100%;
-  display: inline-block;
-  font-size: 0;
-  line-height: 0
+	width: 100%;
+	display: inline-block;
+	font-size: 0;
+	line-height: 0
 }
 
 .wizard__step{
-  height: 70px;
-  vertical-align: bottom;
-  display: inline-block;
-  text-align: center;
-  position:  relative;
-  
+	height: 70px;
+	vertical-align: bottom;
+	display: inline-block;
+	text-align: center;
+	position:  relative;
+	
 }
 
 .wizard__step:not(:first-child) .wizard__step__line{
-  position: absolute;
-  width:  100%;
-  left:  -50%;
-  bottom:  12px;
-  height:  3px;
-  background-color: #b9c7d2;
+	position: absolute;
+	width:  100%;
+	left:  -50%;
+	bottom:  12px;
+	height:  3px;
+	background-color: #b9c7d2;
 }
 
 .wizard__step__indicator{
-  box-sizing: content-box;
-  display:  block;
-  width:  16px;
-  height:  16px;
-  background-color: #51abe4;
-  border-radius: 50%;
-  border: 3px solid #fff;
-  position:  absolute;
-  left:  50%;
-  margin-left:  -10px;
-  bottom:  2px;
-  z-index: 1;
+	box-sizing: content-box;
+	display:  block;
+	width:  16px;
+	height:  16px;
+	background-color: #51abe4;
+	border-radius: 50%;
+	border: 3px solid #fff;
+	position:  absolute;
+	left:  50%;
+	margin-left:  -10px;
+	bottom:  2px;
+	z-index: 1;
 	cursor: pointer;
 }
 
 .wizard__step.active .wizard__step__indicator{
-  background-color: #6eb165;
+	background-color: #6eb165;
 }
 
 .wizard__step.active:not(:first-child) .wizard__step__line{
-  background-color: #6eb165; /* green */
+	background-color: #6eb165; /* green */
 }
 
 .wizard__step__label{
-  color:  #98a4af;
-  font-weight: bold;
+	color:  #98a4af;
+	font-weight: bold;
 	cursor: pointer;
 }
 
 /* Wizard body 
 *******************************/
 .wizard__body{
-  margin-top:  30px;
-  min-height:  400px;
-  margin-left:  50px;
-  margin-right:  50px;
-  /*border:  1px solid #aebac4;*/
-  background-color: #fff;
-  position: relative;
-  /*border-radius: 5px;*/
-  padding-bottom: 50px;
-  
+	margin-top:  30px;
+	min-height:  400px;
+	margin-left:  50px;
+	margin-right:  50px;
+	/*border:  1px solid #aebac4;*/
+	background-color: #fff;
+	position: relative;
+	/*border-radius: 5px;*/
+	padding-bottom: 50px;
+	
 }
 
 .wizard__body__step{
-  padding:  16px;
-  z-index:5
+	padding:  16px;
+	z-index:5
 }
 
 .wizard__arrow{
-  position:  absolute;
-  display: block;
-  width:  30px;
-  height:  30px;
-  /*border:  1px solid #aebac4;*/
-  top:  85px; /* height of step + body margin -15 */
-  border-top-right-radius: 5px;
-  background-color: #fff;
-  border-left: none;
-  border-bottom:  none;
-  transform: rotate(-45deg);
-  /*z-index: 2;*/
-  -webkit-transition: left 0.3s;
-  -o-transition: left 0.3s;
-  transition: left 0.3s;
+	position:  absolute;
+	display: block;
+	width:  30px;
+	height:  30px;
+	/*border:  1px solid #aebac4;*/
+	top:  85px; /* height of step + body margin -15 */
+	border-top-right-radius: 5px;
+	background-color: #fff;
+	border-left: none;
+	border-bottom:  none;
+	transform: rotate(-45deg);
+	/*z-index: 2;*/
+	-webkit-transition: left 0.3s;
+	-o-transition: left 0.3s;
+	transition: left 0.3s;
 }
 
 /* Wizard body 
 *******************************/
 .wizard__body__actions{
-  position:  absolute;
-  top:150px;
-  width:100%;  
-  pointer-events:none;        
+	position:  absolute;
+	top:150px;
+	width:100%;  
+	pointer-events:none;        
  /* border-top:  1px solid #aebac4;*/
-  /*background-color: #b9c7d2;*/
+	/*background-color: #b9c7d2;*/
 }
 
 .wizard__body__actions .leftBtn{
-  width:100px;
-  height:150px;
+	width:100px;
+	height:150px;
 	pointer-events:auto;        
-  float:left !important
+	float:left !important
 }
 
 .wizard__body__actions .rightBtn{
-  width:100px;
-  float:right !important;
+	width:100px;
+	float:right !important;
 	pointer-events:auto;
 }
 .wizard__body__actions .finalBtn{
-  width:200px;
+	width:200px;
 	pointer-events:auto;
-  float:right !important
+	float:right !important
 }
 .wizard__body__actions .finalBtn a{
-  backface-visibility: hidden;
-  text-decoration: none;
-  width:200px;
-  position: relative;
-  cursor: pointer;
-  white-space: nowrap;
+	backface-visibility: hidden;
+	text-decoration: none;
+	width:200px;
+	position: relative;
+	cursor: pointer;
+	white-space: nowrap;
 	pointer-events:auto;
-  background: rgba(77.06191214211341%,45.128128767078024%,41.57993061429631%,0);
-  border-radius: 39px;
-  border: 6px solid #464646;
-  border-width: 6px 6px 6px 6px;
-  padding: 20px 30px 20px 30px;
-  vertical-align: center;
-  text-align:center;
-  color: #565656;
-  font-size: 20px;
-  font-family: arial;
-  font-weight: 900;
-  font-style: normal;
-  margin: 0 auto;
-  margin-bottom:5px
+	background: rgba(77.06191214211341%,45.128128767078024%,41.57993061429631%,0);
+	border-radius: 39px;
+	border: 6px solid #464646;
+	border-width: 6px 6px 6px 6px;
+	padding: 20px 30px 20px 30px;
+	vertical-align: center;
+	text-align:center;
+	color: #565656;
+	font-size: 20px;
+	font-family: arial;
+	font-weight: 900;
+	font-style: normal;
+	margin: 0 auto;
+	margin-bottom:5px
 }
 .wizard__body__actions .finalBtn a:hover{
-  color: white;
+	color: white;
 }
 
 .wizard__body__actions a{
-  width:  100px;
-  height:  100px;
-  display: block;
-  color:  white;
-  font-weight: bold;
-  text-align: center;
-  line-height: 50px;
-  cursor: pointer;
-  border-radius: 100%;
-  -webkit-transition: background-color 0.3s;
-  -o-transition: background-color 0.3s;
-  transition: background-color 0.3s;
+	width:  100px;
+	height:  100px;
+	display: block;
+	color:  white;
+	font-weight: bold;
+	text-align: center;
+	line-height: 50px;
+	cursor: pointer;
+	border-radius: 100%;
+	-webkit-transition: background-color 0.3s;
+	-o-transition: background-color 0.3s;
+	transition: background-color 0.3s;
 }
 
 .wizard__body__actions a.disabled{
-  cursor: not-allowed;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  opacity: 0.5;
+	cursor: not-allowed;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	opacity: 0.5;
 }
 
 .wizard__body__actions a>.vgw-icon, .wizard__body__actions a>span{
-  display: inline-block;
-  vertical-align: middle;
-  position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
 }
 
 .wizard__body__actions .vgw-icon::after{
-  position: absolute;
-  content: "";
+	position: absolute;
+	content: "";
 }
 
 .vgw-icon.vgw-next::after{
-  background-image:url("/SVG/화살표_1.svg");
-  width:100px;
-  height: 100px;
+	background-image:url("/SVG/화살표_1.svg");
+	width:100px;
+	height: 100px;
 }
 
 .vgw-icon.vgw-prev::after{
-  border-top: 2px solid gray;
-  border-left: 2px solid gray;
-  left:-5px;
+	border-top: 2px solid gray;
+	border-left: 2px solid gray;
+	left:-5px;
 }
 
 .wizard__body__actions a:hover{
-  background-color: #357fae;
+	background-color: #357fae;
 }
 
 
 /* mobile */
 .wizard__body.vgw-mobile{
-  margin-left: 10px;
-  margin-right: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 .wizard__step.vgw-mobile{
-  display: none;
+	display: none;
 }
 .wizard__step .wizard__step__line.vgw-mobile{
-  display: none;
+	display: none;
 }
 .wizard__step.active.vgw-mobile{
-  display: inline-block;
+	display: inline-block;
 }
 
 </style>

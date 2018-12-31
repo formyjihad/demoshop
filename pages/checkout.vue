@@ -342,7 +342,7 @@ export default {
             let amount = this.fullPrice;
             const date = new Date()
             const month = date.getMonth()+1;
-            const day = date.getDay();
+            const day = date.getDate();
             const year = date.getFullYear();
             const nowTime = year+"-"+month+"-"+day;
             let name = this.userName

@@ -10,6 +10,7 @@ const axios = require('axios');
 const google = require('googleapis')
 const auth = require('../utils/auth')
 const coupon = require('../models/coupon.js');
+const vips = require('../models/vip.js');
 
 router.post('/', (req, res)=>{
     const impUid = req.body.imp_uid;
@@ -166,7 +167,7 @@ router.post('/save', async (req, res)=>{
     let data = req.body
     let date = new Date()
     let month = date.getMonth()+1;
-    let day = date.getDay();
+    let day = date.getDate();
     let year = date.getFullYear();
     let nowTime = year+"-"+month+"-"+day;
     order.uid = req.user.uid;
@@ -205,10 +206,12 @@ router.post('/save', async (req, res)=>{
         }
         let sheet = await sheetPost(values)
     }catch(err){
+        console.error(err);
         res.status(204).json();
     }
     try{
         let findUser = await users.findOne({"uid":order.uid})
+        
         let point = 0;
         if(!findUser){
             res.status(204).json();

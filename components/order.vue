@@ -1,5 +1,6 @@
 <template>
 	<section id="form-section">
+		<div class="margin" />
 		<vue-good-wizard :steps="steps" :onNext="nextClicked" :onBack="backClicked" :onCart="cartClicked">
 			<div class="slots" slot="slot1">
 				<p>칼선을 포함한 가로와 세로길이를 입력해주세요. </p>
@@ -212,7 +213,7 @@ export default {
 		async cartClicked(currentPage){
 			const date = new Date()
 			const month = date.getMonth()+1;
-			const day = date.getDay();
+			const day = date.getDate();
 			const year = date.getFullYear();
 			const nowTime = year+"-"+month+"-"+day;
 			const boardSize = 590*290;
@@ -319,7 +320,7 @@ export default {
 				formData.append("img", fileDom.files[0]);*/
 				const date = new Date()
 				const month = date.getMonth()+1;
-				const day = date.getDay();
+				const day = date.getDate();
 				const year = date.getFullYear();
 				const nowTime = year+"-"+month+"-"+day;
 				const boardSize = 590*290;
@@ -432,6 +433,10 @@ export default {
 
 
 <style scoped>
+
+.margin{
+	height: 100px;
+}
 
 .slots{
 	text-align: center;
