@@ -1,97 +1,55 @@
 <template>
-    <div class="container">
-        <section class = "notice">
-            <div class="notice-container" v-for ="(notice, index) in notices" :key="notice['_id']">
-                <div class = "notice-box" @click="displayToggle(index)">
-                    <div class="notice-num">{{notice['num']}}</div>
-                    <div class="notice-title">{{notice['title']}}</div>
-                    <div class = "notice-detail" style="display:none">{{notice['detail']}}</div>
-                </div>
-            </div>
-        </section>
-        <div class = "pagination">
-            <a href="#" @click='getPage(p)' v-for="p in pagination" :key="p">{{p+1}}</a>
-        </div>
+    <div class= "container">
+        <p> 공지사항 </p>
+        <form @submit.prevent="notice">
+            <label for="title">제목</label>
+            <input type="text" v-model="title"/><br>
+            <label for="detail">내용</label>
+            <textarea rows="5" cols="30" v-model="detail"/><br>
+            <label for="attach">첨부 파일</label>
+            <input type="file" id="img"/> <br>
+            <button type="submit">등록하기</button>
+        </form>
     </div>
 </template>
 
-
 <script>
 import axios from 'axios'
-function getPagination ({currentPage, totalCount, limit}){
-    let pn = []
-    let maxPage = Math.floor(totalCount/limit)
-    for(let i = currentPage -3; i<currentPage+3 && i<=maxPage; i++){
-        if(i>-1){
-            pn.push(i);
-        }
-    }
-    return pn
-}
 export default {
-    async asyncData(){
-        let url = "/api/notice"
-        let data = await axios.get(url)
-        return{
-            notices: data.data.notice,
-            totalCount:data.data.totalCount,
-            limit : data.data.limit,
-            currentPage: data.data.currentPage,
-            pagination:getPagination({
-                currentPage:data.data.currentPage,
-                totalCount:data.data.totalCount,
-                limit:data.data.limit
-            })
-        } 
+    layout:'admin',
+    data(){
+        return {
+            title:'',
+            detail:'',
+        }
     },
-    methods : {
-        displayToggle(index){
-            //console.log("work")
-            const targetIndex = index
-            let target = document.getElementsByClassName("notice-detail")
-            //console.log(target)
-            if(target[targetIndex].style.display=='none'){
-                target[targetIndex].style.display= 'block'
-            }
-            else{
-                target[targetIndex].style.display = 'none'
-            }
-        },
-        async getPage(page){
-            let url = `/api/notice?page=${page}`
-            let data = await axios.get(url)
+    methods:{
+        async notice(){
+            console.log("등록 대기")
+            let formData = new FormData();
+            let fileDom = document.querySelector('#img');
+            if(this.title && this.detail){
+                formData.append("img", fileDom.files[0]);
+                formData.append("title",this.title);
+                formData.append("detail", this.detail);
+                console.log("post 대기");
             
-            this.notices = data.data.notice
-            this.totalCount = data.data.totalCount
-            this.limit = data.data.limit
-            this.currentPage = data.data.currentPage
-            this.pagination = getPagination({
-                currentPage:data.data.currentPage,
-                totalCount:data.data.totalCount,
-                limit:data.data.limit
+            let data = await axios.post('/api/notice',formData,{
+                headers:{
+                    'Content-Type':'multipart/form-data'
+                }
             })
+            console.log("post 종료");
+            if(data.status == 200){
+                alert('공지사항이 정상적으로 등록되었습니다.');
+            }else if(data.status == 204){
+                alert('공지사항 등록을 실패 하였습니다.');
+            }
+            this.$nuxt.$router.replace({ path: '/admin' });
+            }/*else{
+                alert ('빈 양식이 있습니다.')
+            }*/
         }
     }
 }
 </script>
-
-<style>
-.notice-container{
-    text-align: center;
-}
-.notice-title{
-    font-size: 20px;
-    font-weight: 400;
-    display: block;
-    width: 60px;
-    border-bottom: 2px solid #bcbcbc;
-    margin: 10px auto;
-}
-.notice-detail{
-    font-size: 13px;
-    margin-top: 5px;
-}
-.pagination{
-    display: inline-block;
-}
-</style>

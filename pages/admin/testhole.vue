@@ -9,6 +9,7 @@
 import axios from 'axios'
 
 export default {
+    layout:'admin',
     methods:{
         async initClient(){
             /*let url = '/api/users/auth/google'

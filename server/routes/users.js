@@ -153,6 +153,7 @@ router.post('/idCheck', async (req,res)=>{
 router.post('/signup',(req,res,next)=>{
     let user = new users();
     user.uid = req.body.uid;
+    user.userName = req.body.userName;
     user.password = req.body.password;
     user.status = 1;
     user.userAddressData = req.body.addressData;
@@ -201,9 +202,9 @@ router.post('/phoneCheck', async (req,res)=>{
         const getCertifications = await axios.get(certUrl,{
             headers: { "Authorization": accessToken } // 인증 토큰 Authorization header에 추가
         });
-        const certificationsInfo = getCertifications.data.response; // 조회한 인증 정보
-        console.log(certificationsInfo)
-        res.status(200).json({certificationsInfo}) //crtificationsInfo에서 필요한 정보만 전송.
+        const certInfo = getCertifications.data.response; // 조회한 인증 정보
+        const userName = certInfo.name
+        res.status(200).json({userName}) //crtificationsInfo에서 필요한 정보만 전송.
         //res.status(200).redirect('/signup')
     } catch(e) {
         console.error(e);
