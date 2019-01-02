@@ -88,12 +88,13 @@ export default {
     cursor: pointer;
 }
 .event-title{
-    font-size: 25px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 400px;
+    cursor:pointer;
     display: block;
-    width: 120px;
+    width: 200px;
     border-bottom: 2px solid #bcbcbc;
-    margin: 20px auto;
+    margin: 10px auto;
 }
 .event-subdetail{
     font-size: 15px;
