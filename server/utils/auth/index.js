@@ -1,6 +1,6 @@
 
 const {google} = require('googleapis');
-const serviceFile = './config/dn-craft-ss-87732a727868.json'
+const serviceFile = './config/spreadsheetbot-58c6c5229eb6.json'
 
 async function createToken(){
     const scopes = [
@@ -9,7 +9,7 @@ async function createToken(){
         'https://www.googleapis.com/auth/spreadsheets'
     ];
     const auth = new google.auth.JWT(
-        "formyjihad@gmail.com",
+        "craft.dongne@gmail.com",
         serviceFile,
         null,
         scopes

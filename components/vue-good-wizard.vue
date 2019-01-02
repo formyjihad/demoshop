@@ -237,6 +237,7 @@ export default {
 *******************************/
 .wizard {
 	position: relative;
+	margin-top:100px;
 	width:  100%;
 }
 
@@ -280,7 +281,7 @@ export default {
 	display:  block;
 	width:  16px;
 	height:  16px;
-	background-color: #51abe4;
+	background-color:  #f1f1f1;
 	border-radius: 50%;
 	border: 3px solid #fff;
 	position:  absolute;
@@ -292,11 +293,11 @@ export default {
 }
 
 .wizard__step.active .wizard__step__indicator{
-	background-color: #6eb165;
+	background-color: gray;
 }
 
 .wizard__step.active:not(:first-child) .wizard__step__line{
-	background-color: #6eb165; /* green */
+	background-color: gray;
 }
 
 .wizard__step__label{
@@ -447,7 +448,7 @@ export default {
 }
 
 .wizard__body__actions a:hover{
-	background-color: #357fae;
+	background-color: #525252;
 }
 
 

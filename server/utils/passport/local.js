@@ -32,6 +32,7 @@ module.exports = new LocalStrategy({
                 const accessToken = jwt.sign({id:userid, status:loginData.status}, Secret_key ,{expiresIn:'1d'});
                 return done(null, {
                     uid:loginData.uid,
+                    point:loginData.point,
                     status:loginData.status,
                     access_token:accessToken
                 })

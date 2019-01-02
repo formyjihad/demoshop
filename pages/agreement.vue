@@ -249,7 +249,7 @@
 	② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
 			</textarea>
 		</div>
-		<label><input type="checkbox" id="agree" @click="checkCall"/>약관에 동의</label>
+		<label><input type="checkbox" id="agree" @change="checkCall"/>약관에 동의</label>
 		<div class = "personal-agreement">
 			<textarea class="personal-text">
 				개인정보처리방침
@@ -377,7 +377,7 @@
 
 			</textarea>
 		</div>
-		<label><input type="checkbox" id="person-agree" @click="checkCall"/>약관에 동의</label>
+		<label><input type="checkbox" id="person-agree" @change="checkCall"/>약관에 동의</label>
 		
 		<div class = "button-area">
 			<button id ="send-btn" @click="send" disabled>회원 가입</button>
@@ -394,13 +394,14 @@ export default {
 			let agree = document.getElementById('agree');
 			let personAgree = document.getElementById('person-agree');
 			let sendBtn = document.getElementById('send-btn');
-			let agreeChecked = agree.checked;
-			let personAgreeChecked = personAgree.checked;
 			//console.log(agreeChecked)
 			//console.log(personAgreeChecked)
-			if (agreeChecked == true && personAgreeChecked == true){
+			if (agree.checked == true && personAgree.checked == true){
 				//console.log("true")
 				sendBtn.disabled = false
+			}
+			else{
+				sendBtn.disabled = true
 			}
 		},
 		async send(){

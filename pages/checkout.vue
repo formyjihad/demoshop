@@ -273,6 +273,7 @@ export default {
         IMP.init(IMP_CODE)
     },
     methods:{
+        
         async changePoint(){
             let point = this.point
             let target = this.usePoint
@@ -340,10 +341,14 @@ export default {
             }
             let buyerAddress = ''
             let amount = this.fullPrice;
-            const date = new Date()
-            const month = date.getMonth()+1;
-            const day = date.getDate();
-            const year = date.getFullYear();
+            let date = new Date()
+            let month = date.getMonth()+1;
+            let day = date.getDate();
+            let year = date.getFullYear();
+            if(month<0){
+                year = year-1
+                month = month+12
+            }
             const nowTime = year+"-"+month+"-"+day;
             let name = this.userName
             let phone = this.phoneNumber
@@ -427,8 +432,62 @@ export default {
                             orderId:postData.data.purchase.orderId,
                             phoneNumber:res.custom_data.phoneNumber
                         })
-                        //console.log(saveData)
-                        location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        if(saveData.status == 200){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("구매 하였습니다.")
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                        else if(saveData.status == 201){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("VIP가 되었습니다.");
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                        else if(saveData.status == 202){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("VVIP가 되었습니다.")
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                        else if(saveData.status == 300){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("VIP에서 VVIP가 되었습니다.")
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                        else if(saveData.status == 301){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("VIP를 3개월 더 유지합니다.")
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                        else if(saveData.status == 302){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("VVIP를 3개월 더 유지합니다.");
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                        else if(saveData.status == 304){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("VIP를 유지하려면 "+saveData.data.targetPrice+"원 만큼 더 주문해야 합니다.")
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
                     }else if(postData.status == 204){
                         alert('잘못된 정보입니다.');
                     }else if(postData.status == 206){

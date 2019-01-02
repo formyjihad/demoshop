@@ -136,7 +136,9 @@ router.get('/checkinfo', async (req,res)=>{
 })
 router.get('/collectId', async(req,res)=>{
     let uid = req.user.uid
-    res.status(200).json({uid});
+    let status = req.user.status
+    let point  = req.user.point
+    res.status(200).json({uid, status, point});
 })
 
 router.post('/idCheck', async (req,res)=>{

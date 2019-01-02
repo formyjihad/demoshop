@@ -76,20 +76,25 @@ export default {
 </script>
 
 <style>
-.notice-container{
+.container{
     text-align: center;
+}
+.notice{
+    height:90vh;
 }
 .notice-title{
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 400px;
+    cursor:pointer;
     display: block;
-    width: 60px;
+    width: 200px;
     border-bottom: 2px solid #bcbcbc;
     margin: 10px auto;
 }
 .notice-detail{
     font-size: 13px;
     margin-top: 5px;
+    display:none;
 }
 .pagination{
     display: inline-block;

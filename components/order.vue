@@ -38,42 +38,42 @@
 			<div class="slots" slot="slot7">
 				<p>제작하는 제품의 도안 갯수와 수량을 입력하세요</p>
 				<div class="table-body">
-					<label for="design" style="margin-right: 10px;"> 도안 갯수  </label>
+					<label for="design" style="margin-right: 10px; font-weight: bold; color:#565656"> 도안 갯수  </label>
 					<input type="number" id="design" v-model="design" min="1" step="1"><br>
-					<label for="quantity" style="margin-right: 10px;" >주문 갯수  </label>
+					<label for="quantity" style="margin-right: 10px; font-weight: bold;color:#565656" >주문 갯수  </label>
 					<input type="number" id="quantity" v-model="quantity" min="1" step="1">
 				</div>
 			</div>
-			<div class="slots" slot="slot8">
+			<div class="slots8" slot="slot8">
 				<p>주문 상세</p>
 				<div class = "table-body">
 					<table>
 						<tr>
-							<td style="text-align: left;">아크릴 두께</td>
+							<td style="text-align: left; font-weight: bold;">아크릴 두께</td>
 							<td style="padding-left: 20px;">{{thick}}</td>
 						</tr>
 						<tr>
-							<td style="text-align: left;">바닥 크기</td>
+							<td style="text-align: left;font-weight: bold;">바닥 크기</td>
 							<td style="padding-left: 20px;">{{stand}}</td>
 						</tr>
 						<tr>
-							<td style="text-align: left;">부자재</td>
+							<td style="text-align: left; font-weight: bold;">부자재</td>
 							<td style="padding-left: 20px;">{{subitem}}</td>
 						</tr>
 						<tr>
-							<td style="text-align: left;">포장 옵션</td>
+							<td style="text-align: left; font-weight: bold;">포장 옵션</td>
 							<td style="padding-left: 20px;">{{packing}}</td>
 						</tr>
 						<tr>
-							<td style="text-align: left;">인쇄면</td>
+							<td style="text-align: left; font-weight: bold;">인쇄면</td>
 							<td style="padding-left: 20px;">{{printside}}</td>
 						</tr>
 						<tr>
-							<td style="text-align: left;">도안 수량</td>
+							<td style="text-align: left; font-weight: bold;">도안 수량</td>
 							<td style="padding-left: 20px;">{{design}} 개</td>
 						</tr>
 						<tr>
-							<td style="text-align: left;">인쇄 수량</td>
+							<td style="text-align: left; font-weight: bold;">인쇄 수량</td>
 							<td style="padding-left: 20px;">{{quantity}} 개</td>
 						</tr>
 					</table>
@@ -211,10 +211,14 @@ export default {
 	methods:{
 		
 		async cartClicked(currentPage){
-			const date = new Date()
-			const month = date.getMonth()+1;
-			const day = date.getDate();
-			const year = date.getFullYear();
+			let date = new Date()
+			let month = date.getMonth()+1;
+			let day = date.getDate();
+			let year = date.getFullYear();
+			if(month<0){
+				year = year-1
+				month = month+12
+			}
 			const nowTime = year+"-"+month+"-"+day;
 			const boardSize = 590*290;
 			const thick = this.thick;
@@ -435,17 +439,47 @@ export default {
 <style scoped>
 
 .margin{
-	height: 100px;
+	height: 50px;
 }
 
 .slots{
 	text-align: center;
 }
 
+.slots8  p{
+	border-bottom: 4px solid #bcbcbc;
+	width: 160px;
+	text-align: center;
+
+}
+.slots8 td{
+	padding-bottom: 10px;
+}
+
+.detail {
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: 30px;
+	overflow: auto;
+}
+#design {
+	width: 60px;
+	height: 30px;
+	text-align: center;
+}
+#quantity{
+	width: 60px;
+	height: 30px;
+	text-align: center;
+	margin-top: 7px;
+}
+
 .table-body{
 	width:100%;
-	margin-top:50px;
+	margin-top:20px;
 	text-align:center;
+	color:#525252;
 }
 .table-body table{
 	display:inline-block

@@ -24,8 +24,15 @@
                 </form>
                 <div class="after-login" v-else>
                     <div class="login-info">
-                        <h4>{{user}}님</h4>
+                        <div class="name"><h4>{{user}}님</h4>
                         반갑습니다.
+                        </div>
+                        <div class="status">
+                            고객님은 {{status}} 회원입니다.
+                        </div>
+                        <div class="point">
+                            {{point}} 포인트를 소유하고 있습니다.
+                        </div>
                     </div>
                     <div class="signout" @click="signout()">
                         로그아웃
@@ -78,6 +85,7 @@ export default {
             password:'',
             status:'',
             user:'default',
+            point:0,
         }
     },
     computed: {
@@ -90,6 +98,17 @@ export default {
             let url = '/api/users/collectId'
             let uidData = await axios.get(url)
             this.user=uidData.data.uid
+            this.point = uidData.data.point
+            if(uidData.data.status == 1){
+                this.status = "일반"
+            }
+            else if(uidData.data.status == 2){
+                this.status = "VIP"
+                
+            }
+            else if(uidData.data.status == 3){
+                this.status = "VVIP"
+            }
         }
     },
     methods:{

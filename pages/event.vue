@@ -3,12 +3,11 @@
         <section class = "event">
             <div class="event-container" v-for ="(event, index) in events" :key="event['_id']">
                 <img class = "event-box" :src='"/uploads/" + event["img"]' @click="displayToggle(index)">
-                    
-                    <div class = "event-detail" style="display:none">
-                        <div class="event-num">{{event['num']}}</div>
-                        <div class="event-title">{{event['title']}}</div>
-                        <div class="event-subdetail">{{event['detail']}}</div>
-                    </div>
+                <div class = "event-detail" style="display:none">
+                    <div class="event-num">{{event['num']}}</div>
+                    <div class="event-title">{{event['title']}}</div>
+                    <div class="event-subdetail">{{event['detail']}}</div>
+                </div>
             </div>
         </section>
         <div class = "pagination">
@@ -78,5 +77,33 @@ export default {
 </script>
 
 <style>
-
+.container{
+    text-align: center;
+}
+.event{
+    height:90vh;
+}
+.event-box{
+    margin-top:3%;
+    cursor: pointer;
+}
+.event-title{
+    font-size: 25px;
+    font-weight: 500;
+    display: block;
+    width: 120px;
+    border-bottom: 2px solid #bcbcbc;
+    margin: 20px auto;
+}
+.event-subdetail{
+    font-size: 15px;
+    margin-top: 2%;
+}
+.pagination{
+    display: inline-block;
+}
+.event-box{
+    width: 800px;
+    height: 400px;
+}
 </style>
