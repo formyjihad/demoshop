@@ -34,13 +34,13 @@
                                 <button type="button" class="b2_1" @click="onIncrement(index)">+</button>
                             </td>
                             <td class="cols">
-                                {{cart.price*cart.quantity+(cart.design*5500)}}
+                                {{cart.price*cart.quantity}}
                             </td>
                             <td class="cols">
-                                {{Math.ceil((cart.price*cart.quantity+(cart.design*5500))*(discountRate/100))}}
+                                {{Math.ceil((cart.price*cart.quantity)*(discountRate/100))}}
                             </td>
                             <td class="cols">
-                                {{(cart.price*cart.quantity+(cart.design*5500))-Math.ceil((cart.price*cart.quantity+(cart.design*5500))*(discountRate/100))}}
+                                {{(cart.price*cart.quantity)-Math.ceil((cart.price*cart.quantity)*(discountRate/100))}}
                             </td>
                         </tr>
                     </tbody>

@@ -9,7 +9,7 @@
                         <label for="id">ID</label>
                     </div>
                     <div class="signin">
-                        <input type="password" id="password" v-model="password">
+                        <input type="password" id="password" v-model="password" autocomplete="off">
                         <label for="password">PW</label>
                     </div>
                     <button class="button" type="submit">
@@ -77,6 +77,7 @@
 
 <script>
 import axios from 'axios'
+import sha256 from 'js-sha256'
 import {mapMutations, mapGetters} from 'vuex'
 export default {
     data(){
@@ -114,9 +115,10 @@ export default {
     methods:{
         async signin(){
             let url='/api/users/signin'
+            let password = sha256(this.password)
             let data = await axios.post(url, data={
                 uid: this.uid,
-                password:this.password
+                password:password
             })
             if(data.status == 200){
                 window.location.reload(true)

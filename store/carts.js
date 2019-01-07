@@ -4,7 +4,7 @@ import {GET_CART, ADD_TO_CART, DELETE_CART, UPDATE_CART} from './mutation-types'
 
 export const totals = (payloadArr)=>{
     const totalAmount = payloadArr.map(cartArr =>{
-        return cartArr.price * cartArr.quantity + (cartArr.design*5500)
+        return cartArr.price * cartArr.quantity
     }).reduce((a,b)=>a+b,0);
 
     const totalQuantity = payloadArr.map(cartArr =>{
@@ -12,7 +12,7 @@ export const totals = (payloadArr)=>{
     }).reduce((a,b)=>a+b,0);
     
     const totalDiscountAmount = payloadArr.map(cartArr =>{
-        return Math.ceil((cartArr.price * cartArr.quantity + (cartArr.design*5500))*cartArr.discountRate/100);
+        return Math.ceil((cartArr.price * cartArr.quantity)*cartArr.discountRate/100);
     }).reduce((a,b)=>a+b,0);
 
     return {
@@ -90,13 +90,52 @@ export const actions ={
     updateDesignCart({commit}, payload){
         const currentCartToUpdate = payload.cart;
         //console.log(payload)
-		const indexToUpdate = payload.index;
-
-		const newCart = {
-			...currentCartToUpdate[indexToUpdate],
-			design: currentCartToUpdate[indexToUpdate].design + payload.unit
+        const indexToUpdate = payload.index;
+        const thick = currentCartToUpdate[indexToUpdate].thick;
+        let type='';
+        let thickPrice = 0;
+        let sidePrice = 0;
+        if(currentCartToUpdate[indexToUpdate].stand=="none"){
+            type="아크릴 챰"
+        }
+        else if(currentCartToUpdate[indexToUpdate].stand=="4cm"||currentCartToUpdate[indexToUpdate].stand=="6cm"||currentCartToUpdate[indexToUpdate].stand=="8cm"){
+            type="아크릴 스탠드"
+        }
+        if(thick == "0.7mm"){
+            thickPrice = 0.8
+        }
+        else if(thick == "1mm"){
+            thickPrice = 0.9
+        }
+        else if(thick == "3mm"){
+            thickPrice = 1
+        }
+        else if(thick == "5mm"){
+            thickPrice = 1.3
         }
 
+        if(currentCartToUpdate[indexToUpdate].printside == "단면"){
+            sidePrice = 1
+        }
+        else if(currentCartToUpdate[indexToUpdate].printside == "양면"){
+            sidePrice = 1.5
+        }
+        let xSize = currentCartToUpdate[indexToUpdate].xsize; //4
+        let ySize = currentCartToUpdate[indexToUpdate].ysize; //4
+        let quantity = currentCartToUpdate[indexToUpdate].quantity;   //1
+        let design = currentCartToUpdate[indexToUpdate].design + payload.unit;   //1
+        let surface = 1;
+        let optionPrice = 0;    //부자재 옵션 이후 변경
+        let packingPrice = 0;   //포장 옵션 이후 변경
+        let standSizeT = 0;     //3T용 스탠드 바닥 사이즈
+        let standSizeF = 0;     //5T용 스탠드 바닥 사이즈
+        let price = Math.ceil(((((50000*(2000/((100-(590*290/(xSize*10+1.5)/(ySize*10+1.5)))^2+2000)*1.5+1)/(590*290/(xSize*10+1.5)/(ySize*10+1.5)))*thickPrice)*1.08^(4-Math.log(quantity)/Math.log(10)))/0.7*thickPrice*sidePrice*surface+optionPrice+packingPrice+standSizeT+(design*5000/quantity)+standSizeF)/100)*110
+		const newCart = {
+			...currentCartToUpdate[indexToUpdate],
+            design: design,
+            price: price
+        }
+        
 		const cartUpdate = [...currentCartToUpdate.slice(0, indexToUpdate), newCart, ...currentCartToUpdate.slice(indexToUpdate+1)];
 
 		axios.post('/api/cart', cartUpdate)

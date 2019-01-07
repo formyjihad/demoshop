@@ -1,8 +1,8 @@
 <template>
     <div class="modal-body">
         <label for="argumentInput"><strong>우편 번호 검색</strong></label><br>
-        <div class="argumentInput"><input id="argumentInput" type="text" v-model="arg" placeholder="동, 구, 면을 입력하세요">
-        <button @click="callPostOffice(arg)">검색하기</button></div>
+        <form class="argumentInput" @submit.prevent="callPostOffice(arg)"><input id="argumentInput" type="text" v-model="arg" placeholder="동, 구, 면을 입력하세요">
+        <button @click="callPostOffice(arg)">검색하기</button></form>
     
         <div class="addressList">
             <table>

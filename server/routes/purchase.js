@@ -131,7 +131,7 @@ async function sheetPost(values){
     let accessToken = token.access_token;
     let tokenType = token.token_type;
     let spreadsheetId = '1fssu51C4N-0gYkNgM-87DgeM2gVv024Zaws-XS5EnrU';
-    let range = "주문2019:A1"
+    let range = "O2019:A1"
     let postUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`
     let tokenData = `${tokenType} ${accessToken}`
     let postValues = values
@@ -234,6 +234,13 @@ router.post('/save', async (req, res)=>{
             let orderSave = await order.save();
             let userUpdate = await users.findOneAndUpdate({"uid":order.uid},{$set:{"point":point}})
         }
+    }
+    catch(err){
+        console.error(err);
+        res.status(400).json();
+    }
+    try{
+        console.log("checking user rate")
         let uid = req.user.uid;
         let totalAmount = data.totalAmount;
         let orderName = data.orderName;
@@ -266,7 +273,7 @@ router.post('/save', async (req, res)=>{
                 vip.userName = orderName;
                 let vipStatus = 2
                 vip.status = vipStatus
-                let userSave = await users.findByIdAndUpdate({"uid":uid},{$set:{"status":vipStatus}})
+                let userSave = await users.findOneAndUpdate({"uid":uid},{$set:{"status":vipStatus}})
                 let vipSave = await vip.save();
                 res.status(201).json({})
             }
@@ -277,7 +284,7 @@ router.post('/save', async (req, res)=>{
                 vip.userName = orderName;
                 let vipStatus = 3
                 vip.status = vipStatus
-                let userSave = await users.findByIdAndUpdate({"uid":uid},{$set:{"status":vipStatus}})
+                let userSave = await users.findOneAndUpdate({"uid":uid},{$set:{"status":vipStatus}})
                 let vipSave = await vip.save();
                 res.status(202).json({})
             }
@@ -318,7 +325,7 @@ router.post('/save', async (req, res)=>{
                 if(totalTargetPriceOne >= 2000000){
                     let vipStatus = findVip.status + 1
                     let vipSave = await vips.findOneAndUpdate({"_id":findVip._id},{$set:{"status":vipStatus, ttl:7889400}});
-                    let userSave = await users.findByIdAndUpdate({"uid":uid},{$set:{"status":vipStatus}})
+                    let userSave = await users.findOneAndUpdate({"uid":uid},{$set:{"status":vipStatus}})
                     res.status(300).json({})
                 }
                 if(totalTargetPriceThree>=1500000){

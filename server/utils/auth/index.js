@@ -1,6 +1,6 @@
 
 const {google} = require('googleapis');
-const serviceFile = './config/spreadsheetbot-58c6c5229eb6.json'
+const serviceFile = './config/spreadsheetbot-227501-a4d651396a3b.json'
 
 async function createToken(){
     const scopes = [

@@ -46,37 +46,49 @@
 			</div>
 			<div class="slots8" slot="slot8">
 				<p>주문 상세</p>
-				<div class = "table-body">
-					<table>
-						<tr>
-							<td style="text-align: left; font-weight: bold;">아크릴 두께</td>
-							<td style="padding-left: 20px;">{{thick}}</td>
-						</tr>
-						<tr>
-							<td style="text-align: left;font-weight: bold;">바닥 크기</td>
-							<td style="padding-left: 20px;">{{stand}}</td>
-						</tr>
-						<tr>
-							<td style="text-align: left; font-weight: bold;">부자재</td>
-							<td style="padding-left: 20px;">{{subitem}}</td>
-						</tr>
-						<tr>
-							<td style="text-align: left; font-weight: bold;">포장 옵션</td>
-							<td style="padding-left: 20px;">{{packing}}</td>
-						</tr>
-						<tr>
-							<td style="text-align: left; font-weight: bold;">인쇄면</td>
-							<td style="padding-left: 20px;">{{printside}}</td>
-						</tr>
-						<tr>
-							<td style="text-align: left; font-weight: bold;">도안 수량</td>
-							<td style="padding-left: 20px;">{{design}} 개</td>
-						</tr>
-						<tr>
-							<td style="text-align: left; font-weight: bold;">인쇄 수량</td>
-							<td style="padding-left: 20px;">{{quantity}} 개</td>
-						</tr>
-					</table>
+				<div class = "orderDetail">
+					<div class = "orderTable">
+						<table class="orderTable-body">
+							<tr>
+								<td>아크릴 두께</td>
+								<td>{{thick}}</td>
+							</tr>
+							<tr>
+								<td>바닥 크기</td>
+								<td>{{stand}}</td>
+							</tr>
+							<tr>
+								<td>부자재</td>
+								<td>{{subitem}}</td>
+							</tr>
+							<tr>
+								<td>포장 옵션</td>
+								<td>{{packing}}</td>
+							</tr>
+							<tr>
+								<td>인쇄면</td>
+								<td>{{printside}}</td>
+							</tr>
+							<tr>
+								<td>도안 수량</td>
+								<td>{{design}} 개</td>
+							</tr>
+							<tr>
+								<td>인쇄 수량</td>
+								<td>{{quantity}} 개</td>
+							</tr>
+						</table>
+					</div>
+					<div class="recit">
+						<ul>
+							<li class="header">개당 예상 금액</li>
+							<li>약 {{price}}원</li>
+						</ul>
+						<ul>
+							<li class="header">총 예상 금액</li>
+							<li>약 {{fullPrice}}원</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</vue-good-wizard>
@@ -206,21 +218,8 @@ export default {
 		},
 		...mapGetters({
 			cart : 'carts/cart'
-		})
-	},
-	methods:{
-		
-		async cartClicked(currentPage){
-			let date = new Date()
-			let month = date.getMonth()+1;
-			let day = date.getDate();
-			let year = date.getFullYear();
-			if(month<0){
-				year = year-1
-				month = month+12
-			}
-			const nowTime = year+"-"+month+"-"+day;
-			const boardSize = 590*290;
+		}),
+		price(){
 			const thick = this.thick;
 			let type='';
 			let thickPrice = 0;
@@ -250,30 +249,102 @@ export default {
 			else if(this.printside == "양면"){
 				sidePrice = 1.5
 			}
-			let xSize = this.xsize; //4
-			let ySize = this.ysize; //4
-			let quantity = this.quantity;   //1
-			let design = this.design;   //1
+			let xSize = this.xsize; 
+			let ySize = this.ysize; 
+			let quantity = this.quantity;  
+			let design = this.design;   
 			let surface = 1;
-			let optionPrice = 0;    //부자재 옵션 이후 변경
-			let packingPrice = 0;   //포장 옵션 이후 변경
-			let standSizeT = 0;     //3T용 스탠드 바닥 사이즈
-			let standSizeF = 0;     //5T용 스탠드 바닥 사이즈
-			let price = Math.ceil(((((50000*(2000/((100-(590*290/(xSize*10+1.5)/(ySize*10+1.5)))^2+2000)*1.5+1)/(590*290/(xSize*10+1.5)/(ySize*10+1.5)))*thickPrice)*1.08^(4-Math.log(quantity)/Math.log(10)))/0.7*thickPrice*sidePrice*surface+optionPrice+packingPrice+standSizeT+standSizeF)/100)*110
+			let optionPrice = 0; 
+			if(this.subitem == "none"){
+				optionPrice = 0;
+			}
+			else if(this.subitem == "OPP"){
+				optionPrice = 20;
+			}
+			else if(this.subitem == "O링"){
+				optionPrice = 50;
+			}
+			else if(this.subitem == "군번줄"){
+				optionPrice = 100;
+			}
+			else if(this.subitem == "O링 + 군번줄"){
+				optionPrice = 150;
+			}
+			else if(this.subitem == "O링 + 휴대폰줄"){
+				optionPrice = 150;
+			}
+			else if(this.subitem == "키링"){
+				optionPrice = 700;
+			}
+			let packingPrice = 0;   
+			if(this.packing == "조립 없음"){
+				packingPrice = 0;
+			}
+			else if(this.packing == "OPP만"){
+				packingPrice = 300;
+			}
+			else if(this.packing == "오링 조립"){
+				packingPrice = 200;
+			}
+			else if(this.packing == "부자재 조립"){
+				packingPrice = 500;
+			}
+			let standSizeT = 0;     
+			if(this.stand == "none"){
+				standSizeT = 0;
+			}
+			else if(this.stand == "4cm"){
+				standSizeT = 800;
+			}
+			else if(this.stand == "6cm"){
+				standSizeT = 1200;
+			}
+			else if(this.stand == "8cm"){
+				standSizeT = 1600;
+			}
+			let standSizeF = 0;     
+			let price = Math.ceil(((((50000*(2000/((100-(590*290/(xSize*10+1.5)/(ySize*10+1.5)))^2+2000)*1.5+1)/(590*290/(xSize*10+1.5)/(ySize*10+1.5)))*thickPrice)*1.08^(4-Math.log(quantity)/Math.log(10)))/0.7*thickPrice*sidePrice*surface+optionPrice+packingPrice+standSizeT+standSizeF+(design*5000/quantity))/100)*110
+			return price;
+		},
+		fullPrice(){
+			return this.price*this.quantity
+		}
+	},
+	methods:{
+		
+		async cartClicked(currentPage){
+			let date = new Date()
+			let month = date.getMonth()+1;
+			let day = date.getDate();
+			let year = date.getFullYear();
+			if(month<0){
+				year = year-1
+				month = month+12
+			}
+			const nowTime = year+"-"+month+"-"+day;
+			const boardSize = 590*290;
+			const thick = this.thick;
+			let type='';
+			if(this.stand=="none"){
+				type="아크릴 챰"
+			}
+			else if(this.stand=="4cm"||this.stand=="6cm"||this.stand=="8cm"){
+				type="아크릴 스탠드"
+			}
 			const goods = [{
 				_id:this.goodsId,
 				//name:this.name,
 				goodsType:type,
-				quantity:quantity,
-				price:price,
-				xsize:xSize,
-				ysize:ySize,
+				quantity:this.quantity,
+				price:this.price,
+				xsize:this.xsize,
+				ysize:this.ysize,
 				thick:this.thick,
 				stand:this.stand,
 				subItem:this.subitem,
 				packing:this.packing,
 				printside:this.printside,
-				design:design,
+				design:this.design,
 				//img:uploadImg.name,
 				orderDate:nowTime,
 				//img:uploadImg
@@ -316,75 +387,42 @@ export default {
 		async nextClicked(currentPage) {
 			//console.log('next clicked', currentPage)
 			if(currentPage == 7){
-				/*
-				let formData = new FormData();
-				let fileDom = document.querySelector('#uploadImg');
-				//console.log(fileDom)
-				let uploadImg = fileDom.files[0];
-				formData.append("img", fileDom.files[0]);*/
-				const date = new Date()
-				const month = date.getMonth()+1;
-				const day = date.getDate();
-				const year = date.getFullYear();
-				const nowTime = year+"-"+month+"-"+day;
-				const boardSize = 590*290;
-				const thick = this.thick;
-				let type='';
-				let thickPrice = 0;
-				let sidePrice = 0;
-				if(this.stand=="none"){
-					type="아크릴 챰"
-				}
-				else if(this.stand=="4cm"||this.stand=="6cm"||this.stand=="8cm"){
-					type="아크릴 스탠드"
-				}
-				if(thick == "0.7mm"){
-					thickPrice = 0.8
-				}
-				else if(thick == "1mm"){
-					thickPrice = 0.9
-				}
-				else if(thick == "3mm"){
-					thickPrice = 1
-				}
-				else if(thick == "5mm"){
-					thickPrice = 1.3
-				}
-
-				if(this.printside == "단면"){
-					sidePrice = 1
-				}
-				else if(this.printside == "양면"){
-					sidePrice = 1.5
-				}
-				let xSize = this.xsize; //4
-				let ySize = this.ysize; //4
-				let quantity = this.quantity;   //1
-				let design = this.design;   //1
-				let surface = 1;
-				let optionPrice = 0;    //부자재 옵션 이후 변경
-				let packingPrice = 0;   //포장 옵션 이후 변경
-				let standSizeT = 0;     //3T용 스탠드 바닥 사이즈
-				let standSizeF = 0;     //5T용 스탠드 바닥 사이즈
-				let price = Math.ceil(((((50000*(2000/((100-(590*290/(xSize*10+1.5)/(ySize*10+1.5)))^2+2000)*1.5+1)/(590*290/(xSize*10+1.5)/(ySize*10+1.5)))*thickPrice)*1.08^(4-Math.log(quantity)/Math.log(10)))/0.7*thickPrice*sidePrice*surface+optionPrice+packingPrice+standSizeT+standSizeF)/100)*110
-				const goods = [{
-					_id:this.goodsId,
-					//name:this.name,
-					goodsType:type,
-					quantity:quantity,
-					price:price,
-					xsize:xSize,
-					ysize:ySize,
-					thick:this.thick,
-					stand:this.stand,
-					subItem:this.subitem,
-					packing:this.packing,
-					printside:sidePrice,
-					design:design,
-					//img:uploadImg.name,
-					orderDate:nowTime,
-					//img:uploadImg
-				}];
+				let date = new Date()
+			let month = date.getMonth()+1;
+			let day = date.getDate();
+			let year = date.getFullYear();
+			if(month<0){
+				year = year-1
+				month = month+12
+			}
+			const nowTime = year+"-"+month+"-"+day;
+			const boardSize = 590*290;
+			const thick = this.thick;
+			let type='';
+			if(this.stand=="none"){
+				type="아크릴 챰"
+			}
+			else if(this.stand=="4cm"||this.stand=="6cm"||this.stand=="8cm"){
+				type="아크릴 스탠드"
+			}
+			const goods = [{
+				_id:this.goodsId,
+				//name:this.name,
+				goodsType:type,
+				quantity:this.quantity,
+				price:this.price,
+				xsize:this.xsize,
+				ysize:this.ysize,
+				thick:this.thick,
+				stand:this.stand,
+				subItem:this.subitem,
+				packing:this.packing,
+				printside:this.printside,
+				design:this.design,
+				//img:uploadImg.name,
+				orderDate:nowTime,
+				//img:uploadImg
+			}];
 				//console.log('breakpoint')
 				//console.log(goods);
 
@@ -450,10 +488,6 @@ export default {
 	border-bottom: 4px solid #bcbcbc;
 	width: 160px;
 	text-align: center;
-
-}
-.slots8 td{
-	padding-bottom: 10px;
 }
 
 .detail {
@@ -481,8 +515,58 @@ export default {
 	text-align:center;
 	color:#525252;
 }
+
 .table-body table{
 	display:inline-block
+}
+
+.orderDetail{
+	height: 300px;
+	width:700px;
+	margin-top:20px;
+	margin-right: auto;
+	margin-left: auto;
+	text-align:center;
+}
+
+.orderDetail .orderTable{
+	height: 300px;
+	width:300px;
+	float:left;
+}
+
+.orderDetail .orderTable .orderTable-body{
+	width: 100%;
+	color:#525252;
+}
+
+.orderDetail .orderTable .orderTable-body td{
+	padding-bottom: 10px;
+}
+
+.orderDetail .orderTable .orderTable-body td:nth-child(1){
+	text-align: left; 
+	font-weight: bold;
+}
+
+.orderDetail .orderTable .orderTable-body td:nth-child(2){
+	padding-left: 20px;
+}
+
+.orderDetail .recit{
+	width:300px;
+	height:200px;
+	float:left;
+	margin-left: 30px;
+}
+.orderDetail .recit ul{
+	padding:0;
+	margin:auto;
+	list-style:none;
+}
+
+.orderDetail .recit .header{
+	font-weight:900;
 }
 
 p {

@@ -43,6 +43,7 @@
 import axios from 'axios'
 
 import {IMP_CODE} from '../config/constants'
+import sha256 from 'js-sha256'
 import postOffice from '../components/modals/postOffice.vue'
 export default {
 	components:{
@@ -152,7 +153,7 @@ export default {
 		async signup (){
 			if(this.uid && this.password){
 				let url ='/api/users/signup'
-				console.log(this.userName);
+				let password = sha256(this.password)
 				let signData = await axios.post(url, {
 					uid:this.uid,
 					userName:this.userName,
@@ -161,7 +162,7 @@ export default {
 					phoneNumber:this.phoneNumber,
 					email:this.email,
 					postCode:this.postCode,
-					password:this.password,
+					password:password,
 				})
 				//console.log(data)
 				if(signData.status == 200){

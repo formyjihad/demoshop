@@ -18,20 +18,64 @@ export default {
             }catch(err){
                 console.error(err)
             }*/
+            /*order.uid = req.user.uid;
+    order.totalAmount = data.totalAmount;
+    order.orderName = data.orderName;
+    order.dName = data.dName;
+    order.phoneNum = data.phoneNumber;
+    order.totalDiscountAmount = data.totalDiscountAmount;
+    order.deliveryPrice = data.deliveryPrice;
+    order.postCode = data.postCode;
+    order.address = data.address;
+    order.orderId = data.orderId;
+    order.purchaseId = data.purchaseId;
+    order.orderDate = nowTime;
+    order.count = 3;
+    order.status = "ready"*/ 
+            let url = '/api/purchase/save'
             try{
-                let date = new Date;
-                console.log("date : "+date)
-                let month = date.getMonth()-2
-                console.log("month : "+month);
-                let day = date.getDate();
-                console.log("day : "+day);
-                let year = date.getFullYear();
-                console.log("year : "+year);
-                let fullDate = year+"-"+month+"-"+day
-                alert(fullDate);
-            }
-            catch(err){
-                console.error(err);
+                let postData = await axios.post(url,{
+                    "cart" : [{ 
+                        "xsize" : 4,
+                            "goodsType":"아크릴 스탠드", 
+                            "ysize" : 4, 
+                            "thick" : "3mm", 
+                            "subItem" : "oppOnly", 
+                            "packing" : "noPack", 
+                            "printside" : "front", 
+                            "quantity" : 1, 
+                            "price" : 10000000, 
+                            "img" : 
+                            "KakaoTalk_20181001_114754625.jpg" 
+                        },{ 
+                            "xsize" : 4,
+                            "goodsType":"아크릴 스탠드", 
+                            "ysize" : 4, 
+                            "thick" : "3mm", 
+                            "subItem" : "oppOnly", 
+                            "packing" : "noPack", 
+                            "printside" : "front", 
+                            "quantity" : 1, 
+                            "price" : 1, 
+                            "img" : 
+                            "KakaoTalk_20181001_114754625.jpg" 
+                        }], 
+                        "uid" : "testid", 
+                        "totalAmount" : 100000001, 
+                        "orderName":"testhole",
+                        "dName":"testhole",
+                        "phoneNumber":"000-0000-0000",
+                        "totalDiscountAmount":0,
+                        "deliveryPrice":0,
+                        "postCode":"000-000",
+                        "address" : "self self", 
+                        "orderId" : 8, 
+                        "purchaseId" : "87898715", 
+                        "status" : "file-confirm", 
+                        "usePoint":0,
+                    })
+            }catch(err){
+                console.error(err)
             }
         }
     }
