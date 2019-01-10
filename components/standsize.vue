@@ -48,21 +48,21 @@ export default {
             let target = document.getElementsByClassName("button_img")
             
             if(i==0){
-                index = "4cm"
+                index = "none"
                 target[0].src = '/SVG/none_active.svg'
                 target[1].src = '/SVG/4cm_nomal.svg'
                 target[2].src = '/SVG/6cm_nomal.svg'
                 target[3].src = '/SVG/8cm_nomal.svg'
             }
             else if(i==1){
-                index = "6cm"
+                index = "4cm"
                 target[0].src = '/SVG/none_nomal.svg'
                 target[1].src = '/SVG/4cm_active.svg'
                 target[2].src = '/SVG/6cm_nomal.svg'
                 target[3].src = '/SVG/8cm_nomal.svg'
             }
             else if(i==2){
-                index = "8cm"
+                index = "6cm"
                 target[0].src = '/SVG/none_nomal.svg'
                 target[1].src = '/SVG/4cm_nomal.svg'
                 target[2].src = '/SVG/6cm_active.svg'
