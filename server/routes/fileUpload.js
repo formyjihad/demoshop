@@ -47,7 +47,7 @@ router.post('/order', file.single('img'), async(req,res)=>{
     let purchaseId = req.body.purchaseId;
     //console.log(purchaseId)
     
-    let imgName = req.file.filename;
+    let imgName = "+domain+" + req.file.filename;
     try{
         let orderData = await orders.findOne({"purchaseId":purchaseId})
         //console.log(orderData)
