@@ -12,10 +12,10 @@ const fs = require('fs');
 const session = require('express-session');
 const passport = require('./utils/passport');
 
-process.env.PORT = 80
+process.env.PORT = 3000
 
 const host = process.env.HOST || '127.0.0.1'
-const port = process.env.PORT || 80
+const port = process.env.PORT || 3000
 
 app.set('port', port)
 
@@ -56,7 +56,7 @@ app.use('/api', routes);
 app.use(nuxt.render);
 
 server.listen(port, () =>{
-    //console.log("server is now on 80 port")
+    console.log("server is now on " + port +" port")
 });
 
 let db = mongoose.connection;
