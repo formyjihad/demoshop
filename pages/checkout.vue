@@ -170,7 +170,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '~/plugins/axios'
 import { mapActions, mapGetters } from 'vuex';
 import postOffice from '../components/modals/postOffice.vue'
 import {IMP_CODE} from '../config/constants'

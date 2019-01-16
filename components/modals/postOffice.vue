@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '~/plugins/axios'
 import {JUSO_KEY} from '../../config/constants.js'
 
 function getPagination (currentPage, totalCount, limit){

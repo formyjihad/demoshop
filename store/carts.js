@@ -1,5 +1,5 @@
 
-import axios from 'axios';
+import axios from '~/plugins/axios';
 import {GET_CART, ADD_TO_CART, DELETE_CART, UPDATE_CART} from './mutation-types';
 
 export const totals = (payloadArr)=>{

@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '~/plugins/axios'
 import sha256 from 'js-sha256'
 import {mapMutations, mapGetters} from 'vuex'
 export default {

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '~/plugins/axios'
 
 import Header from '../components/Header.vue'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
