@@ -22,7 +22,7 @@ module.exports = {
     'bootstrap-vue/nuxt'
   ],
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+    baseUrl: `http://${process.env.HOST || 'localhost'}:${process.env.PORT || 3000}`
   },
   plugins: [
     { src: '~/plugins/modal.js', ssr: false},
