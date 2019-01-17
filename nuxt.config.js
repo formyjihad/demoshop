@@ -21,9 +21,7 @@ module.exports = {
   modules: [
     'bootstrap-vue/nuxt'
   ],
-  env: {
-    baseUrl: `http://${process.env.HOST || 'localhost'}:${process.env.PORT || 3000}`
-  },
+
   plugins: [
     { src: '~/plugins/modal.js', ssr: false},
     //'~/plugins/axios',
