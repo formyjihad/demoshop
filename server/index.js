@@ -1,5 +1,6 @@
 const express = require('express');
 let app = express();
+const cors = require('cors');
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -28,10 +29,10 @@ app.use(session({
 
 config.dev = !(process.env.NODE_ENV === 'production');
 
+app.use(cors());
+
 app.use(passport.initialize());
 app.use(passport.session());
-
-//const {good, order, purchase, user} = require('./models')
 
 let nuxt = new Nuxt(config);
 
