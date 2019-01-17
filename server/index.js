@@ -1,6 +1,5 @@
 const express = require('express');
 let app = express();
-const cors = require('cors');
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -12,8 +11,6 @@ const fs = require('fs');
 
 const session = require('express-session');
 const passport = require('./utils/passport');
-
-process.env.PORT = 3000
 
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
@@ -28,8 +25,6 @@ app.use(session({
 }));
 
 config.dev = !(process.env.NODE_ENV === 'production');
-
-app.use(cors());
 
 app.use(passport.initialize());
 app.use(passport.session());
