@@ -251,7 +251,7 @@ router.post('/save', async (req, res)=>{
         res.status(400).json();
     }
     try{
-        console.log("checking user rate")
+        //console.log("checking user rate")
         let uid = req.user.uid;
         let totalAmount = data.totalAmount;
         let orderName = data.orderName;

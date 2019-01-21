@@ -1,8 +1,6 @@
 const express = require('express');
 let router = express.Router();
 
-const file = require('../utils/fileUpload');
-
 router.post('/', (req,res,next)=>{
     //console.log('put in a box')
     
@@ -23,7 +21,8 @@ router.post('/', (req,res,next)=>{
 })
 
 router.get('/' , (req, res)=>{
-    if(typeof req.session.cart !== 'undefined'){
+    //console.log(req.session.cart)
+    if(req.session.cart !== 'undefined'){
         const resData = req.session.cart;
         res.json(resData);
     } else{

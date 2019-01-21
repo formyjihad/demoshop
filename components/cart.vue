@@ -111,15 +111,13 @@ export default {
         this.$store.dispatch('carts/getCart')
     },
     methods:{
-        
         async setDiscountRate(){
             let url = '/api/users/statusCheck'
             let discountData = await axios.get(url);
-            
             let discountRate=discountData.data.rate;
+            //console.log(this.cart)
             this.updateDiscount({
                 unit:discountRate,
-                cart:this.cart
             });
             this.discountRate = discountRate
         },

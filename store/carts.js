@@ -62,14 +62,15 @@ export const mutations = {
 }
 
 export const actions ={
-    getCart({ commit }){
-        axios.get('/api/cart').then(res =>{
-            if(res.data == 'no data'){
-                //console.log("cart empty")
-                return [];
-            }
-            commit(GET_CART, res.data);
-        });
+    async getCart({ commit }){
+        let getData = await axios.get('/api/cart')
+        //console.log("getCart")
+        //console.log(getData.data)
+        if(getData.data == 'no data'){
+            //console.log("cart empty")
+            return [];
+        }
+        commit(GET_CART, getData.data);
     },
     addToCart({ commit }, payload){
         commit(ADD_TO_CART, payload);
@@ -78,7 +79,9 @@ export const actions ={
         commit(DELETE_CART, index);
     },
     async updateDiscount({commit}, payload){
-        const currentCartToUpdate = payload.cart;
+        let getData = await axios.get('/api/cart')
+
+        const currentCartToUpdate = getData.data;
         for(let i=0; i<payload.cart.length; i++){
             currentCartToUpdate[i].discountRate = payload.unit
         }
@@ -87,7 +90,8 @@ export const actions ={
         let updateData = await axios.post('/api/cart', cartUpdate)
 		commit(UPDATE_CART, updateData.data)
     },
-    updateDesignCart({commit}, payload){
+    async updateDesignCart({commit}, payload){
+        //console.log('payload error design cart')
         const currentCartToUpdate = payload.cart;
         //console.log(payload)
         const indexToUpdate = payload.index;
@@ -95,6 +99,10 @@ export const actions ={
         let type='';
         let thickPrice = 0;
         let sidePrice = 0;
+        let optionPrice = 0;
+        let standSizeT = 0;
+        let standSizeF = 0;
+        let packingPrice = 0;   
         if(currentCartToUpdate[indexToUpdate].stand=="none"){
             type="아크릴 챰"
         }
@@ -113,22 +121,63 @@ export const actions ={
         else if(thick == "5mm"){
             thickPrice = 1.3
         }
-
         if(currentCartToUpdate[indexToUpdate].printside == "단면"){
             sidePrice = 1
         }
         else if(currentCartToUpdate[indexToUpdate].printside == "양면"){
             sidePrice = 1.5
         }
+        if(currentCartToUpdate[indexToUpdate].subitem == "none"){
+            optionPrice = 0;
+        }
+        else if(currentCartToUpdate[indexToUpdate].subitem == "OPP"){
+            optionPrice = 20;
+        }
+        else if(currentCartToUpdate[indexToUpdate].subitem == "O링"){
+            optionPrice = 50;
+        }
+        else if(currentCartToUpdate[indexToUpdate].subitem == "군번줄"){
+            optionPrice = 100;
+        }
+        else if(currentCartToUpdate[indexToUpdate].subitem == "O링 + 군번줄"){
+            optionPrice = 150;
+        }
+        else if(currentCartToUpdate[indexToUpdate].subitem == "O링 + 휴대폰줄"){
+            optionPrice = 150;
+        }
+        else if(currentCartToUpdate[indexToUpdate].subitem == "키링"){
+            optionPrice = 700;
+        }
+        if(currentCartToUpdate[indexToUpdate].packing == "조립 없음"){
+            packingPrice = 0;
+        }
+        else if(currentCartToUpdate[indexToUpdate].packing == "OPP만"){
+            packingPrice = 300;
+        }
+        else if(currentCartToUpdate[indexToUpdate].packing == "오링 조립"){
+            packingPrice = 200;
+        }
+        else if(currentCartToUpdate[indexToUpdate].packing == "부자재 조립"){
+            packingPrice = 500;
+        }   
+        if(currentCartToUpdate[indexToUpdate].stand == "none"){
+            standSizeT = 0;
+        }
+        else if(currentCartToUpdate[indexToUpdate].stand == "4cm"){
+            standSizeT = 800;
+        }
+        else if(currentCartToUpdate[indexToUpdate].stand == "6cm"){
+            standSizeT = 1200;
+        }
+        else if(currentCartToUpdate[indexToUpdate].stand == "8cm"){
+            standSizeT = 1600;
+        }
         let xSize = currentCartToUpdate[indexToUpdate].xsize; //4
         let ySize = currentCartToUpdate[indexToUpdate].ysize; //4
         let quantity = currentCartToUpdate[indexToUpdate].quantity;   //1
         let design = currentCartToUpdate[indexToUpdate].design + payload.unit;   //1
         let surface = 1;
-        let optionPrice = 0;    //부자재 옵션 이후 변경
-        let packingPrice = 0;   //포장 옵션 이후 변경
-        let standSizeT = 0;     //3T용 스탠드 바닥 사이즈
-        let standSizeF = 0;     //5T용 스탠드 바닥 사이즈
+        
         let price = Math.ceil(((((50000*(2000/((100-(590*290/(xSize*10+1.5)/(ySize*10+1.5)))^2+2000)*1.5+1)/(590*290/(xSize*10+1.5)/(ySize*10+1.5)))*thickPrice)*1.08^(4-Math.log(quantity)/Math.log(10)))/0.7*thickPrice*sidePrice*surface+optionPrice+packingPrice+standSizeT+(design*5000/quantity)+standSizeF)/100)*110
 		const newCart = {
 			...currentCartToUpdate[indexToUpdate],
@@ -138,12 +187,13 @@ export const actions ={
         
 		const cartUpdate = [...currentCartToUpdate.slice(0, indexToUpdate), newCart, ...currentCartToUpdate.slice(indexToUpdate+1)];
 
-		axios.post('/api/cart', cartUpdate)
-			.then(res => {
-				commit(UPDATE_CART, res.data)
-			});
+		let updateData = await axios.post('/api/cart', cartUpdate)
+		commit(UPDATE_CART, updateData.data)
     },
-    updateCart({ commit }, payload){
+    async updateCart({ commit }, payload){
+        if(!payload){
+            //console.log("payload error")
+        }
         const currentCartToUpdate = payload.cart;
         //console.log(payload)
 		const indexToUpdate = payload.index;
@@ -155,10 +205,8 @@ export const actions ={
 
 		const cartUpdate = [...currentCartToUpdate.slice(0, indexToUpdate), newCart, ...currentCartToUpdate.slice(indexToUpdate+1)];
 
-		axios.post('/api/cart', cartUpdate)
-			.then(res => {
-				commit(UPDATE_CART, res.data)
-			});
+		let updateData = await axios.post('/api/cart', cartUpdate)
+		commit(UPDATE_CART, updateData.data)
 	}
 }
 

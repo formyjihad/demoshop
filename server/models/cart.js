@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-let cartSchema = new Schema({
-    name: String,
-    uid: String,
+let cartDetail = new Schema({
     xSize: {
         type: Number,
         default: 4,
@@ -55,11 +53,28 @@ let cartSchema = new Schema({
     price:Number,
     quantity:Number,
     design:Number,
-    
+})
+
+let cartSchema = new Schema({
+    name: String,
+    uid: String,
+    orderId:Number,
+    totalAmount:Number,
     orderDate : {
-        type: Date,
+        type: String,
     },
-    discountRate:Number,
+    address:String,
+    orderDetail:{type:[orderDetailSchema], default:[]},
+    dName:String,
+    postCode:String,
+    status: String,
+    purchaseId:String,
+    orderName:String,
+    imgName:String,
+    count:Number,
+    phoneNum:String,
+    totalDiscountAmount:Number,
+    deliveryPrice:Number,
 });
 
 module.exports = mongoose.model('cart', cartSchema);

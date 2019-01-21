@@ -59,7 +59,7 @@ export default {
                 limit:data.data.limit
             })*/
             
-       // console.log(data.data.good)
+       // //console.log(data.data.good)
         }
     }
 }

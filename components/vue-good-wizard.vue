@@ -125,7 +125,7 @@ export default {
 		checkboxChecked(){
 			let checkbox = document.getElementById('checked');
 			let target = document.getElementsByClassName('wizard__next pull-right final-step')
-			console.log(checkbox.checked)
+			//console.log(checkbox.checked)
 			if(!checkbox.checked){
 				target[1].style.display = "none"
 				target[2].style.display = "none"

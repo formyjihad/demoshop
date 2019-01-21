@@ -121,7 +121,7 @@ export default {
                 uid: this.uid,
                 password:password
             })
-            console.log(data)
+            //console.log(data)
             if(data.status == 200){
                 this.login()
                 window.location.replace('/')

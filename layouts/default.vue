@@ -24,7 +24,7 @@ export default {
 	},
 	methods:{
 		navClick(){
-			console.log("click")
+			//console.log("click")
 			let target = document.getElementsByClassName("sidebar")
 			if(target[0].style.width = '300px'){
 				target[0].style.width = '0px'

@@ -25,21 +25,21 @@ export default {
     },
     methods:{
         async notice(){
-            console.log("등록 대기")
+            //console.log("등록 대기")
             let formData = new FormData();
             let fileDom = document.querySelector('#img');
             if(this.title && this.detail){
                 formData.append("img", fileDom.files[0]);
                 formData.append("title",this.title);
                 formData.append("detail", this.detail);
-                console.log("post 대기");
+                //console.log("post 대기");
             
             let data = await axios.post('/api/notice',formData,{
                 headers:{
                     'Content-Type':'multipart/form-data'
                 }
             })
-            console.log("post 종료");
+            //console.log("post 종료");
             if(data.status == 200){
                 alert('공지사항이 정상적으로 등록되었습니다.');
             }else if(data.status == 204){

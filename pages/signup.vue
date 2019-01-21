@@ -93,7 +93,7 @@ export default {
 					const checkData = await axios.post(url,{
 						impUid:res.imp_uid
 					})
-					console.log(checkData)
+					//console.log(checkData)
 					let target = document.getElementById("phoneNumber")
 					target.disabled = true
 					this.userName = checkData.data.userName;

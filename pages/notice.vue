@@ -46,10 +46,10 @@ export default {
     },
     methods : {
         displayToggle(index){
-            console.log("work")
+            //console.log("work")
             const targetIndex = index
             let target = document.getElementsByClassName("notice-detail")
-            console.log(target)
+            //console.log(target)
             if(target[targetIndex].style.display=='none'){
                 target[targetIndex].style.display= 'block'
             }
