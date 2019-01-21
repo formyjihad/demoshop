@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios'
+import axios from 'axios'
 
 import {IMP_CODE} from '../config/constants'
 import sha256 from 'js-sha256'

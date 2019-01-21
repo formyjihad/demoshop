@@ -164,13 +164,14 @@
         </div>
         <div class="confirm">
             <div class="confirmBtn" @click="checkout">결제</div>
+            <div class="confirmBtn" @click="checkoutFree">무료구매</div>
         </div>
         </div>    
     </div>
 </template>
 
 <script>
-import axios from '~/plugins/axios'
+import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex';
 import postOffice from '../components/modals/postOffice.vue'
 import {IMP_CODE} from '../config/constants'
@@ -341,6 +342,183 @@ export default {
             }
             let buyerAddress = ''
             let amount = this.fullPrice;
+            let date = new Date()
+            let month = date.getMonth()+1;
+            let day = date.getDate();
+            let year = date.getFullYear();
+            if(month<0){
+                year = year-1
+                month = month+12
+            }
+            const nowTime = year+"-"+month+"-"+day;
+            let name = this.userName
+            let phone = this.phoneNumber
+            let mail = this.email
+            let pCode = ''
+            let adsData = ''
+            let adsDetail = ''
+            
+            if(this.deliveryType == 'newAddress'){
+                pCode = this.dPostCode;
+                buyerAddress = this.dAddressData +' '+ this.dAddressDetail
+            }
+            else if(this.deliveryType == 'userAddress'){
+                pCode = this.postCode;
+                buyerAddress = this.addressData +' '+ this.addressDetail;
+            }
+
+            const orderData = {
+                orderName:name,
+                phoneNumber:this.phoneNumber,
+                dName:this.dName,
+                postCode:pCode,
+                address:buyerAddress,
+                cart:this.cart,
+                price:this.totalAmount,
+                deliveryPrice:this.deliveryPrice,
+                totalAmount:amount,
+                usePoint:this.usePoint,
+                couponCode:this.couponCode,
+                totalDiscountAmount:this.totalDiscountAmount+this.couponDiscount+this.usePoint,
+            }
+            
+            //console.log(this.paymentType)
+            IMP.request_pay({
+                pg:'html5_inicis.INIpayTest',
+                pay_method:this.paymentType,
+                merchant_uid:'merchant_'+ Date.now(),
+                name:'주문명:결제테스트',
+                amount:amount,
+                buyer_email:mail,
+                buyer_name:name,
+                buyer_tel:phone,
+                buyer_address:buyerAddress,
+                buyer_postcode:pCode,
+                custom_data:orderData
+            }, async function(res){
+                
+                if(res.success){
+                    //alert("구매 완료");
+                    let postData = await axios.post(url, {
+                //tempid:this.tempid,?
+                /*
+                        address:this.addressInput,
+                        addressDetail:this.addressDetail,
+                        cart:this.cart,
+                        totalAmount:this.totalAmount,
+                        */
+                        imp_uid:res.imp_uid,
+                        totalAmount:amount
+                    });
+
+                    //console.log("post 종료");
+                    //console.log(postData)
+                    if(postData.status == 201){
+                        alert('테스트, 구매하였습니다.')
+                        url = '/api/purchase/save'
+                        //console.log(postData)
+                        let saveData = await axios.post(url, {
+                            orderName:res.custom_data.orderName,
+                            dName:res.custom_data.dName,
+                            postCode:res.custom_data.postCode,
+                            address:res.custom_data.address,
+                            cart:res.custom_data.cart,
+                            price:res.custom_data.price,
+                            couponCode:res.custom_data.couponCode,
+                            totalAmount:res.custom_data.totalAmount,
+                            deliveryPrice:res.custom_data.deliveryPrice,
+                            usePoint:res.custom_data.usePoint,
+                            totalDiscountAmount:res.custom_data.totalDiscountAmount,
+                            purchaseId:postData.data.purchase._id,
+                            orderId:postData.data.purchase.orderId,
+                            phoneNumber:res.custom_data.phoneNumber
+                        })
+                        if(saveData.status == 200){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("구매 하였습니다.")
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                        else if(saveData.status == 201){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("VIP가 되었습니다.");
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                        else if(saveData.status == 202){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("VVIP가 되었습니다.")
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                        else if(saveData.status == 300){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("VIP에서 VVIP가 되었습니다.")
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                        else if(saveData.status == 301){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("VIP를 3개월 더 유지합니다.")
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                        else if(saveData.status == 302){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("VVIP를 3개월 더 유지합니다.");
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                        else if(saveData.status == 304){
+                            let length = this.cart.length
+                            for(let i =0; i<length;i++){
+                                this.deleteCart(0)
+                            }
+                            alert("VIP를 유지하려면 "+saveData.data.targetPrice+"원 만큼 더 주문해야 합니다.")
+                            location.replace("/checkConfirm/"+postData.data.purchase._id)
+                        }
+                    }else if(postData.status == 204){
+                        alert('잘못된 정보입니다.');
+                    }else if(postData.status == 206){
+                        alert('error');
+                    }else if(postData.status == 209){
+                        alert('클라이언트 변조가 감지되었습니다. 결제를 취소합니다.')
+                    }
+                }else{
+                    alert("구매 실패");
+                }
+            })
+/*
+            //console.log("post 시작");
+            */
+        },
+        async checkoutFree(){
+            //console.log(this.totalAmount)
+//order 정보 post -> purchase
+            let url;
+            //console.log(this.cart)
+            if(this.isLogin==null){
+                //console.log("비로그인 감지");
+                //let tempid = "DN"+Date.now;
+                url = '/api/purchase/noSign'
+            }// 비로그인 주문 코드. DN + 현재 시간.
+            else{
+                url = '/api/purchase'
+            }
+            let buyerAddress = ''
+            let amount = 0;
             let date = new Date()
             let month = date.getMonth()+1;
             let day = date.getDate();

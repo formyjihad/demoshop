@@ -240,7 +240,7 @@ router.get('/session-check', (req, res) =>{
 
 router.get('/signin/success',(req,res)=>{
     //console.log("Sign in Success")
-    res.status(200).json();
+    res.redirect(200,'/')
 });
 
 router.get('/signin/fail',(req,res)=>{

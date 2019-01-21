@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios'
+import axios from 'axios'
 
 function getPagination ({currentPage, totalCount, limit}){
     let pn = [];

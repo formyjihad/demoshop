@@ -94,14 +94,24 @@ router.post('/', (req, res)=>{
 
 router.get('/', async (req,res,next)=>{
     //console.log(req)
-    let userId = req.user.uid;
+    let userId = '';
+    let message = '';
+    if(!req.user){
+        message = '비로그인 감지'      
+        res.status(204).json({message})
+    }
+    else{
+        message = '로그인 감지'
+        userId = req.user.uid;
+    }
+    
     //console.log(userId)
     let page = req.query.page || 0
     let limit = 5;
     let offset = page * limit;
     try{
         //console.log("checking")
-        if(req.user.uid){
+        if(req.user){
             orders.find({"uid":userId})
             .select({})
             .limit(limit)
@@ -110,6 +120,7 @@ router.get('/', async (req,res,next)=>{
                 orders.countDocuments().exec(function(err, count){
                     res.json({
                         order:order,
+                        message:message,
                         limit:limit,
                         currentPage:page,
                         totalCount:count
@@ -386,41 +397,49 @@ router.get('/checkStatus', async(req,res)=>{
         if(req.user.uid){
             let purchase = await purchases.findOne({"_id":purchaseId})
             //console.log(purchase);
-            let impUid = purchase.impUid;
-                        
-            let tokenData = await axios.post("https://api.iamport.kr/users/getToken", {
-                imp_key: IMP_KEY, // REST API키
-                imp_secret: IMP_SECRET // REST API Secret
-            })
-            //console.log(tokenData)
-            if(tokenData.data.code !== 0){
-                //console.log("토큰 취득 실패")
-                
+            if(!purchase.impUid){
                 res.status(204).json({});
-            }else{
-                //console.log(result)
-               // //console.log(impUid)
-                //console.log(tokenData.data.response.access_token)
-                const author = "Bearer "+tokenData.data.response.access_token
-                //console.log(author)
-                let statusUrl = 'https://api.iamport.kr/payments/'+impUid
-                let statusData = await axios.get(statusUrl,{
-                    headers: {
-                        "Content-Type": "application/json", // "Content-Type": "application/json"
-                        "Authorization": author // 발행된 액세스 토큰
-                    },
-                })
-                let orderData = await orders.findOneAndUpdate({"purchaseId":purchaseId},{$set:{status:statusData.data.response.status}})
-                if(orderData.status == 'ready'){
-                    let status = '결제대기'
-                    orderData.status = status
-                    res.status(201).json({orderData, purchase})
-                }
-                else if(orderData = 'paid'){
-                    let status = '도안 업로드 대기'
-                    orderData.status = status
-                    res.status(201).json({orderData, purchase})
-                }
+            }
+            let impUid = purchase.impUid;
+        }
+    }
+    catch(err){
+        console.error(err);
+        res.status(204).json({});
+    }
+    try{
+        let tokenData = await axios.post("https://api.iamport.kr/users/getToken", {
+            imp_key: IMP_KEY, // REST API키
+            imp_secret: IMP_SECRET // REST API Secret
+        })
+        //console.log(tokenData)
+        if(tokenData.data.code !== 0){
+            //console.log("토큰 취득 실패")
+            
+            res.status(204).json({});
+        }else{
+            //console.log(result)
+            // //console.log(impUid)
+            //console.log(tokenData.data.response.access_token)
+            const author = "Bearer "+tokenData.data.response.access_token
+            //console.log(author)
+            let statusUrl = 'https://api.iamport.kr/payments/'+impUid
+            let statusData = await axios.get(statusUrl,{
+                headers: {
+                    "Content-Type": "application/json", // "Content-Type": "application/json"
+                    "Authorization": author // 발행된 액세스 토큰
+                },
+            })
+            let orderData = await orders.findOneAndUpdate({"purchaseId":purchaseId},{$set:{status:statusData.data.response.status}})
+            if(orderData.status == 'ready'){
+                let status = '결제대기'
+                orderData.status = status
+                res.status(201).json({orderData, purchase})
+            }
+            else if(orderData = 'paid'){
+                let status = '도안 업로드 대기'
+                orderData.status = status
+                res.status(201).json({orderData, purchase})
             }
         }
     }

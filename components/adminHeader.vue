@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios'
+import axios from 'axios'
 import { mapGetters } from 'vuex';
 export default {
     computed:{

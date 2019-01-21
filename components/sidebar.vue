@@ -76,10 +76,11 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios'
+import axios from 'axios'
 import sha256 from 'js-sha256'
 import {mapMutations, mapGetters} from 'vuex'
 export default {
+    middleware:'signin',
     data(){
         return{
             uid:'',
@@ -120,9 +121,10 @@ export default {
                 uid: this.uid,
                 password:password
             })
+            console.log(data)
             if(data.status == 200){
-                window.location.reload(true)
                 this.login()
+                window.location.replace('/')
             }else if(data.status == 204){
                 alert('잘못된 정보입니다.');
             }
@@ -134,7 +136,8 @@ export default {
                 //console.log("try to sign out")
                 let url = '/api/users/signout'
                 let data = await axios.put(url)
-                window.location.reload(true)
+                
+                window.location.replace('/')
                 this.logout();
             }
         },

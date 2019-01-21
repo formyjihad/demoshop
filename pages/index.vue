@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios'
+import axios from 'axios'
 
 export default {
     async asyncData(){

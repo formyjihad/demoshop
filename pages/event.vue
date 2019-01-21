@@ -18,7 +18,7 @@
 
 
 <script>
-import axios from '~/plugins/axios'
+import axios from 'axios'
 function getPagination ({currentPage, totalCount, limit}){
     let pn = []
     let maxPage = Math.floor(totalCount/limit)

@@ -159,7 +159,7 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios';
+import axios from 'axios';
 import fileUpload from '../../components/modals/fileUpload.vue'
 
 export default {

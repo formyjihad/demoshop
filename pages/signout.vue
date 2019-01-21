@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios'
+import axios from 'axios'
 import { mapMutations } from 'vuex';
 export default {
     

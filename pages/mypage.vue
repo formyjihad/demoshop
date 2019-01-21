@@ -1,6 +1,5 @@
 <template>
-    <div class = "container">
-            
+    <div class = "container" v-if="isLogin">
         <div class="section1">
             <h1>My Page</h1>
             <div class="sec1_1"><!--<p>내용잔뜩</p>--></div>
@@ -19,7 +18,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="t_body" v-for="order in orders" :key="order['_id']" v-if="isLogin">
+                        <tr class="t_body" v-for="order in orders" :key="order['_id']">
                             <td class="bodyNum"><nuxt-link :to='{path:"/orders/"+order["purchaseId"]}'>{{order['orderId']}}</nuxt-link></td>
                             <td class="cols"><nuxt-link :to='{path:"/orders/"+order["purchaseId"]}'>{{order['orderDate']}}</nuxt-link></td>
                             <td class="bodyName"><nuxt-link :to='{path:"/orders/"+order["purchaseId"]}'>{{order['goodsName']}}</nuxt-link></td>
@@ -36,10 +35,13 @@
             </div>
         </div>
     </div>
+    <div v-else>
+        로그인이 필요한 서비스 입니다.
+    </div>
 </template>
 
 <script>
-import axios from '~/plugins/axios'
+import axios from 'axios'
 import {mapMutations, mapGetters} from 'vuex'
 function getPagination ({currentPage, totalCount, limit}){
     let pn =[]
@@ -54,34 +56,36 @@ function getPagination ({currentPage, totalCount, limit}){
 export default {
     async asyncData (){
         let getData = await axios.get("/api/purchase/")
-        //console.log(getData)
         let goodsName;
-        let orderData = getData.data.order
-        let orderDetailLength;
-        for(let i=0;i<orderData.length;i++){
-            if(orderData[i].orderDetail.length>1){
-                orderDetailLength = orderData[i].orderDetail.length -1
-                goodsName = orderData[i].orderDetail[0].goodsType + "외 " + orderDetailLength + "건"
+        
+        if(getData.data){
+            let orderData = getData.data.order
+            let orderDetailLength;
+            for(let i=0;i<orderData.length;i++){
+                if(orderData[i].orderDetail.length>1){
+                    orderDetailLength = orderData[i].orderDetail.length -1
+                    goodsName = orderData[i].orderDetail[0].goodsType + "외 " + orderDetailLength + "건"
+                }
+                else if(orderData[i].orderDetail.length == 1){
+                    goodsName = orderData[i].orderDetail[0].goodsType
+                }
+                let checkOrder = await axios.get('/api/purchase/checkStatus',{
+                    purchaseId:orderData[i].purchaseId
+                })
+                orderData[i].goodsName = goodsName;
             }
-            else if(orderData[i].orderDetail.length == 1){
-                goodsName = orderData[i].orderDetail[0].goodsType
+            return {
+                orders : orderData,
+                orderDetails : getData.data.order.orderDetail,
+                totalCount: getData.data.totalCount,
+                limit : getData.data.limit,
+                currentPage: getData.data.currentPage,
+                pagination:getPagination({
+                    currentPage:getData.data.currentPage,
+                    totalCount:getData.data.totalCount,
+                    limit:getData.data.limit
+                })
             }
-            let checkOrder = await axios.get('/api/purchase/checkStatus',{
-                purchaseId:orderData[i].purchaseId
-            })
-            orderData[i].goodsName = goodsName;
-        }
-        return {
-            orders : orderData,
-            orderDetails : getData.data.order.orderDetail,
-            totalCount: getData.data.totalCount,
-            limit : getData.data.limit,
-            currentPage: getData.data.currentPage,
-            pagination:getPagination({
-                currentPage:getData.data.currentPage,
-                totalCount:getData.data.totalCount,
-                limit:getData.data.limit
-            })
         }
     },
     computed: {

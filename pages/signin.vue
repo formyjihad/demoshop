@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios'
+import axios from 'axios'
 import {mapMutations} from 'vuex'
 export default {
     data(){
@@ -21,6 +21,7 @@ export default {
             status:''
         }
     },
+    middleware: 'signin',
     methods:{
         async signin(){
             let url='/api/users/signin'
@@ -30,7 +31,7 @@ export default {
             })
             //console.log(uid);
             if(data.status == 200){
-                this.login()
+                //this.login()
                 this.$nuxt.$router.replace({path:'/'})
             }else if(data.status == 204){
                 alert('잘못된 정보입니다.');
