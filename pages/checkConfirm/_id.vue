@@ -59,16 +59,15 @@
         <div class="section2">
             <div class="sec2_1">
                 <ul>
-                    <li>상품</li><li>가격</li><li>수량</li><li>총계</li>
+                    <li>상품</li><li>가격</li><li>수량</li>
                 </ul>
             </div>
             <div class="sec2_2">
                 <div class="sec2_2_1">
                     <ul v-for="orderDetail in orderDetail" :key="orderDetail">
                         <li>{{orderDetail.goodsType}}</li>
-                        <li>{{orderDetail.price*orderDetail.quantity+(orderDetail.design*5500)}}</li>
+                        <li>{{orderDetail.price*orderDetail.quantity}}</li>
                         <li>{{orderDetail.quantity}}</li>
-                        <li>{{order.totalAmount}}</li>
                     </ul>
                 </div>
                 <div class="box">
@@ -104,6 +103,7 @@
 
 <script>
 import axios from 'axios';
+import { mapActions } from 'vuex';
 
 export default {
     data(){
@@ -123,6 +123,7 @@ export default {
         }
     },
     async created (){
+        this.$store.dispatch('carts/discard')
         let url = `/api/purchase/checkOrder?id=${this.orderId}`
         const checkData = await axios.get(url)
         //console.log("break")
@@ -139,7 +140,7 @@ export default {
         let design = 0;
         let total = 0;
         for(let i = 0; i<orderData.orderDetail.length ;i++){
-            total = total+orderData.orderDetail[i].price*orderData.orderDetail[i].quantity+(orderData.orderDetail[i].design*5500);
+            total = total+orderData.orderDetail[i].price*orderData.orderDetail[i].quantity;
         }
         
         if(checkData.status == 201){
@@ -151,8 +152,7 @@ export default {
             this.price = total;
             this.deliveryPrice = orderData.deliveryPrice
         }
-        
-    }
+    },
 }
 </script>
 

@@ -5,7 +5,7 @@
         <div class="cols"><nuxt-link to="/main">상품</nuxt-link></div>
         <div class="cols"><nuxt-link to="/">제작가이드</nuxt-link></div>
         <div class="cols"><nuxt-link to="/event">이밴트</nuxt-link></div>
-        
+        <!--<div class="cols"><nuxt-link to="/review">리뷰</nuxt-link></div>-->
         <!--<nuxt-link to="/">리뷰</nuxt-link>-->
 <!--        <div class = "subMenu">
             <nuxt-link to="/agreement" v-if="! isLogin">회원가입</nuxt-link>

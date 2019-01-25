@@ -12,6 +12,7 @@ const fileUpload = require('./fileUpload.js');
 const passport = require('passport');
 const orderCheck = require('./orderCheck.js');
 const coupon = require('./coupon.js');
+const post = require('./post.js');
 
 router.use('/admin',passport.authenticate('jwt',{session:false}),admin);
 //router.use('/admin',admin);
@@ -20,6 +21,7 @@ router.use('/goods',goods);
 router.use('/purchase',purchase);
 router.use('/users',users);
 router.use('/cart',cart);
+router.use('/post',post);
 router.use('/notice',notice);
 router.use('/event',event);
 router.use('/fileUpload',fileUpload);

@@ -82,11 +82,11 @@
 					<div class="recit">
 						<ul>
 							<li class="header">개당 예상 금액</li>
-							<li>약 {{price}}원</li>
+							<li class="price">약 {{price}}원</li>
 						</ul>
 						<ul>
 							<li class="header">총 예상 금액</li>
-							<li>약 {{fullPrice}}원</li>
+							<li class="fullPrice">약 {{fullPrice}}원</li>
 						</ul>
 					</div>
 				</div>
@@ -567,6 +567,20 @@ export default {
 
 .orderDetail .recit .header{
 	font-weight:900;
+	color:#525252;
+	font-size: 16px;
+}
+
+.orderDetail .recit .price{
+	font-weight:700;
+	color:#808080;
+	font-size: 25px;
+}
+
+.orderDetail .recit .fullPrice{
+	font-weight:700;
+	color:#808080;
+	font-size: 25px;
 }
 
 p {

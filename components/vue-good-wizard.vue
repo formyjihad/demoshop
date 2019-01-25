@@ -35,15 +35,14 @@
 						@click="goNext()">
 				</div>
 				<div class="finalBtn">
-					<div v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step check-box"><input type="checkbox" id="checked" @click="checkboxChecked" > 구매 동의</div>
 					<a
 						:class="{'disabled': options[currentStep].nextDisabled}"
-						v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goCart()" style="display:none">
+						v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goCart()">
 						바로 주문하기
 					</a>
 					<a
 						:class="{'disabled': options[currentStep].nextDisabled}"
-						v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goNext()" style="display:none">
+						v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goNext()">
 						장바구니에 담기
 					</a>
 				</div>
@@ -122,19 +121,6 @@ export default {
 		}
 	},
 	methods: {
-		checkboxChecked(){
-			let checkbox = document.getElementById('checked');
-			let target = document.getElementsByClassName('wizard__next pull-right final-step')
-			//console.log(checkbox.checked)
-			if(!checkbox.checked){
-				target[1].style.display = "none"
-				target[2].style.display = "none"
-			}
-			else if(checkbox.checked){
-				target[1].style.display = ''
-				target[2].style.display = ''
-			}
-		},
 		goNext (skipFunction) {
 			if (!skipFunction && typeof this.onNext == 'function'){
 				if(!this.onNext(this.currentStep)) {

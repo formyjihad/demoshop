@@ -17,6 +17,7 @@ const port = process.env.PORT || 3000
 
 app.set('port', port)
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(session({
@@ -51,7 +52,6 @@ if(config.dev){
     let builder = new Builder(nuxt);
     builder.build();
 }
-
 app.use('/api', routes);
 app.use(nuxt.render);
 

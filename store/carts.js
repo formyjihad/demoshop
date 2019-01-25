@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import {GET_CART, ADD_TO_CART, DELETE_CART, UPDATE_CART} from './mutation-types';
+import {GET_CART, ADD_TO_CART, DELETE_CART, UPDATE_CART, DISCARD_CART} from './mutation-types';
 
 export const totals = (payloadArr)=>{
     const totalAmount = payloadArr.map(cartArr =>{
@@ -53,6 +53,16 @@ export const mutations = {
 
         axios.post('/api/cart',state.cart).then(res => res.data);
     },
+    DISCARD_CART(state){
+        const currentCartToDelete = state.cart;
+        console.log(state.cart)
+        const length = state.cart.length;
+        state.cart = [...currentCartToDelete.slice(0), ...currentCartToDelete.slice(length-1)];
+        state.totalAmount = totals(state.cart).amount;
+        state.totalQuantity = totals(state.cart).qty;
+
+        axios.post('/api/cart',state.cart).then(res => res.data);
+    },
     UPDATE_CART(state, payload){
         state.cart = payload;
         state.totalAmount = totals(payload).amount;
@@ -78,11 +88,14 @@ export const actions ={
     deleteCart({ commit }, index){
         commit(DELETE_CART, index);
     },
+    discard({ commit }){
+        commit(DISCARD_CART);
+    },
     async updateDiscount({commit}, payload){
         let getData = await axios.get('/api/cart')
 
         const currentCartToUpdate = getData.data;
-        for(let i=0; i<payload.cart.length; i++){
+        for(let i=0; i<currentCartToUpdate.length; i++){
             currentCartToUpdate[i].discountRate = payload.unit
         }
         

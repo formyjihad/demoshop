@@ -15,7 +15,8 @@ module.exports = {
     ],
     script: [
       { src: 'https://cdn.iamport.kr/js/iamport.payment-1.1.7.js' },
-      { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'}
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'},
+      { src: "https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"}
     ]
   },
   modules: [
