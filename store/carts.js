@@ -55,7 +55,6 @@ export const mutations = {
     },
     DISCARD_CART(state){
         const currentCartToDelete = state.cart;
-        console.log(state.cart)
         const length = state.cart.length;
         state.cart = [...currentCartToDelete.slice(0), ...currentCartToDelete.slice(length-1)];
         state.totalAmount = totals(state.cart).amount;

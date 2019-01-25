@@ -83,9 +83,17 @@ router.post('/write', async (req,res)=>{
     let hour = date.getHours();
     let min = date.getMinutes();
     let sec = date.getSeconds();
-    //let no = await post.find().select("postNo").limit(1).sort({"postNo":"desc"})
-    let postNo = 0
-
+    let postNo = 0;
+    try{
+        let no = await posts.find().select("postNo").limit(1).sort({"postNo":"desc"})
+        
+        postNo = no[0].postNo+1;
+    }
+    catch(err){
+        console.error(err)
+        res.json();
+    }
+    
     if(month<0){
         year = year-1
         month = month+12

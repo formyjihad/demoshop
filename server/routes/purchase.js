@@ -41,7 +41,7 @@ router.post('/', (req, res)=>{
                 }
             })
         }
-    }).then((result)=>{
+    }).then(async (result)=>{
         //console.log(result)
         if(result.data.code !== 0){
             //console.log("this error is shit-ass-fuck")
@@ -59,35 +59,26 @@ router.post('/', (req, res)=>{
             purchase.name = result.data.response.buyer_name;
             purchase.price = result.data.response.amount;
             purchase.impUid = result.data.response.imp_uid;
+            let count = await purchases.find().select("orderId").limit(1).sort({"orderId":"desc"})
+            purchase.orderId = count[0].orderId+1;
             if(result.data.response.amount != req.body.totalAmount){
                 res.status(209).json();
             }
             else{
-                counts.findOneAndUpdate({"id":id},{$inc:{"purchaseCount":1}},function(err, count){
-                    //console.log(count)
+                purchase.save(function(err, purchase){
                     if(err){
-                        console.error(err)
+                        console.error(err);
+                        res.status(204).json();
+                        return;
                     }
-                    else{
-                        //console.log("success");
-                        purchase.orderId = count.purchaseCount;
-                        //console.log(purchase)
-                        return purchase.save(function(err, purchase){
-                            if(err){
-                                console.error(err);
-                                res.status(204).json();
-                                return;
-                            }
-                            res.status(201).json({purchase});
-                        })
-                    }
+                    res.status(201).json({purchase});
                 })
-            }
             //console.log(purchase.impUid)
             //purchase.orderId = result.data.response.imp_uid;    
             // 주문번호 필요. 주문번호는 몽고DB에서 만들어주는 ID 말고 다른 ID를 지정해줄 필요성 발생.
             //setTimeout(400);
             // purchase.orderDate =  결제 날짜 필요.
+            }
         }
     })
 })
