@@ -59,8 +59,19 @@ router.post('/', (req, res)=>{
             purchase.name = result.data.response.buyer_name;
             purchase.price = result.data.response.amount;
             purchase.impUid = result.data.response.imp_uid;
-            let count = await purchases.find().select("orderId").limit(1).sort({"orderId":"desc"})
-            purchase.orderId = count[0].orderId+1;
+            try{
+                let count = await purchases.find().select("orderId").limit(1).sort({"orderId":"desc"})
+                if(!count[0].orderId){
+                    purchase.orderId = 1;
+                }
+                else if(count[0].orderId > 0){
+                    purchase.orderId = count[0].orderId+1;
+                }
+            }catch(err){
+                console.error(err)
+            }
+            
+            
             if(result.data.response.amount != req.body.totalAmount){
                 res.status(209).json();
             }
