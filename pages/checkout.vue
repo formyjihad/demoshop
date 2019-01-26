@@ -396,15 +396,18 @@ export default {
                 couponCode:this.couponCode,
                 totalDiscountAmount:this.totalDiscountAmount+this.couponDiscount+this.usePoint,
             }
-            
+            let paymentType = ''
             //console.log(this.paymentType)
-            if(this.paymantType == "free"){
-                this.paymantType = 'vbank'
-                amount = 0;
+            if(this.paymentType == "free"){
+                paymentType = 'vbank'
+                amount = 10;
+                //console.log("changed")
+            }else{
+                paymentType = this.paymentType
             }
             IMP.request_pay({
                 pg:'html5_inicis.INIpayTest',
-                pay_method:this.paymentType,
+                pay_method:paymentType,
                 merchant_uid:'merchant_'+ Date.now(),
                 name:'주문명:결제테스트',
                 amount:amount,
@@ -497,7 +500,7 @@ export default {
 
 .section1 { 
     width:100%;
-    height:750px;
+    height:1000px;
     margin-bottom:30px; }
 
 .section1 .check { width:30px; height:600px; float:left; }
