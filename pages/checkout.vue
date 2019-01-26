@@ -399,7 +399,7 @@ export default {
             
             //console.log(this.paymentType)
             if(this.paymantType == "free"){
-                this.paymantType == 'vbank'
+                this.paymantType = 'vbank'
                 amount = 0;
             }
             IMP.request_pay({
