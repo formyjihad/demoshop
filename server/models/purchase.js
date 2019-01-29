@@ -15,7 +15,8 @@ let purchaseSchema = new Schema({
         type:Number
     },
     orderDate:{
-        type:String
+        type : Date, 
+        default: Date.now
     },
     uid:{
         type:String,

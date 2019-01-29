@@ -10,8 +10,27 @@ import axios from 'axios'
 
 export default {
     layout:'admin',
+
     methods:{
+        
         async initClient(){
+            let date = new Date();
+            let purchaseDataTime = date;
+            let targetMonth = date.getMonth()-3
+            const targetDate = date.getDate().toString();
+            let targetYear = date.getFullYear().toString();
+            if(targetMonth<0){
+                targetMonth = (12+targetMonth).toString();
+                targetYear = (date.getFullYear()-1).toString();
+            }
+            else{
+                targetMonth = targetMonth.toString();
+            }
+
+            const target = new Date(targetYear+"-"+targetMonth+"-"+targetDate)
+            let targetDataTime = target
+            console.log(target);
+            console.log(date);
             /*let url = '/api/users/auth/google'
             try{
                 window.open(url)
@@ -31,7 +50,7 @@ export default {
     order.purchaseId = data.purchaseId;
     order.orderDate = nowTime;
     order.count = 3;
-    order.status = "ready"*/ 
+    order.status = "ready"
             let url = '/api/purchase/save'
             try{
                 let postData = await axios.post(url,{
@@ -76,7 +95,7 @@ export default {
                     })
             }catch(err){
                 console.error(err)
-            }
+            }*/
         }
     }
 }

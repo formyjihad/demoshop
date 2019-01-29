@@ -61,7 +61,8 @@ let orderSchema = new Schema({
     orderId:Number,
     totalAmount:Number,
     orderDate : {
-        type: String,
+        type : Date, 
+        default: Date.now
     },
     address:String,
     orderDetail:{type:[orderDetailSchema], default:[]},

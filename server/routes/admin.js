@@ -217,6 +217,17 @@ router.get('/goods', (req,res)=>{
     });
 });
 
+function parseDate() {
+    let date = new Date()
+    let d = date.getDate().toString();
+    let m = date.getMonth().toString();
+    let y = date.getFullYear().toString();
+    let h = date.getHours().toString();
+    let n = date.getMinutes().toString();
+    let s = date.getSeconds().toString();
+    return y+"-"+m+"-"+d
+}
+
 router.post('/google', async(req, res)=>{
     let token = await auth()
     let accessToken = token.access_token;
@@ -232,11 +243,7 @@ router.post('/google', async(req, res)=>{
     let data = req.body
     let values = []
     let value = []
-    let date = new Date()
-    let month = date.getMonth()+1;
-    let day = date.getDate();
-    let year = date.getFullYear();
-    let nowTime = year+"-"+month+"-"+day;
+    let nowTime = parseDate()
 
     try{
         for(let i = 0; i<data.orderDetail.length; i++){

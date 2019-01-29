@@ -175,7 +175,7 @@ export default {
     height: 25px;
     float: right;
     margin-right: 30px;
-    margin-top: 9px;
+    margin-top: 40px;
     cursor: pointer; /* hand-shaped cursor */
 }
 .right_menu .login{

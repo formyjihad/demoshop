@@ -190,6 +190,11 @@ export default {
         }
         orderData.goodsName = goodsName;
         let status = orderData.status
+
+        let date = new Date(orderData.orderDate)
+        let time = date.getFullYear()+'-' + (date.getMonth()+1) + '-'+date.getDate();
+        orderData.orderDate = time
+
         if(status=="결제대기"){
             let statusDetail = document.getElementsByClassName("step1");
             statusDetail[0].style = "color:blue"

@@ -64,6 +64,9 @@ router.post('/', (req, res)=>{
                 if(!count[0].orderId){
                     purchase.orderId = 1;
                 }
+                else if(!count){
+                    purchase.orderId = 1;
+                }
                 else if(count[0].orderId > 0){
                     purchase.orderId = count[0].orderId+1;
                 }
@@ -97,13 +100,10 @@ router.post('/', (req, res)=>{
 router.get('/', async (req,res,next)=>{
     //console.log(req)
     let userId = '';
-    let message = '';
     if(!req.user){
-        message = '비로그인 감지'      
-        res.status(204).json({message})
+        res.status(204).json({})
     }
     else{
-        message = '로그인 감지'
         userId = req.user.uid;
     }
     
@@ -118,11 +118,11 @@ router.get('/', async (req,res,next)=>{
             .select({})
             .limit(limit)
             .skip(offset)
+            .sort({"orderId":"desc"})
             .exec(function(err, order){
                 orders.countDocuments().exec(function(err, count){
                     res.json({
                         order:order,
-                        message:message,
                         limit:limit,
                         currentPage:page,
                         totalCount:count
@@ -178,15 +178,6 @@ router.post('/save', async (req, res)=>{
     //console.log("breakpoint2")
     //console.log(req.body)
     let data = req.body
-    let date = new Date()
-    let month = date.getMonth()+1;
-    let day = date.getDate();
-    let year = date.getFullYear();
-    if(month<0){
-        year = year-1
-        month = month+12
-    }
-    let nowTime = year+"-"+month+"-"+day;
     order.uid = req.user.uid;
     order.totalAmount = data.totalAmount;
     order.orderName = data.orderName;
@@ -198,9 +189,11 @@ router.post('/save', async (req, res)=>{
     order.address = data.address;
     order.orderId = data.orderId;
     order.purchaseId = data.purchaseId;
-    order.orderDate = nowTime;
     order.count = 3;
     order.status = "ready"
+    let date = new Date()
+    let nowTime = date.getFullYear().toString()+"-"+date.getMonth().toString()+"-"+date.getDate().toString();
+
     try{
         for(let i=0; i<req.body.cart.length; i++){
             //console.log(order.orderDetail[i].xSize)
@@ -260,17 +253,22 @@ router.post('/save', async (req, res)=>{
         let findVip = await vips.findOne({"uid":uid});
         
         if(!findVip){
-            let dateData = new Date()
-            let month = dateData.getMonth()+1;
-            let targetMonth = month - 1
-            let day = dateData.getDate();
-            let year = dateData.getFullYear();
-            if(month<0){
-                year = year-1
-                targetMonth = targetMonth+12
+            let date = new Date();
+            let purchaseDataTime = date;
+            let targetMonth = date.getMonth()-3
+            const targetDate = date.getDate().toString();
+            let targetYear = date.getFullYear().toString();
+            if(targetMonth<0){
+                targetMonth = (12+targetMonth).toString();
+                targetYear = (date.getFullYear()-1).toString();
             }
-            let purchaseDataTime = year+"-"+month+"-"+day;
-            let targetDataTime = year+"-"+targetMonth+"-"+day;
+            else{
+                targetMonth = targetMonth.toString();
+            }
+
+            const target = new Date(targetYear+"-"+targetMonth+"-"+targetDate)
+            let targetDataTime = target
+
             let findTarget = await orders.find({"uid":uid, "orderDate":{$gt:targetDataTime, $lt:purchaseDataTime}});
             let totalTargetPrice=totalAmount;
             let targetPrice =0;
@@ -312,13 +310,13 @@ router.post('/save', async (req, res)=>{
             let targetMonthThree = month - 3
             let day = dateData.getDate();
             let year = dateData.getFullYear();
-            if(month<0){
+            if(month<=0){
                 year = year-1
                 targetMonth = targetMonth+12
             }
-            let purchaseDataTime = year+"-"+month+"-"+day;
-            let targetOneDataTime = year+"-"+targetMonthOne+"-"+day;
-            let targetThreeDataTime = year+"-"+targetMonthThree+"-"+day;
+            let purchaseDataTime = new Date(year+"-"+month+"-"+day);
+            let targetOneDataTime = new Date(year+"-"+targetMonthOne+"-"+day);
+            let targetThreeDataTime = new Date(year+"-"+targetMonthThree+"-"+day);
             let findTargetOneMonth = await orders.find({"uid":uid, "orderDate":{$gt:targetOneDataTime, $lt:purchaseDataTime}});
             let findTargetThreeMonth = await orders.find({"uid":uid, "orderDate":{$gt:targetThreeDataTime, $lt:purchaseDataTime}});
             let totalTargetPriceOne=totalAmount;
@@ -391,18 +389,18 @@ router.post('/noSign', (req, res)=>{
     });
 });
 
-router.get('/checkStatus', async(req,res)=>{
+router.post('/checkStatus', async(req,res)=>{
     let purchaseId = req.body.purchaseId;  //5bb6e96ed3476b1b8cb70833
-    //console.log(purchaseId);
+    let impUid;
     try{
         //console.log("checking")
         if(req.user.uid){
-            let purchase = await purchases.findOne({"_id":purchaseId})
-            //console.log(purchase);
+            let purchase = await purchases.findById(purchaseId)
             if(!purchase.impUid){
                 res.status(204).json({});
             }
-            let impUid = purchase.impUid;
+            impUid = purchase.impUid;
+            
         }
     }
     catch(err){
@@ -435,13 +433,11 @@ router.get('/checkStatus', async(req,res)=>{
             let orderData = await orders.findOneAndUpdate({"purchaseId":purchaseId},{$set:{status:statusData.data.response.status}})
             if(orderData.status == 'ready'){
                 let status = '결제대기'
-                orderData.status = status
-                res.status(201).json({orderData, purchase})
+                res.status(201).json({status})
             }
             else if(orderData = 'paid'){
                 let status = '도안 업로드 대기'
-                orderData.status = status
-                res.status(201).json({orderData, purchase})
+                res.status(201).json({status})
             }
         }
     }

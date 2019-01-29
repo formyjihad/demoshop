@@ -4,7 +4,7 @@
         <div class="cols"><nuxt-link to="/notice">공지사항</nuxt-link></div>
         <div class="cols"><nuxt-link to="/main">상품</nuxt-link></div>
         <div class="cols"><nuxt-link to="/">제작가이드</nuxt-link></div>
-        <div class="cols"><nuxt-link to="/event">이밴트</nuxt-link></div>
+        <div class="cols"><nuxt-link to="/event">이벤트</nuxt-link></div>
         <!--<div class="cols"><nuxt-link to="/review">리뷰</nuxt-link></div>-->
         <!--<nuxt-link to="/">리뷰</nuxt-link>-->
 <!--        <div class = "subMenu">

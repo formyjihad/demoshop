@@ -311,17 +311,7 @@ export default {
 		}
 	},
 	methods:{
-		
 		async cartClicked(currentPage){
-			let date = new Date()
-			let month = date.getMonth()+1;
-			let day = date.getDate();
-			let year = date.getFullYear();
-			if(month<0){
-				year = year-1
-				month = month+12
-			}
-			const nowTime = year+"-"+month+"-"+day;
 			const boardSize = 590*290;
 			const thick = this.thick;
 			let type='';
@@ -346,7 +336,6 @@ export default {
 				printside:this.printside,
 				design:this.design,
 				//img:uploadImg.name,
-				orderDate:nowTime,
 				//img:uploadImg
 			}];
 			//console.log('breakpoint')
@@ -387,15 +376,6 @@ export default {
 		async nextClicked(currentPage) {
 			//console.log('next clicked', currentPage)
 			if(currentPage == 7){
-				let date = new Date()
-			let month = date.getMonth()+1;
-			let day = date.getDate();
-			let year = date.getFullYear();
-			if(month<0){
-				year = year-1
-				month = month+12
-			}
-			const nowTime = year+"-"+month+"-"+day;
 			const boardSize = 590*290;
 			const thick = this.thick;
 			let type='';

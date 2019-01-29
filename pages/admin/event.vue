@@ -41,9 +41,9 @@ export default {
             })
             //console.log("post 종료");
             if(data.status == 200){
-                alert('이밴트가 정상적으로 등록되었습니다.');
+                alert('이벤트가 정상적으로 등록되었습니다.');
             }else if(data.status == 204){
-                alert('이밴트 등록을 실패 하였습니다.');
+                alert('이벤트 등록을 실패 하였습니다.');
             }
             this.$nuxt.$router.replace({ path: '/admin' });
             }/*else{

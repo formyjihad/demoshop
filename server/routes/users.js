@@ -125,14 +125,20 @@ router.post('/editInfo', async (req,res)=>{
 })
 
 router.get('/checkinfo', async (req,res)=>{
-    let uid = req.user.uid
-    //console.log(req.user.uid)
-    let userData = await users.findOne({"uid":uid})
-    //  let point = userData.point      // 포인트
-    
-    res.status(200).json({userData})
-    //res.status(200).json({userId, userName, userAddress, userPhoneNum})
-    
+    try{
+        if(!req.user){
+            res.status(203).json()
+        }
+        else{
+            let uid = req.user.uid
+            let userData = await users.findOne({"uid":uid})
+            res.status(200).json({userData})
+        }
+    }
+    catch(err){
+        console.error(err)
+        res.status(204).json({err});
+    }
 })
 router.get('/collectId', async(req,res)=>{
     let uid = req.user.uid

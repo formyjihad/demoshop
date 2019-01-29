@@ -157,9 +157,12 @@
                 </table>
             </div>
         </div>
-        <textarea></textarea>
-        <textarea></textarea>
-        <input type="checkbox" id="checked" @click="checkboxChecked" >위 내용에 동의합니다.
+        <div class="agreementBody">
+            <div class="agreement"><agreement/></div>
+
+            <div class="agreement"><agreement/></div>
+            <input type="checkbox" id="checked" @click="checkboxChecked" >위 내용에 동의합니다.
+        </div>
         <div class = "payment"  style="display:none">
             <h3> 결제 방식 </h3>
             <label><input type="radio" id = "card" value="card" v-model="paymentType">카드결제</label>
@@ -180,10 +183,11 @@ import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex';
 import postOffice from '../components/modals/postOffice.vue'
 import {IMP_CODE} from '../config/constants'
+import agreement from '../components/orderAgreement.vue'
 
 export default {
     components:{
-        postOffice
+        postOffice,agreement
     },
     data(){
         return{
@@ -207,7 +211,7 @@ export default {
             let url = '/api/users/checkinfo'
             let checkData = await axios.get(url);
             let userData = checkData.data.userData
-            if(userData){
+            if(checkData.status == 200){
                 return{
                     addressData:userData.addressData,
                     addressDetail:userData.addressDetail,
@@ -218,6 +222,12 @@ export default {
                     uid:userData.userid,
                     point:userData.point,
                 }
+            }
+            else if(checkData.status == 203){
+                alert("비로그인")
+            }
+            else{
+                alert("회원 정보 읽기 에러")
             }
         }catch(err){
             console.error(err)
@@ -357,15 +367,6 @@ export default {
             }
             let buyerAddress = ''
             let amount = this.fullPrice;
-            let date = new Date()
-            let month = date.getMonth()+1;
-            let day = date.getDate();
-            let year = date.getFullYear();
-            if(month<0){
-                year = year-1
-                month = month+12
-            }
-            const nowTime = year+"-"+month+"-"+day;
             let name = this.userName
             let phone = this.phoneNumber
             let mail = this.email
@@ -418,7 +419,6 @@ export default {
                 buyer_postcode:pCode,
                 custom_data:orderData
             }, async function(res){
-                
                 if(res.success){
                     let postData = await axios.post(url, {
                         imp_uid:res.imp_uid,
@@ -686,5 +686,22 @@ export default {
 }
 
 .address{width:100%; height: 100px; margin-left: 30px;}
+.agreementBody{
+    text-align: center;
+    padding-bottom:5pt;
+    border-bottom:1px solid #000; 
+}
+.agreement{
+    overflow: auto;
+    
+    display: inline-block;
+    border: 1px #000 solid;
+    margin-top:5pt;
+    margin-right:5pt;
+    margin-left:5pt;
+    background-color: white;
+    width: 445pt;
+    height:300pt;
+}
 
 </style>

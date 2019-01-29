@@ -9,7 +9,10 @@ let postSchema = new Schema({
     postView : Number,
     postAuthor : String,
     postRate : Number,
-    postDate : String,
+    postDate : {
+        type : Date, 
+        default: Date.now
+    },
     postComment : Number,
     postContents : String
 });

@@ -76,13 +76,6 @@ router.post('/write', async (req,res)=>{
     //console.log(req.body.name)
     //console.log(req.body.price)
     //console.log(req.file.filename)
-    let date = new Date()
-    let month = date.getMonth()+1;
-    let day = date.getDate();
-    let year = date.getFullYear();
-    let hour = date.getHours();
-    let min = date.getMinutes();
-    let sec = date.getSeconds();
     let postNo = 0;
     try{
         let no = await posts.find().select("postNo").limit(1).sort({"postNo":"desc"})
@@ -93,15 +86,8 @@ router.post('/write', async (req,res)=>{
         console.error(err)
         res.json();
     }
-    
-    if(month<0){
-        year = year-1
-        month = month+12
-    }
-    const nowTime = year+"-"+month+"-"+day+" "+hour+":"+min+":"+sec;
     post.postName = req.body.postName;
     post.postContents = req.body.postContent;
-    post.postDate = nowTime;
     post.postView = 0;
     post.postAuthor = req.user.uid
     post.postRate = 0;
