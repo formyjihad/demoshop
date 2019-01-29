@@ -383,7 +383,7 @@ export default {
 		},
 		async nextClicked(currentPage) {
 			//console.log('next clicked', currentPage)
-			if(currentPage == 7){
+			if(currentPage == 8){
 			const boardSize = 590*290;
 			const thick = this.thick;
 			let type='';
