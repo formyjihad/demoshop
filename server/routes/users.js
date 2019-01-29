@@ -141,10 +141,20 @@ router.get('/checkinfo', async (req,res)=>{
     }
 })
 router.get('/collectId', async(req,res)=>{
-    let uid = req.user.uid
-    let status = req.user.status
-    let point  = req.user.point
-    res.status(200).json({uid, status, point});
+    try{
+        if(!req.user){
+            res.status(204).json()
+        }
+        else{
+            let uid = req.user.uid
+            let status = req.user.status
+            let point  = req.user.point
+            res.status(200).json({uid, status, point});
+        }
+    }catch(err){
+        console.error(err)
+        res.status(204).json()
+    }
 })
 
 router.post('/idCheck', async (req,res)=>{

@@ -158,20 +158,39 @@
             </div>
         </div>
         <div class="agreementBody">
-            <div class="agreement"><agreement/></div>
-
-            <div class="agreement"><agreement/></div>
-            <input type="checkbox" id="checked" @click="checkboxChecked" >위 내용에 동의합니다.
+            <div class="agreement">
+                <agreement/>
+            </div>
+            <p class="c9">
+                <span class="c4">
+                    <input type="checkbox" class="checked" @click="checkboxEvent">개인정보 수집 및 이용에 동의합니다.
+                </span>
+            </p>
+            <div class="package">
+                <h5 class="c6" id="h.9c8ckh7l0dgg">
+                    <span class="c5">
+                        주문 상품정보에 동의
+                    </span>
+                </h5>
+                <p class="c9">
+                    <span class="c4">
+                        <input type="checkbox" class="checked" @click="checkboxEvent">주문 상품의 상품명, 가격, 배송정보, 환불규정에 동의합니다.
+                    </span>
+                </p>
+                <p class="c18">
+                    <span class="c17 c19">
+                    </span>
+                </p>
+            </div>
         </div>
-        <div class = "payment"  style="display:none">
+        <div class = "payment"  v-if="agreeChecked">
             <h3> 결제 방식 </h3>
             <label><input type="radio" id = "card" value="card" v-model="paymentType">카드결제</label>
             <label><input type="radio" id = "cash" value="vbank" v-model="paymentType">현금결제</label>
             <label><input type="radio" id = "free" value="free" v-model="paymentType">무료구매</label>
         </div>
-        <div class="confirm">
+        <div class="confirm" v-if="agreeChecked">
             <div class="confirmBtn" @click="checkout">결제</div>
-            
         </div>
         </div>
             
@@ -201,7 +220,7 @@ export default {
             couponCode:'',
             couponDiscount:0,
             deliveryPrice:3500,
-            
+            agreeChecked:false,
             point:0,
             max:this.point
         }
@@ -288,16 +307,14 @@ export default {
         IMP.init(IMP_CODE)
     },
     methods:{
-        
-		checkboxChecked(){
-			let checkbox = document.getElementById('checked');
-			let target = document.getElementsByClassName('payment')
-			console.log(target)
-			if(!checkbox.checked){
-				target[0].style.display = "none"
+		checkboxEvent(){
+			let checkbox = document.getElementsByClassName('checked');
+			console.log(checkbox)
+			if(!checkbox[0].checked && !checkbox[1].checked){
+				this.agreeChecked = false
 			}
-			else if(checkbox.checked){
-				target[0].style.display = ''
+			else if(checkbox[0].checked && checkbox[1].checked){
+				this.agreeChecked = true
 			}
 		},
         async changePoint(){
@@ -500,7 +517,6 @@ export default {
 
 .section1 { 
     width:100%;
-    height:1000px;
     margin-bottom:30px; }
 
 .section1 .check { width:30px; height:600px; float:left; }
@@ -700,8 +716,34 @@ export default {
     margin-right:5pt;
     margin-left:5pt;
     background-color: white;
-    width: 445pt;
-    height:300pt;
+    width: 100%;
+    height:100pt;
 }
-
+.c6{margin-left:15pt;
+    padding-bottom:0pt;
+    line-height:1.15;
+    text-align:left;
+    margin-right:15pt}
+.c5{color:#111111;
+    font-weight:700;
+    text-decoration:none;
+    vertical-align:baseline;
+    font-size:9pt;
+    font-family:"Dotum";
+    font-style:normal}
+    .c4{background-color:#ffffff;
+    color:#666666;
+    font-weight:400;
+    text-decoration:none;
+    vertical-align:baseline;
+    font-size:9pt;
+    font-family:"Dotum";
+    font-style:normal}
+    
+    .c9{margin-left:15pt;
+    padding-top:6pt;
+    padding-bottom:0pt;
+    line-height:1.8000000000000003;
+    text-align:left;
+    margin-right:15pt}
 </style>

@@ -1,14 +1,26 @@
 <template>
     <div class = "container">
-        <order />
+        <div v-if="url=='5b8757a4be2adb37805d15fd'" >
+            <order/>
+        </div>
+        <div v-else-if="url =='5b98d09fd4565a0b04389949'">
+            <canvasOrder/>
+        </div>
     </div>
 </template>
 
 <script>
 import order from '../../components/order'
+import canvasOrder from '../../components/canvasOrder'
 export default {
+    data(){
+        return{
+            url:this.$route.params.id,
+        }
+    },
     components:{
-        order:order
+        order,
+        canvasOrder,
     }
 }
 </script>

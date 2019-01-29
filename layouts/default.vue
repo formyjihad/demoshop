@@ -7,6 +7,9 @@
 		<div class = "nuxt" @click="navClick()">
 			<nuxt/>
 		</div>
+		<div>
+			<footerDiv/>
+		</div>
 	</div>
 </template>
 
@@ -16,6 +19,7 @@ import axios from 'axios'
 import Header from '../components/Header.vue'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import sidebar from "../components/sidebar"
+import footerDiv from "../components/footer.vue"
 export default {
 	computed: {
 		...mapGetters({
@@ -42,7 +46,8 @@ export default {
 	},
 	components:{
 		Header,
-		sidebar
+		sidebar,
+		footerDiv
 	}
 }
 

@@ -8,7 +8,7 @@
                 <table class="t_wrap">
                     <thead>
                         <tr class="t_head">
-                            <th class="headCheck"><input type="checkbox"></th>
+                            <th class="headCheck"><input type="checkbox" id="allBox" @click="allCheck()"></th>
                             <th class="headName">상품</th>
                             <th class="cols">도안수량</th>
                             <th class="cols">주문수량</th>
@@ -111,6 +111,20 @@ export default {
         this.$store.dispatch('carts/getCart')
     },
     methods:{
+        allCheck(){
+            let target = document.getElementsByClassName("bodyCheckbox")
+            let count = target.length
+            for(let i = 0; i<count ;i++){
+                if(target[i].checked == true){
+                    target[i].checked = false
+                }else{
+                    target[i].checked = true
+                    this.indexCheck(i)
+                }
+            }
+            let targetAllBox = document.getElementById("allBox")
+            targetAllBox.checked = false;
+        },
         async setDiscountRate(){
             let url = '/api/users/statusCheck'
             let discountData = await axios.get(url);

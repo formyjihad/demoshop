@@ -86,8 +86,8 @@ export default {
             uid:'',
             password:'',
             status:'',
-            user:'default',
-            point:0,
+            user:'',
+            point:''
         }
     },
     computed: {
@@ -95,22 +95,28 @@ export default {
             isLogin: 'users/isLogin'
         })
     },
-    async mounted(){
-        if(this.isLogin){
-            let url = '/api/users/collectId'
+    async mounted() {
+        let url = '/api/users/collectId'
+        try{
             let uidData = await axios.get(url)
-            this.user=uidData.data.uid
-            this.point = uidData.data.point
-            if(uidData.data.status == 1){
-                this.status = "일반"
+            if(uidData.status == 200){
+                let status = "일반"
+                if(uidData.data.status == 1){
+                    this.status = "일반"
+                }
+                else if(uidData.data.status == 2){
+                    this.status = "VIP"
+                    
+                }
+                else if(uidData.data.status == 3){
+                    this.status = "VVIP"
+                }
+                this.user=uidData.data.uid,
+                this.point=uidData.data.point,
+                this.status=status
             }
-            else if(uidData.data.status == 2){
-                this.status = "VIP"
-                
-            }
-            else if(uidData.data.status == 3){
-                this.status = "VVIP"
-            }
+        }catch(err){
+            console.error(err)
         }
     },
     methods:{

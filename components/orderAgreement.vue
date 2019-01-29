@@ -76,23 +76,6 @@
                 결제수단에 따른 개인정보 수집.이용 항목이 상이할 수 있음
             </span>
         </p>
-        <h5 class="c6" id="h.9c8ckh7l0dgg">
-            <span class="c5">
-                주문 상품정보에 동의
-            </span>
-        </h5>
-        <p class="c9">
-            <span class="c4">
-                주문 상품의 상품명, 가격, 배송정보, 환불규정에 동의합니다.
-            </span>
-        </p>
-        <p class="c18">
-            <span class="c17 c19">
-            </span>
-        </p>
-
-        
-        
     </div>
 </template>
 <style scoped>
@@ -154,15 +137,15 @@
     padding:3pt 3pt 3pt 3pt;
     border-bottom-color:#ececec;
     border-top-width:1pt;
-    border-right-width:0pt;
+    border-right-width:1pt;
     border-left-color:#ececec;
     vertical-align:top;
     border-right-color:#ececec;
     border-left-width:1pt;
     border-top-style:solid;
     border-left-style:solid;
-    border-bottom-width:0pt;
-    width:133.5pt;
+    border-bottom-width:1pt;
+    width:30%;
     border-top-color:#ececec;
     border-bottom-style:solid}
     .c7{border-right-style:solid;
@@ -176,8 +159,8 @@
     border-left-width:1pt;
     border-top-style:solid;
     border-left-style:solid;
-    border-bottom-width:0pt;
-    width:83.2pt;
+    border-bottom-width:1pt;
+    width:30%;
     border-top-color:#ececec;
     border-bottom-style:solid}
     .c11{border-right-style:solid;
@@ -191,8 +174,8 @@
     border-left-width:1pt;
     border-top-style:solid;
     border-left-style:solid;
-    border-bottom-width:0pt;
-    width:106.5pt;
+    border-bottom-width:1pt;
+    width:30%;
     border-top-color:#ececec;
     border-bottom-style:solid}
     .c3{border-right-style:solid;
@@ -200,9 +183,10 @@
     border-bottom-color:#ececec;
     border-top-width:1pt;
     border-right-width:1pt;
+    border-right-color:#ececec;
     border-left-color:#ececec;
     vertical-align:top;
-    border-right-color:#ececec;
+    
     border-left-width:1pt;
     border-top-style:solid;
     border-left-style:solid;
@@ -214,7 +198,7 @@
     padding:5pt 5pt 5pt 3pt;
     border-bottom-color:#ececec;
     border-top-width:1pt;
-    border-right-width:0pt;
+    border-right-width:1pt;
     border-left-color:#ececec;
     vertical-align:top;
     border-right-color:#ececec;
@@ -287,8 +271,7 @@
     vertical-align:baseline;
     font-style:normal}
     .c8{background-color:#ffffff;
-    max-width:468pt;
-    padding:72pt 72pt 72pt 72pt}
+    padding:5pt 72pt 72pt 72pt}
     .c12{height:22pt}
     .c16{height:121pt}
     .title{padding-top:24pt;
