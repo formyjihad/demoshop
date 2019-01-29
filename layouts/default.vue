@@ -19,7 +19,7 @@ import axios from 'axios'
 import Header from '../components/Header.vue'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import sidebar from "../components/sidebar"
-import footerDiv from "../components/footer.vue"
+import footerDiv from "../components/Footer.vue"
 export default {
 	computed: {
 		...mapGetters({
