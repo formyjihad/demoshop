@@ -17,7 +17,7 @@ export default {
 <style scoped>
 
 .goodsBody{
-    height: 600pt;
+    height: 680pt;
     max-width:1280px;
     margin: 0 auto;
 }
