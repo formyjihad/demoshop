@@ -90,6 +90,7 @@ router.post('/purchase/webhook', async(req, res)=>{
 
     try{
         await orders.findOneAndUpdate({"impUid":impUid},{$set:{"status":status}});
+        await purchases.findByIdAndUpdate({"impUid":impUid},{$set:{"status":status}});
         //console.log("webhook complete")
     }catch(err){
         console.error(err)
