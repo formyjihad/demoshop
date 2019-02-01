@@ -1,10 +1,17 @@
 <template>
     <div class="index">
         <section class = "container">
-            <div class="pi_imgs" v-for ="good in goods" :key="good['_id']">
-                <nuxt-link :to='{path:"/goods/"+good["_id"]}'>
-                    <img :src="'/uploads/' + good['img']">
-                    <div class="item">{{good['name']}}</div>
+            <div class="pi_imgs">
+                <nuxt-link :to='{path:"/goods/acrylic"}'>
+                    <img :src="'/uploads/' + acrylic.img">
+                    <div class="item">{{acrylic.name}}</div>
+                    제작하기
+                </nuxt-link>
+            </div>
+            <div class="pi_imgs">
+                <nuxt-link :to='{path:"/goods/canvas"}'>
+                    <img :src="'/uploads/' + canvas.img">
+                    <div class="item">{{canvas.name}}</div>
                     제작하기
                 </nuxt-link>
             </div>
@@ -32,11 +39,10 @@ export default {
     async asyncData(){
         let url = "/api/goods"
         let data = await axios.get(url)
+        console.log(data.data.good)
         return{
-            goods: data.data.good,
-            totalCount:data.data.totalCount,
-            limit : data.data.limit,
-            currentPage: data.data.currentPage,
+            acrylic: data.data.good[0],
+            canvas: data.data.good[1]
             //pagination:getPagination({
             //    currentPage:data.data.currentPage,
             //    totalCount:data.data.totalCount,
