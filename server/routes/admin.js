@@ -82,6 +82,20 @@ router.post('/purchase/status', async(req,res)=>{
     }
 });
 
+router.post('/purchase/webhook', async(req, res)=>{
+    let postData = req.body
+
+    let impUid = postData.imp_uid;
+    let status = postData.status;
+
+    try{
+        await orders.findOneAndUpdate({"impUid":impUid},{$set:{"status":status}});
+        //console.log("webhook complete")
+    }catch(err){
+        console.error(err)
+    }
+});
+
 router.post('/purchase/editOrder', (req, res)=>{
     /*if(!req.body){
         return res.status(200).json({msg:"비로그인입니다"});
