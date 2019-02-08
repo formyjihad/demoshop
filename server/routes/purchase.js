@@ -191,8 +191,9 @@ router.post('/save', async (req, res)=>{
     order.purchaseId = data.purchaseId;
     order.count = 3;
     order.status = "ready"
-    let date = new Date()
-    let nowTime = date.getFullYear().toString()+"-"+date.getMonth().toString()+"-"+date.getDate().toString();
+    const date = new Date()
+    const nowTime = date.getFullYear().toString()+"-"+(date.getMonth()+1).toString()+"-"+date.getDate().toString();
+    
 
     try{
         for(let i=0; i<req.body.cart.length; i++){
@@ -236,134 +237,141 @@ router.post('/save', async (req, res)=>{
             if(data.couponCode){
                 let couponDrop = await coupon.deleteOne({"code":data.couponCode})
             }
-            
+            order.orderDate = new Date(nowTime)
             let orderSave = await order.save();
             let userUpdate = await users.findOneAndUpdate({"uid":order.uid},{$set:{"point":point}})
+        }
+        try{
+            //console.log("checking user rate")
+            let uid = req.user.uid;
+            let totalAmount = data.totalAmount;
+            let orderName = data.orderName;
+            let findVip = await vips.findOne({"uid":uid});
+            
+            if(!findVip){
+                let date = new Date();
+                let purchaseDataTime = new Date(nowTime)
+                let targetMonth = date.getMonth()-2     //3개월 구매 금액 확인
+                const targetDate = date.getDate().toString();
+                let targetYear = date.getFullYear().toString();
+                if(targetMonth<0){
+                    targetMonth = (12+targetMonth).toString();
+                    targetYear = (date.getFullYear()-1).toString();
+                }
+                else{
+                    targetMonth = targetMonth.toString();
+                }
+    
+                const target = new Date(targetYear+"-"+targetMonth+"-"+targetDate)
+                let targetDataTime = target
+                console.log(target)
+                let findTarget = await orders.find({"uid":uid, "orderDate":{$gt:targetDataTime, $lt:purchaseDataTime}});
+                
+                let totalTargetPrice=totalAmount;
+                let targetPrice =0;
+                if(findTarget.length > 0){
+                    for(let i=0; i>=findTarget.length;i++){
+                        totalTargetPrice = totalTargetPrice+findTarget[i].totalAmount;
+                    }
+                }
+                if(totalTargetPrice>=1000000){
+                    let vip = new vips();
+                    vip.ttl = 7889400;
+                    vip.uid = uid;
+                    vip.userName = orderName;
+                    let vipStatus = 2
+                    vip.status = vipStatus
+                    let userSave = await users.findOneAndUpdate({"uid":uid},{$set:{"status":vipStatus}})
+                    let vipSave = await vip.save();
+                    res.status(201).json({})
+                }
+                else if(totalTargetPrice>=2000000){
+                    let vip = new vips();
+                    vip.ttl = 7889400;
+                    vip.uid = uid;
+                    vip.userName = orderName;
+                    let vipStatus = 3
+                    vip.status = vipStatus
+                    let userSave = await users.findOneAndUpdate({"uid":uid},{$set:{"status":vipStatus}})
+                    let vipSave = await vip.save();
+                    res.status(202).json({})
+                }
+                else if(totalTargetPrice<1000000){
+                    targetPrice = 1000000 - totalTargetPrice
+                    res.status(200).json({targetPrice})
+                }
+            }else{
+                let dateData = new Date()
+                let month = dateData.getMonth()+1;
+                let targetMonthOne = month - 1;
+                let targetMonthThree = month - 3
+                let day = dateData.getDate();
+                let year = dateData.getFullYear();
+                if(targetMonthOne<=0){
+                    year = year-1
+                    targetMonthOne = targetMonthOne+12
+                }
+                if(targetMonthThree<=0){
+                    year = year-1
+                    targetMonthThree = targetMonthThree+12
+                }
+                let purchaseDataTime = new Date(nowTime);
+                let targetOneDataTime = new Date(year+"-"+targetMonthOne+"-"+day);
+                let targetThreeDataTime = new Date(year+"-"+targetMonthThree+"-"+day);
+                
+                let findTargetOneMonth = await orders.find({"uid":uid, "orderDate":{$gt:targetOneDataTime, $lt:purchaseDataTime}});
+                let findTargetThreeMonth = await orders.find({"uid":uid, "orderDate":{$gt:targetThreeDataTime, $lt:purchaseDataTime}});
+                let totalTargetPriceOne=totalAmount;
+                let totalTargetPriceThree=totalAmount;
+                let targetPrice =0;
+                if(findTargetOneMonth.length > 0){
+                    for(let i=0; i>=findTargetOneMonth.length;i++){
+                        totalTargetPriceOne = totalTargetPriceOne+findTargetOneMonth[i].totalAmount;
+                    }
+                }
+                if(findTargetThreeMonth.length > 0){
+                    for(let i=0; i>=findTargetThreeMonth.length;i++){
+                        totalTargetPriceThree = totalTargetPriceThree+findTargetThreeMonth[i].totalAmount;
+                    }
+                }
+                if(findVip.status==2){
+                    if(totalTargetPriceOne >= 2000000){
+                        let vipStatus = findVip.status + 1
+                        let vipSave = await vips.findOneAndUpdate({"_id":findVip._id},{$set:{"status":vipStatus, ttl:7889400}});
+                        let userSave = await users.findOneAndUpdate({"uid":uid},{$set:{"status":vipStatus}})
+                        res.status(300).json({})
+                    }
+                    if(totalTargetPriceThree>=1500000){
+                        let vipsave = await vips.findOneAndUpdate({"_id":findVip._id},{$set:{ttl:7889400}});
+                        res.status(301).json({})
+                    }
+                    else if(totalTargetPriceThree<1500000){
+                        targetPrice = 1500000 - totalTargetPrice
+                        res.status(304).json({targetPrice})
+                    }
+                }
+                else if(findVip.status==3){
+                    if(totalTargetPriceThree>=3000000){
+                        let vipsave = await vips.findOneAndUpdate({"_id":findVip._id},{$set:{ttl:7889400}});
+                        res.status(302).json({})
+                    }
+                    else if(totalTargetPriceThree<3000000){
+                        targetPrice = 3000000 - totalTargetPrice
+                        res.status(304).json({targetPrice})
+                    }
+                }
+                
+            }
+        }catch(err){
+            console.error(err);
+            res.status(204).json()
         }
     }
     catch(err){
         console.error(err);
         res.status(400).json();
     }
-    try{
-        //console.log("checking user rate")
-        let uid = req.user.uid;
-        let totalAmount = data.totalAmount;
-        let orderName = data.orderName;
-        let findVip = await vips.findOne({"uid":uid});
-        
-        if(!findVip){
-            let date = new Date();
-            let purchaseDataTime = date;
-            let targetMonth = date.getMonth()-3
-            const targetDate = date.getDate().toString();
-            let targetYear = date.getFullYear().toString();
-            if(targetMonth<0){
-                targetMonth = (12+targetMonth).toString();
-                targetYear = (date.getFullYear()-1).toString();
-            }
-            else{
-                targetMonth = targetMonth.toString();
-            }
-
-            const target = new Date(targetYear+"-"+targetMonth+"-"+targetDate)
-            let targetDataTime = target
-
-            let findTarget = await orders.find({"uid":uid, "orderDate":{$gt:targetDataTime, $lt:purchaseDataTime}});
-            let totalTargetPrice=totalAmount;
-            let targetPrice =0;
-            if(findTarget.length > 0){
-                for(let i=0; i>=findTarget.length;i++){
-                    totalTargetPrice = totalTargetPrice+findTarget[i].totalAmount;
-                }
-            }
-            if(totalTargetPrice>=1000000){
-                let vip = new vips();
-                vip.ttl = 7889400;
-                vip.uid = uid;
-                vip.userName = orderName;
-                let vipStatus = 2
-                vip.status = vipStatus
-                let userSave = await users.findOneAndUpdate({"uid":uid},{$set:{"status":vipStatus}})
-                let vipSave = await vip.save();
-                res.status(201).json({})
-            }
-            else if(totalTargetPrice>=2000000){
-                let vip = new vips();
-                vip.ttl = 7889400;
-                vip.uid = uid;
-                vip.userName = orderName;
-                let vipStatus = 3
-                vip.status = vipStatus
-                let userSave = await users.findOneAndUpdate({"uid":uid},{$set:{"status":vipStatus}})
-                let vipSave = await vip.save();
-                res.status(202).json({})
-            }
-            else if(totalTargetPrice<1000000){
-                targetPrice = 1000000 - totalTargetPrice
-                res.status(200).json({targetPrice})
-            }
-        }else{
-            let dateData = new Date()
-            let month = dateData.getMonth()+1;
-            let targetMonthOne = month - 1
-            let targetMonthThree = month - 3
-            let day = dateData.getDate();
-            let year = dateData.getFullYear();
-            if(month<=0){
-                year = year-1
-                targetMonth = targetMonth+12
-            }
-            let purchaseDataTime = new Date(year+"-"+month+"-"+day);
-            let targetOneDataTime = new Date(year+"-"+targetMonthOne+"-"+day);
-            let targetThreeDataTime = new Date(year+"-"+targetMonthThree+"-"+day);
-            let findTargetOneMonth = await orders.find({"uid":uid, "orderDate":{$gt:targetOneDataTime, $lt:purchaseDataTime}});
-            let findTargetThreeMonth = await orders.find({"uid":uid, "orderDate":{$gt:targetThreeDataTime, $lt:purchaseDataTime}});
-            let totalTargetPriceOne=totalAmount;
-            let totalTargetPriceThree=totalAmount;
-            let targetPrice =0;
-            if(findTargetOneMonth.length > 0){
-                for(let i=0; i>=findTargetOneMonth.length;i++){
-                    totalTargetPriceOne = totalTargetPriceOne+findTargetOneMonth[i].totalAmount;
-                }
-            }
-            if(findTargetThreeMonth.length > 0){
-                for(let i=0; i>=findTargetThreeMonth.length;i++){
-                    totalTargetPriceThree = totalTargetPriceThree+findTargetThreeMonth[i].totalAmount;
-                }
-            }
-            if(findVip.status==2){
-                if(totalTargetPriceOne >= 2000000){
-                    let vipStatus = findVip.status + 1
-                    let vipSave = await vips.findOneAndUpdate({"_id":findVip._id},{$set:{"status":vipStatus, ttl:7889400}});
-                    let userSave = await users.findOneAndUpdate({"uid":uid},{$set:{"status":vipStatus}})
-                    res.status(300).json({})
-                }
-                if(totalTargetPriceThree>=1500000){
-                    let vipsave = await vips.findOneAndUpdate({"_id":findVip._id},{$set:{ttl:7889400}});
-                    res.status(301).json({})
-                }
-                else if(totalTargetPriceThree<1500000){
-                    targetPrice = 1500000 - totalTargetPrice
-                    res.status(304).json({targetPrice})
-                }
-            }
-            else if(findVip.status==3){
-                if(totalTargetPriceThree>=3000000){
-                    let vipsave = await vips.findOneAndUpdate({"_id":findVip._id},{$set:{ttl:7889400}});
-                    res.status(302).json({})
-                }
-                else if(totalTargetPriceThree<3000000){
-                    targetPrice = 3000000 - totalTargetPrice
-                    res.status(304).json({targetPrice})
-                }
-            }
-            
-        }
-    }catch(err){
-        console.error(err);
-        res.status(204).json()
-    }
+    
 })
 
 router.post('/noSign', (req, res)=>{

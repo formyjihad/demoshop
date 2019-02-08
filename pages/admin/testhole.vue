@@ -13,7 +13,7 @@ export default {
 
     methods:{
         
-        async initClient(){
+        async initClient(){/*
             let date = new Date();
             let purchaseDataTime = date;
             let targetMonth = date.getMonth()-3
@@ -36,21 +36,21 @@ export default {
                 window.open(url)
             }catch(err){
                 console.error(err)
-            }*/
-            /*order.uid = req.user.uid;
-    order.totalAmount = data.totalAmount;
-    order.orderName = data.orderName;
-    order.dName = data.dName;
-    order.phoneNum = data.phoneNumber;
-    order.totalDiscountAmount = data.totalDiscountAmount;
-    order.deliveryPrice = data.deliveryPrice;
-    order.postCode = data.postCode;
-    order.address = data.address;
-    order.orderId = data.orderId;
-    order.purchaseId = data.purchaseId;
-    order.orderDate = nowTime;
-    order.count = 3;
-    order.status = "ready"
+            }
+                    //order.uid = req.user.uid;
+            order.totalAmount = data.totalAmount;
+            order.orderName = data.orderName;
+            order.dName = data.dName;
+            order.phoneNum = data.phoneNumber;
+            order.totalDiscountAmount = data.totalDiscountAmount;
+            order.deliveryPrice = data.deliveryPrice;
+            order.postCode = data.postCode;
+            order.address = data.address;
+            order.orderId = data.orderId;
+            order.purchaseId = data.purchaseId;
+            order.orderDate = nowTime;
+            order.count = 3;
+            order.status = "ready"*/
             let url = '/api/purchase/save'
             try{
                 let postData = await axios.post(url,{
@@ -95,7 +95,7 @@ export default {
                     })
             }catch(err){
                 console.error(err)
-            }*/
+            }
         }
     }
 }
