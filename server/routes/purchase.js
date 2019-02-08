@@ -264,7 +264,7 @@ router.post('/save', async (req, res)=>{
     
                 const target = new Date(targetYear+"-"+targetMonth+"-"+targetDate)
                 let targetDataTime = target
-                console.log(target)
+                //console.log(target)
                 let findTarget = await orders.find({"uid":uid, "orderDate":{$gt:targetDataTime, $lt:purchaseDataTime}});
                 
                 let totalTargetPrice=totalAmount;
