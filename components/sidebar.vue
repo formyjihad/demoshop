@@ -1,6 +1,7 @@
 <template>
     <div class="right_menu">
         <button class="close" @click="closetab"><img class='menuimg' src='/menu_logo.png'></button>
+        <div class="block"></div>
             <div class="login">
                 <div class="id">
                 <form class="signinform" @submit.prevent="signin" v-if="!isLogin">
@@ -24,24 +25,20 @@
                 </form>
                 <div class="after-login" v-else>
                     <div class="login-info">
-                        <div class="name"><h4>{{user}}님</h4>
-                        반갑습니다.
-                        </div>
-                        <div class="status">
-                            고객님은 {{status}} 회원입니다.
+                        <div class="name">{{user}}님은 {{status}}회원 입니다.
                         </div>
                         <div class="point">
-                            {{point}} 포인트를 소유하고 있습니다.
+                            {{point}} 포인트
                         </div>
                     </div>
-                    <div class="signout" @click="signout()">
-                        로그아웃
-                        <div></div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
         <div class="redi">
+            <a class="cols" @click="signout()">
+                로그아웃
+            </a>
             <div class="cols">
                 <nuxt-link to="/mypage" v-if="isLogin">
                     제작 진행상황
@@ -72,6 +69,7 @@
                 </p>
             </div>
         </div>
+        <div class="block"></div>
     </div>
 </template>
 
@@ -100,20 +98,17 @@ export default {
         try{
             let uidData = await axios.get(url)
             if(uidData.status == 200){
-                let status = "일반"
                 if(uidData.data.status == 1){
                     this.status = "일반"
                 }
                 else if(uidData.data.status == 2){
                     this.status = "VIP"
-                    
                 }
                 else if(uidData.data.status == 3){
                     this.status = "VVIP"
                 }
                 this.user=uidData.data.uid,
-                this.point=uidData.data.point,
-                this.status=status
+                this.point=uidData.data.point
             }
         }catch(err){
             console.error(err)
@@ -186,7 +181,7 @@ export default {
 }
 .right_menu .login{
     margin-left:10px;
-    margin-top: 20%;
+    margin-top: 40px;
 }
 .right_menu .login .id{
 	position: relative;
@@ -295,7 +290,7 @@ span{
 }
 .cs{
     margin-left:10px;
-    margin-top: 30%;
+    margin-top: 15px;
 }
 
 .button {
