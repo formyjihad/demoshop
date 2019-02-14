@@ -709,9 +709,9 @@ export default {
 }
 .agreement{
     overflow: auto;
-    
     display: inline-block;
-    border: 1px #000 solid;
+    border: solid 3px #b3b3b3;
+	border-radius: 9px;
     margin-top:5pt;
     margin-right:5pt;
     margin-left:5pt;
@@ -719,7 +719,8 @@ export default {
     width: 100%;
     height:100pt;
 }
-.c6{margin-left:15pt;
+.c6{
+    margin-left:15pt;
     padding-bottom:0pt;
     line-height:1.15;
     text-align:left;

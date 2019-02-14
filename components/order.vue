@@ -4,7 +4,9 @@
 		<vue-good-wizard :steps="steps" :onNext="nextClicked" :onBack="backClicked" :onCart="cartClicked">
 			<div class="slots" slot="slot1">
 				<textarea>약관</textarea>
-				<input type="checkbox" id="checker"> 위 상품설명에 대한 내용에 동의합니다.
+				<div class = "button-area">
+					<input type="checkbox" id="checker"> 위 상품설명에 대한 내용에 동의합니다.
+				</div>
 			</div>
 			<div class="slots" slot="slot2">
 				<p>칼선을 포함한 가로와 세로길이를 입력해주세요. </p>
@@ -469,6 +471,22 @@ export default {
 
 .slots{
 	text-align: center;
+	margin-top: 28px;
+}
+
+.button-area{
+	margin-top: 4px;
+}
+
+.slots textarea{
+	display: inline-block;
+	font-size: 13px;
+	text-align: center;
+	height: 250px;
+	width: 800px;
+	border: solid 2px #b3b3b3;
+	border-radius: 9px;
+	margin: 0 auto;
 }
 
 .slots8  p{
@@ -518,7 +536,7 @@ export default {
 
 .orderDetail .orderTable{
 	height: 300px;
-	width:300px;
+	width:220px;
 	float:left;
 }
 
@@ -537,14 +555,15 @@ export default {
 }
 
 .orderDetail .orderTable .orderTable-body td:nth-child(2){
-	padding-left: 20px;
+	padding-left: 1px;
 }
 
 .orderDetail .recit{
-	width:300px;
+	width:200px;
 	height:200px;
 	float:left;
 	margin-left: 30px;
+	margin-top: 110px;
 }
 .orderDetail .recit ul{
 	padding:0;

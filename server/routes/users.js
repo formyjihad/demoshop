@@ -168,7 +168,7 @@ router.post('/idCheck', async (req,res)=>{
     }
 });
 
-router.post('/signup',(req,res,next)=>{
+router.post('/signup', async (req,res)=>{
     let user = new users();
     user.uid = req.body.uid;
     user.userName = req.body.userName;
@@ -186,23 +186,17 @@ router.post('/signup',(req,res,next)=>{
                     email:this.email,
                     postCode:this.postCode,
                     password:this.password, */
-    users.findOne({'uid':user.uid})
-    .then(result =>{
-        if(!result){
-            user.save(function(err){
-                if(err){
-                    console.error(err);
-                    res.json({result:0});
-                    return;
-                }
-                res.status(201).json({result:1});
-            });
-        }else{
-            //console.error(result);
-            res.status(200).json({result:0});
-            //return;
+    try{
+        let userData = await users.findOne({'uid':user.uid})
+        if(!userData){
+            let saveUser = await user.save()
+            res.status(200).json();
         }
-    });
+    }
+    catch(err){
+        console.error(err)
+        res.status(201).json()
+    }
 });
 
 router.post('/phoneCheck', async (req,res)=>{

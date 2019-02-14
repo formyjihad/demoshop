@@ -3,6 +3,7 @@ let Schema = mongoose.Schema;
 
 let couponSchema = new Schema({
     code:String,
+    name:String,
     uid:String,
     rate:{
         type:Number,
@@ -11,6 +12,9 @@ let couponSchema = new Schema({
     amount:{
         type:Number,
         default:0
+    },
+    date:{
+        type:Date
     }
 });
 

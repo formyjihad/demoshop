@@ -34,13 +34,13 @@
                                 <button type="button" class="b2_1" @click="onIncrement(index)">+</button>
                             </td>
                             <td class="cols">
-                                {{cart.price*cart.quantity}}
+                                {{cart.price*cart.quantity}} 원
                             </td>
                             <td class="cols">
-                                {{Math.ceil((cart.price*cart.quantity)*(discountRate/100))}}
+                                {{Math.ceil((cart.price*cart.quantity)*(discountRate/100))}} 원
                             </td>
                             <td class="cols">
-                                {{(cart.price*cart.quantity)-Math.ceil((cart.price*cart.quantity)*(discountRate/100))}}
+                                {{(cart.price*cart.quantity)-Math.ceil((cart.price*cart.quantity)*(discountRate/100))}} 원
                             </td>
                         </tr>
                     </tbody>
@@ -62,15 +62,15 @@
             <h3>장바구니 총계</h3>
             <ul class="box box1">
                 <li>소계</li>
-                <li>{{totalAmount}}</li>
+                <li>{{totalAmount}} 원</li>
             </ul>
             <ul class="box box3">
                 <li>할인</li>
-                <li>{{totalDiscountAmount}}</li>
+                <li>{{totalDiscountAmount}} 원</li>
             </ul>
             <ul class="box box3">
                 <li>총계</li>
-                <li>{{fullPrice}}</li>
+                <li>{{fullPrice}} 원</li>
             </ul>
             <div class="bt4" @click="onCheckout()">결제 진행</div>
         </div>
@@ -265,7 +265,7 @@ a { text-decoration: none; color:inherit; }
     float:right; 
     margin-top:15px;
 }
-.section1_box1 h1 { font-size:30px; text-align: left; }
+.section1_box1 h1 { font-size:30px; text-align: left; margin-top: 10px; }
 .section1 .section1_table{height:600px;text-align: center}
 
 .section1 .t_wrap { 
@@ -312,8 +312,9 @@ a { text-decoration: none; color:inherit; }
 }
 
 .section1 .btn{
+    margin-top: 10px;
     width:95%;
-    padding-top:5px;
+    padding-top:10px;
     display: inline-block;
     text-align: right;
     border-top:1px solid #000;
@@ -332,7 +333,9 @@ a { text-decoration: none; color:inherit; }
 }
 
 .section1 .t_body .cols .b2_1{
-    width:33%;
+    margin-right: 5px;
+    margin-left: 5px;
+    width:30px;
     height: 100%; 
     border:1px solid #000;
     outline: 0;

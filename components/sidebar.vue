@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="redi">
-            <a class="cols" @click="signout()">
+            <a class="cols" @click="signout()" v-if="isLogin">
                 로그아웃
             </a>
             <div class="cols">
@@ -55,21 +55,23 @@
                 </nuxt-link>
             </div>
         </div>
-        <div class="cs">
-            <strong>상담 시간</strong>
-            <hr align="left" style="border: solid 2px #454545; width: 30%">
-            <div>
-                <span>영업시간 : 10:00 ~ 18:00</span>
-                <p class="휴일">(주말 및 공휴일 휴무)</p>
+        <div class="bottomSide">
+            <div class="cs">
+                <strong>상담 시간</strong>
+                <hr align="left" style="border: solid 2px #454545; width: 30%">
+                <div>
+                    <span>영업시간 : 10:00 ~ 18:00</span>
+                    <p class="휴일">(주말 및 공휴일 휴무)</p>
+                </div>
+                <div>
+                    <span>점심시간 : 13:00 ~ 14:00</span>
+                    <p class="call">
+                        <img src="/SVG/전화기_2.svg">070-8848-8489
+                    </p>
+                </div>
             </div>
-            <div>
-                <span>점심시간 : 13:00 ~ 14:00</span>
-                <p class="call">
-                    <img src="/SVG/전화기_2.svg">070-8848-8489
-                </p>
-            </div>
+            <div class="block"></div>
         </div>
-        <div class="block"></div>
     </div>
 </template>
 
@@ -172,6 +174,9 @@ export default {
     border: none;
     outline: 0;
 }
+.right_menu .block{
+    height: 100px;
+}
 .right_menu .menuimg {
     height: 25px;
     float: right;
@@ -181,7 +186,6 @@ export default {
 }
 .right_menu .login{
     margin-left:10px;
-    margin-top: 40px;
 }
 .right_menu .login .id{
 	position: relative;
@@ -238,6 +242,10 @@ export default {
 .cols{
     font-weight: 580;
 }
+
+.right_menu .redi  a{
+    cursor: pointer;
+}
 .right_menu .redi .cols{
     margin-left:10px;
     margin-top:15px
@@ -287,6 +295,10 @@ span{
 .button2 img{
     width:100px;
     height:80px;
+}
+.bottomSide{
+    position: absolute;
+    bottom:0;
 }
 .cs{
     margin-left:10px;

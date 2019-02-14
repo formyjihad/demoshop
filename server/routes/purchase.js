@@ -474,51 +474,26 @@ router.get('/checkOrder', async (req, res)=>{
     let purchaseId = req.query.id;  //5bb6e96ed3476b1b8cb70833
     //console.log(purchaseId);
     try{
-        //console.log("checking")
-        if(req.user.uid){
-            let purchase = await purchases.findOne({"_id":purchaseId})
+        let purchase = await purchases.findOne({"_id":purchaseId})
+        console.log("checking")
+        if(req.user.uid == purchase.uid){
             //console.log(purchase);
-            let impUid = purchase.impUid;
-                        
-            let tokenData = await axios.post("https://api.iamport.kr/users/getToken", {
-                imp_key: IMP_KEY, // REST API키
-                imp_secret: IMP_SECRET // REST API Secret
-            })
-            //console.log(tokenData)
-            if(tokenData.data.code !== 0){
-                //console.log("토큰 취득 실패")
-                
-                res.status(204).json({});
-            }else{
-                //console.log(result)
-               // //console.log(impUid)
-                //console.log(tokenData.data.response.access_token)
-                const author = "Bearer "+tokenData.data.response.access_token
-                //console.log(author)
-                let statusUrl = 'https://api.iamport.kr/payments/'+impUid
-                let statusData = await axios.get(statusUrl,{
-                    headers: {
-                        "Content-Type": "application/json", // "Content-Type": "application/json"
-                        "Authorization": author // 발행된 액세스 토큰
-                    },
-                })
-                let orderData = await orders.findOneAndUpdate({"purchaseId":purchaseId},{$set:{status:statusData.data.response.status}})
-                //console.log(orderData);
-                if(orderData.status == 'ready'){
-                    let status = '결제대기'
-                    orderData.status = status
-                    res.status(201).json({orderData, purchase})
-                }
-                else if(orderData = 'paid'){
-                    let status = '도안 업로드 대기'
-                    orderData.status = status
-                    res.status(201).json({orderData, purchase})
-                }
+            let orderData = await orders.findOne({"purchaseId":purchaseId})
+            //console.log(orderData);
+            if(orderData.status == 'ready'){
+                let status = '결제대기'
+                orderData.status = status
+                res.status(201).json({orderData, purchase})
+            }
+            else if(orderData = 'paid'){
+                let status = '도안 업로드 대기'
+                orderData.status = status
+                res.status(201).json({orderData, purchase})
             }
         }
     }
     catch(err){
-        return res.status(500).send(err);
+        res.status(500).send(err);
     }
 })
 

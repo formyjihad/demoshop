@@ -41,7 +41,7 @@
 						바로 주문하기
 					</a>
 					<a
-						:class="{'disabled': options[currentStep].nextDisabled}"
+						:class ="{'disabled': options[currentStep].nextDisabled}"
 						v-if="currentStep == steps.length - 1" class="wizard__next pull-right final-step" @click="goNext()">
 						장바구니에 담기
 					</a>
@@ -342,26 +342,27 @@ export default {
 }
 
 .wizard__body__actions .leftBtn{
-	width:100px;
+	width:400px;
 	height:150px;
 	pointer-events:auto;        
 	float:left !important
 }
 
 .wizard__body__actions .rightBtn{
-	width:100px;
+	width:400px;
 	float:right !important;
 	pointer-events:auto;
 }
 .wizard__body__actions .finalBtn{
-	width:200px;
+	width:800px;
 	pointer-events:auto;
-	float:right !important
+	float:right !important;
+	margin-top: 70px;
 }
 .wizard__body__actions .finalBtn a{
 	backface-visibility: hidden;
 	text-decoration: none;
-	width:200px;
+	width:150px;
 	position: relative;
 	cursor: pointer;
 	white-space: nowrap;
@@ -374,12 +375,12 @@ export default {
 	vertical-align: center;
 	text-align:center;
 	color: #565656;
-	font-size: 20px;
+	font-size: 15px;
 	font-family: arial;
 	font-weight: 900;
 	font-style: normal;
 	margin: 0 auto;
-	margin-bottom:5px
+	margin-left: 36px;
 }
 .wizard__body__actions .finalBtn a:hover{
 	color: white;
@@ -388,7 +389,6 @@ export default {
 .wizard__body__actions a{
 	width:  100px;
 	height:  100px;
-	display: block;
 	color:  white;
 	font-weight: bold;
 	text-align: center;
@@ -452,5 +452,4 @@ export default {
 .wizard__step.active.vgw-mobile{
 	display: inline-block;
 }
-
 </style>

@@ -255,7 +255,8 @@
     font-family:"Dotum";
     color:#4d4d4d;
     font-weight:700}
-    .c18{padding-top:0pt;
+    .c18{
+    padding-top:0pt;
     padding-bottom:0pt;
     line-height:1.15;
     text-align:left;
@@ -271,7 +272,7 @@
     vertical-align:baseline;
     font-style:normal}
     .c8{background-color:#ffffff;
-    padding:5pt 72pt 72pt 72pt}
+    padding:5pt 20pt 20pt 20pt}
     .c12{height:22pt}
     .c16{height:121pt}
     .title{padding-top:24pt;

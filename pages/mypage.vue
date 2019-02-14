@@ -2,7 +2,38 @@
     <div class = "container" v-if="isLogin">
         <div class="section1">
             <h1>My Page</h1>
-            <div class="sec1_1"><!--<p>내용잔뜩</p>--></div>
+            <div class="sec1_1">
+                <div class = "vipSection">
+                    <p>회원등급</p>
+                    <div class = "vipSection_1">
+                        <h5 id="statusTitle">{{status}}</h5>
+                    </div>
+                </div>
+                <div class = "couponSection">
+                    <p>보유쿠폰갯수 : {{couponCount}}개</p>
+                    <div class = "couponTable">
+                        <table>
+                            <thead>
+                                <th>쿠폰이름</th>
+                                <th>쿠폰코드</th>
+                                <th>유효기간</th>
+                            </thead>
+                            <tbody v-for='coupon in coupons' :key="coupon['_id']">
+                                <tr>
+                                    <td>{{coupon['name']}}</td>
+                                    <td>{{coupon['code']}}</td>
+                                    <td>{{coupon['date']}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class = "pagination">
+                        <a href ="#" @click='getCouponPage(p)' v-for="p in couponPage" :key="p">
+                        {{p+1}}</a>
+                    </div>
+                </div>
+            </div>
         </div>
         <h2>최근주문내역</h2>
         <div class = "section2">
@@ -51,46 +82,103 @@ function getPagination ({currentPage, totalCount, limit}){
             pn.push(i)
         }
     }
+    console.log(totalCount)
     return pn;
 }
 export default {
-    async asyncData (){
-        let getData = await axios.get("/api/purchase/")
-        let goodsName;
-        
-        if(getData.data){
-            let orderData = getData.data.order
-            let orderDetailLength;
-            for(let i=0;i<orderData.length;i++){
-                if(orderData[i].orderDetail.length>1){
-                    orderDetailLength = orderData[i].orderDetail.length -1
-                    goodsName = orderData[i].orderDetail[0].goodsType + "외 " + orderDetailLength + "건"
+    async mounted() {
+        try{
+            let getData = await axios.get("/api/purchase/")
+            let goodsName;
+            if(getData.data){
+                let orderData = getData.data.order
+                let orderDetailLength;
+                for(let i=0;i<orderData.length;i++){
+                    if(orderData[i].orderDetail.length>1){
+                        orderDetailLength = orderData[i].orderDetail.length -1
+                        goodsName = orderData[i].orderDetail[0].goodsType + "외 " + orderDetailLength + "건"
+                    }
+                    else if(orderData[i].orderDetail.length == 1){
+                        goodsName = orderData[i].orderDetail[0].goodsType
+                    }
+                    let date = new Date(orderData[i].orderDate)
+                    let time = date.getFullYear()+'-' + (date.getMonth()+1) + '-'+date.getDate();
+                    orderData[i].orderDate = time
+                    orderData[i].goodsName = goodsName;
                 }
-                else if(orderData[i].orderDetail.length == 1){
-                    goodsName = orderData[i].orderDetail[0].goodsType
-                }
-                let checkOrder = await axios.post('/api/purchase/checkStatus',{
-                    purchaseId:orderData[i].purchaseId
-                })
-                orderData[i].goodsName = goodsName;
-                orderData[i].status = checkOrder.data.status
-                let date = new Date(orderData[i].orderDate)
-                let time = date.getFullYear()+'-' + (date.getMonth()+1) + '-'+date.getDate();
-                orderData[i].orderDate = time
-
-            }
-            return {
-                orders : orderData,
-                orderDetails : getData.data.order.orderDetail,
-                totalCount: getData.data.totalCount,
-                limit : getData.data.limit,
-                currentPage: getData.data.currentPage,
-                pagination:getPagination({
+                this.orders = orderData,
+                this.orderDetails = getData.data.order.orderDetail,
+                this.totalCount = getData.data.totalCount,
+                this.limit = getData.data.limit,
+                this.currentPage = getData.data.currentPage,
+                this.pagination = getPagination({
                     currentPage:getData.data.currentPage,
                     totalCount:getData.data.totalCount,
                     limit:getData.data.limit
                 })
             }
+        }catch(err){
+            alret("에러 발생 \n"+err)
+        }
+        try{
+            let couponData = await axios.get('/api/coupon')
+            if(couponData.status == 201){
+                alert("error")
+            }
+            else if(couponData.status == 200){
+                const coupon = couponData.data.coupon
+                this.coupons = coupon
+                let target = document.getElementById("statusTitle")
+                
+                if(couponData.data.status == 1){
+                    this.status = "일반"
+                    target.title = ""
+                }
+                else if(couponData.data.status == 2){
+                    this.status = "VIP"
+                    target.title = ""
+                }
+                else if(couponData.data.status == 3){
+                    this.status = "VVIP"
+                    target.title = ""
+                }
+                for(let i=0; i<coupon.length;i++){
+                    let couponDate = new Date(coupon[i].date);
+                    let couponMonth = couponDate.getMonth()+1
+                    let couponYear = couponDate.getFullYear()
+                    let couponDay = couponDate.getDate()
+                    coupon[i].date = couponYear+"-"+couponMonth+"-"+couponDay
+                }
+                
+                this.couponCount = couponData.data.count,
+                this.couponLimit = couponData.data.limit,
+                this.couponCurrent = couponData.data.couponCurrent,
+                this.couponPage = getPagination({
+                    currentPage:couponData.data.couponCurrent,
+                    totalCount:couponData.data.count,
+                    limit:couponData.data.limit
+                })
+            }
+        }
+        catch(err){
+            alert("에러 발생 \n"+err)
+        } 
+    },
+    data(){
+        return{
+            orders:[],
+            orderDetails:[],
+            totalCount : '',
+            limit:'',
+            currentPage:'',
+            couponPage:'',
+            status:1,
+            pagination :'',
+            couponCount:'',
+            couponLimit:'',
+            couponCurrent:'',
+            coupons:[],
+            couponDate:'',
         }
     },
     computed: {
@@ -98,7 +186,44 @@ export default {
             isLogin: 'users/isLogin'
         })
     },
+
     methods:{
+        async getCouponPage(page){
+            let couponData = await axios.get(`/api/coupon?page=${page}`)
+            if(couponData.status == 201){
+                alert("error")
+            }
+            else if(couponData.status == 200){
+                const coupon = couponData.data.coupon
+                if(couponData.data.status == 1){
+                    this.status = "일반"
+                }
+                else if(couponData.data.status == 2){
+                    this.status = "VIP"
+                }
+                else if(couponData.data.status == 3){
+                    this.status = "VVIP"
+                }
+                for(let i=0; i<coupon.length;i++){
+                    let couponDate = new Date(coupon[i].date);
+                    let couponMonth = couponDate.getMonth()+1
+                    let couponYear = couponDate.getFullYear()
+                    let couponDay = couponDate.getDate()
+                    coupon[i].date = couponYear+"-"+couponMonth+"-"+couponDay
+                    
+                }
+                
+                this.couponCount = couponData.data.count,
+                this.couponLimit = couponData.data.limit,
+                this.couponCurrent = couponData.data.couponCurrent,
+                this.couponPage = getPagination({
+                    currentPage:couponData.data.couponCurrent,
+                    totalCount:couponData.data.count,
+                    limit:couponData.data.limit
+                })
+                this.coupons = coupon
+            }
+        },
         async getPage(page){
             let url = `/api/purchase?page=${page}`
             let getData = await axios.get(url)
@@ -113,6 +238,9 @@ export default {
                 else if(orderData[i].orderDetail.length == 1){
                     goodsName = orderData[i].orderDetail[0].goodsType
                 }
+                let date = new Date(orderData[i].orderDate)
+                let time = date.getFullYear()+'-' + (date.getMonth()+1) + '-'+date.getDate();
+                orderData[i].orderDate = time
                 orderData[i].goodsName = goodsName;
             }/*
             if(getData.data.order.orderDetail.length > 1){
@@ -191,4 +319,55 @@ export default {
 .section2 .pagination a{
     text-align: center;
 }
+
+.vipSection{
+    text-align: left;
+    width:50%;
+    height: 90%;
+    float: left;
+    
+}
+
+.vipSection p{
+    margin-left:10%;
+    font-weight: bold;
+}
+.vipSection .vipSection_1{
+    text-align: center;
+}
+.vipSection .vipSection_1 h5{
+    font-size:40px;
+}
+.couponSection{
+    text-align: left;
+    width: 50%;
+    height: 90%;
+    float: left;
+    border-left : 1px solid #000;
+}
+.couponSection p{
+    margin-left:10%;
+    margin-bottom:5px;
+    font-weight: bold;
+}
+
+.couponSection .pagination{
+    width:100%;
+    margin-top:3px;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    text-align: center;
+}
+
+
+.sec1_1 { width:100%; height:150px; overflow:hidden; border:1px solid #000; margin-top:30px; padding-top:15px;}
+.couponSection .couponTable {width: 300px; height:80px; margin-left:auto; margin-right: auto;  text-align: left;}
+.couponSection table tr{
+    height: 26.8px;
+}
+.couponSection table thead{
+    border-bottom:1px solid #000
+}
+
 </style>

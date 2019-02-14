@@ -13,7 +13,14 @@ export default {
 
     methods:{
         
-        async initClient(){/*
+        async initClient(){
+            let couponData = await axios.get('/api/coupon')
+            if(couponData.status == 201||!couponData){
+                    alert("error")
+                }
+                let coupons = couponData.data.coupon.length
+                console.log(couponData.data.coupon.length)
+            /*
             let date = new Date();
             let purchaseDataTime = date;
             let targetMonth = date.getMonth()-3
@@ -50,7 +57,7 @@ export default {
             order.purchaseId = data.purchaseId;
             order.orderDate = nowTime;
             order.count = 3;
-            order.status = "ready"*/
+            order.status = "ready"
             let url = '/api/purchase/save'
             try{
                 let postData = await axios.post(url,{
@@ -95,7 +102,7 @@ export default {
                     })
             }catch(err){
                 console.error(err)
-            }
+            }*/
         }
     }
 }
