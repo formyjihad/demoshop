@@ -19,10 +19,8 @@ module.exports = {
       { src: "https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"}
     ]
   },
-  modules: [
-    'bootstrap-vue/nuxt'
-  ],
-
+  
+  css: ['~/assets/css/main.css'],
   plugins: [
     { src: '~/plugins/modal.js', ssr: false},
     //'~/plugins/axios',
@@ -48,6 +46,14 @@ module.exports = {
     ** Run ESLint on save
     */
     vendor:['jquery','vue-js-modal'],
+      
+    modules: [
+      'bootstrap-vue/nuxt'
+    ],
+    bootstrapVue: {
+      bootstrapCSS: false, // or `css`
+      bootstrapVueCSS: false // or `bvCSS`
+    },
     plugins:[
       new webpack.ProvidePlugin({
         $: 'jquery'

@@ -3,7 +3,6 @@
         <section class = "notice">
             <div class="notice-container" v-for ="(notice, index) in notices" :key="notice['_id']">
                 <div class = "notice-box" @click="displayToggle(index)">
-                    <div class="notice-num">{{notice['num']}}</div>
                     <div class="notice-title">{{notice['title']}}</div>
                     <div class = "notice-detail" style="display:none">{{notice['detail']}}</div>
                 </div>

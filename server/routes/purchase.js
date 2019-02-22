@@ -487,4 +487,54 @@ router.get('/checkOrder', async (req, res)=>{
     }
 })
 
+router.post('/webhook', async(req, res)=>{
+    
+    let postData = req.body
+
+    let impUid = postData.imp_uid;
+    let status = postData.status;
+
+    try{
+        
+        let tokenData = await axios.post("https://api.iamport.kr/users/getToken", {
+            imp_key: IMP_KEY, // REST API키
+            imp_secret: IMP_SECRET // REST API Secret
+        })
+        //console.log(tokenData)
+        if(tokenData.data.code !== 0){
+            //console.log("토큰 취득 실패")
+            
+            res.status(204).json({});
+        }else{
+            //console.log(result)
+            // //console.log(impUid)
+            //console.log(tokenData.data.response.access_token)
+            const author = "Bearer "+tokenData.data.response.access_token
+            //console.log(author)
+            let statusUrl = 'https://api.iamport.kr/payments/'+impUid
+            let statusData = await axios.get(statusUrl,{
+                headers: {
+                    "Content-Type": "application/json", // "Content-Type": "application/json"
+                    "Authorization": author // 발행된 액세스 토큰
+                },
+            })
+
+            let findOrder = await purchases.findOne({"impUid":impUid});
+            let orderId = findOrder.orderId
+            if(findOrder.price === statusData.data.response.amount){
+                await orders.findOneAndUpdate({"orderId":orderId},{$set:{"status":status}});
+                await purchases.findOneAndUpdate({"impUid":impUid},{$set:{"status":status}});
+            }else{
+                res.status(204).json({message:"위조된 결제 시도"})
+            }
+
+            
+            res.status(200).json();
+        }
+    }catch(err){
+        console.error(err)
+        res.status(400).json();
+    }
+});
+
 module.exports = router;

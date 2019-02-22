@@ -12,6 +12,7 @@ router.get('/', (req,res,next)=>{
     .select({})
     .limit(limit)
     .skip(offset)
+    .sort({"num":"desc"})
     .exec(function(err, notice){
         notices.countDocuments().exec(function(err, count){
             res.json({
@@ -34,6 +35,8 @@ router.post('/', file.single('img'), async (req,res)=>{
 
     notice.title = req.body.title;
     notice.detail = req.body.detail;
+    let count = await notices.find().count()
+    notice.num = count+1
     /*if(req.file.filename != undefined){
         notice.img = req.file.filename;
     }*/

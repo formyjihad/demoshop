@@ -18,6 +18,9 @@
 </template>
 
 <script>
+export default {
+}
+
 </script>
 
 <style scoped>
@@ -50,6 +53,20 @@
 .header .cols a{
     color: #ccc;
     text-decoration: none;
+}
+
+
+.right_menu .close{
+    text-decoration: none;
+    border: none;
+    outline: 0;
+}
+.right_menu .menuimg {
+    height: 25px;
+    float: right;
+    margin-right: 30px;
+    margin-top: 40px;
+    cursor: pointer; /* hand-shaped cursor */
 }
 
 .menu img{

@@ -170,8 +170,10 @@ export default {
     z-index: 5;
 }
 .right_menu .close{
+    position: fixed;
     text-decoration: none;
     border: none;
+    background-color: #E0E0E0;
     outline: 0;
 }
 .right_menu .block{
@@ -180,6 +182,7 @@ export default {
 .right_menu .menuimg {
     height: 25px;
     float: right;
+    padding-left:250px;
     margin-right: 30px;
     margin-top: 40px;
     cursor: pointer; /* hand-shaped cursor */
