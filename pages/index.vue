@@ -82,6 +82,9 @@ export default {
 .main_img_container div{
     position: relative;
     max-width: none;
+    
+    margin-right:auto;
+    margin-left:auto;
     height:auto;
 }
 

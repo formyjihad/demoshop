@@ -1,22 +1,5 @@
 <template>
 	<div class="wizard">
-		<ul class="wizard__steps">
-			<li class="wizard__step"
-				:class="{
-				'active': isMobile ? currentStep === index : currentStep >= index,
-				'vgw-mobile': isMobile,
-				}"
-				:style="wizardStepStyle"
-				v-for="(step, index) of steps" :key="index">
-				<span class="wizard__step__line" :class="{'vgw-mobile': isMobile}"></span>
-				<span class="wizard__step__label" @click="goTo(index)">{{step.label}}</span>
-				<span class="wizard__step__indicator" @click="goTo(index)"></span>
-			</li>
-		</ul>
-		<span 
-		class="wizard__arrow" 
-		:style="{ left: arrowPosition }">
-		</span>
 		<div ref="wizard-body" class="wizard__body" :class="{'vgw-mobile': isMobile}">
 			<div :key="currentSlot" class="wizard__body__step">
 				<slot :name="currentSlot"></slot>
@@ -48,6 +31,23 @@
 				</div>
 			</div>
 		</div>
+		<ul class="wizard__steps">
+			<li class="wizard__step"
+				:class="{
+				'active': isMobile ? currentStep === index : currentStep >= index,
+				'vgw-mobile': isMobile,
+				}"
+				:style="wizardStepStyle"
+				v-for="(step, index) of steps" :key="index">
+				<span class="wizard__step__line" :class="{'vgw-mobile': isMobile}"></span>
+				<span class="wizard__step__label" @click="goTo(index)">{{step.label}}</span>
+				<span class="wizard__step__indicator" @click="goTo(index)"></span>
+			</li>
+		</ul>
+		<span 
+		class="wizard__arrow" 
+		:style="{ left: arrowPosition }">
+		</span>
 	</div>
 </template>
 
@@ -234,6 +234,8 @@ export default {
 	text-justify: distribute-all-lines;
 	padding:  0;
 	height:  70px;
+	width: 1200px;
+	margin: 0 auto;
 	position:  relative;
 }
 
@@ -349,7 +351,6 @@ export default {
 }
 
 .wizard__body__actions .rightBtn{
-	width:400px;
 	float:right !important;
 	pointer-events:auto;
 }

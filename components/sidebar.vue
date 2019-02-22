@@ -28,7 +28,7 @@
                         <div class="name">{{user}}님은 {{status}}회원 입니다.
                         </div>
                         <div class="point">
-                            {{point}} 포인트
+                            ⓟ : {{point}}
                         </div>
                     </div>
                     

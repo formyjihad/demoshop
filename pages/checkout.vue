@@ -20,16 +20,16 @@
                             {{cart.goodsType}}
                         </td>
                         <td class="cols">
-                            {{cart.price*cart.quantity}}
+                            {{cart.price*cart.quantity}} 원
                         </td>
                         <td class="cols">                    
                             {{cart.quantity}}
                         </td>
                         <td>
-                            {{Math.ceil((cart.price*cart.quantity)*(discountRate/100))}}
+                            {{Math.ceil((cart.price*cart.quantity)*(discountRate/100))}} 원
                         </td>
                         <td>
-                            {{(cart.price*cart.quantity)-Math.ceil((cart.price*cart.quantity)*(discountRate/100))}}
+                            {{(cart.price*cart.quantity)-Math.ceil((cart.price*cart.quantity)*(discountRate/100))}} 원
                         </td>
                     </tr>
                 </tbody>
@@ -39,15 +39,15 @@
                 <table>
                     <tr>
                         <td>주문자명</td>
-                        <td>{{userName}}</td>
+                        <td><input id="username" type="text" v-model="userName" placeholder="주문자 성명" disabled></td>
                     </tr>
                     <tr>
                         <td>이메일</td>
-                        <td>{{email}}</td>
+                        <td><input id="d-email" type="email" v-model="email" placeholder="주문자 이메일" disabled></td>
                     </tr>
                     <tr>
                         <td>전화번호</td>
-                        <td>{{phoneNumber}}</td>
+                        <td><input id="userPhoneNum" type="text" v-model="phoneNumber" placeholder="주문자 전화번호" disabled></td>
                     </tr>
                 </table>
             </div>
@@ -58,142 +58,140 @@
             <label for="phone"> 전화번호</label>
             <input id="phone" type="tel" v-model="phone"><br>
         -->
-        <div class = "delivery">
-            <div class="header">
-                <h3>배송지 정보</h3>
-                <label><input type="checkbox" id="self" @click="selfDelivery" />직접수령</label>
-            </div>
-            <div class="body">
-                <label><input type="radio" id="userAdd" v-model="deliveryType" value="userAddress"/>기본 배송지</label>
-                <label><input type="radio" id="newAdd" v-model="deliveryType" value="newAddress"/>신규 배송지</label>
-            </div>
-            <div class = "address" v-if="deliveryType=='newAddress'">
-                <table>
-                    <tr>
+            <div class = "delivery">
+                <div class="header">
+                    <h3>배송지 정보</h3>
+                    <label><input type="checkbox" id="self" @click="selfDelivery" />직접수령</label>
+                </div>
+                <div class="body">
+                    <label><input type="radio" id="userAdd" v-model="deliveryType" value="userAddress"/>기본 배송지</label>
+                    <label><input type="radio" id="newAdd" v-model="deliveryType" value="newAddress"/>신규 배송지</label>
+                </div>
+                <div class = "address" v-if="deliveryType=='newAddress'">
+                    <table>
+                        <tr>
+                            <td>배송자명</td>
+                            <td><input id="d-name" type="text" v-model="dName" placeholder="주문자 성명"></td>
+                        </tr>
+                        <tr>
+                            <td>연락처</td>
+                            <td><input id="d-phoneNumber" type="text" v-model="dPhoneNumber" placeholder="주문자 전화번호"></td>
+                        </tr>    
+                        <tr>
+                            <td>이메일</td>
+                            <td><input id="d-email" type="email" v-model="dMail" placeholder="주문자 이메일"></td>
+                        </tr>
+                        <tr>
+                            <td>우편번호</td>
+                            <td><input id="postCode" type="text" v-model="dPostCode" @click="callPostOffice" autocomplete="off" placeholder="우편번호"></td>
+                        </tr>
+                        <tr>
+                            <td>주소</td>
+                            <td><input id="address" type="text" v-model="dAddressData" @click="callPostOffice" autocomplete="off" placeholder="주소"></td>
+                        </tr>
+                        <tr>
+                            <td>상세주소</td>
+                            <td><input id="addressDetail" type="text" v-model="dAddressDetail" placeholder="상세주소"></td>
+                        </tr>
+                    </table>        
+                </div>
+                <div class = "address" v-else-if="deliveryType=='userAddress'">
+                    <table>
+                        <tr>
                         <td>배송자명</td>
-                        <td><input id="d-name" type="text" v-model="dName" placeholder="주문자 성명"></td>
-                    </tr>
-                    <tr>
+                        <td><input id="username" type="text" v-model="userName" placeholder="주문자 성명" disabled></td>
+                        </tr>
+                        <tr>
                         <td>연락처</td>
-                        <td><input id="d-phoneNumber" type="text" v-model="dPhoneNumber" placeholder="주문자 전화번호"></td>
-                    </tr>    
-                    <tr>
+                        <td><input id="userPhoneNum" type="text" v-model="phoneNumber" placeholder="주문자 전화번호" disabled></td>
+                        </tr>
+                        <tr>
                         <td>이메일</td>
-                        <td><input id="d-email" type="email" v-model="dMail" placeholder="주문자 이메일"></td>
-                    </tr>
-                    <tr>
+                        <td><input id="d-email" type="email" v-model="email" placeholder="주문자 이메일" disabled></td>
+                        </tr>
+                        <tr>
                         <td>우편번호</td>
-                        <td><input id="postCode" type="text" v-model="dPostCode" @click="callPostOffice" autocomplete="off" placeholder="우편번호"></td>
-                    </tr>
-                    <tr>
+                        <td><input id="postCode" type="text" v-model="postCode" placeholder="우편번호" disabled></td>
+                        </tr>
+                        <tr>
                         <td>주소</td>
-                        <td><input id="address" type="text" v-model="dAddressData" @click="callPostOffice" autocomplete="off" placeholder="주소"></td>
-                    </tr>
-                    <tr>
+                        <td><input id="address" type="text" v-model="addressData" placeholder="주소" disabled></td>
+                        </tr>
+                        <tr>
                         <td>상세주소</td>
-                        <td><input id="addressDetail" type="text" v-model="dAddressDetail" placeholder="상세주소"></td>
-                    </tr>
-                </table>        
+                        <td><input id="addressDetail" type="text" v-model="addressDetail" placeholder="상세주소" disabled></td>
+                        </tr>
+                    </table>    
+                </div>
             </div>
-            <div class = "address" v-else-if="deliveryType=='userAddress'">
-                <table>
-                    <tr>
-                     <td>배송자명</td>
-                     <td><input id="username" type="text" v-model="userName" placeholder="주문자 성명" disabled></td>
-                    </tr>
-                    <tr>
-                     <td>연락처</td>
-                     <td><input id="userPhoneNum" type="text" v-model="phoneNumber" placeholder="주문자 전화번호" disabled></td>
-                    </tr>
-                    <tr>
-                     <td>이메일</td>
-                     <td><input id="d-email" type="email" v-model="email" placeholder="주문자 이메일" disabled></td>
-                     </tr>
-                    <tr>
-                     <td>우편번호</td>
-                     <td><input id="postCode" type="text" v-model="postCode" placeholder="우편번호" disabled></td>
-                    </tr>
-                    <tr>
-                     <td>주소</td>
-                     <td><input id="address" type="text" v-model="addressData" placeholder="주소" disabled></td>
-                    </tr>
-                    <tr>
-                     <td>상세주소</td>
-                     <td><input id="addressDetail" type="text" v-model="addressDetail" placeholder="상세주소" disabled></td>
-                    </tr>
-                </table>    
+            <div class="promotion">
+                <div class="promo_left">
+                    <div><h3>할인</h3> </div>
+                    <form class="coupon" @submit.prevent="checkCoupon"><p>쿠폰</p><input type="text" v-model="couponCode"><button type="submit">코드입력</button></form>
+                    <!--<input type="text" @change="checkPromo">-->
+                    <div class="Mileage"><p>내 마일리지</p><id class="num">{{point}} ⓟ</id></div>
+                    <div class="m_Mileage"><p>사용할 마일리지</p><input type="number" min=0 :max="point" v-model="usePoint" @input="changePoint"> ⓟ</div>
+                    <!--{{point}}-->
+                </div>
+                <div class="promo_right">
+                    <h3>금액</h3>
+                    <table>
+                        <tr>
+                            <td>총금액</td>
+                            <td>{{totalAmount}} 원</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>배송비</td>
+                            <td>{{deliveryPrice}} 원</td>
+                        </tr>
+                        <tr>
+                            <td>할인 금액</td>
+                            <td>{{totalDiscountAmount+couponDiscount+usePoint}} 원</td>
+                        </tr>
+                        <!--<p>{{salePrice}}</p>-->
+                        <tr>
+                            <td>결제 금액</td>
+                            <td>{{fullPrice}} 원</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="promotion">
-            <div class="promo_left">
-                <div><h3>할인</h3> </div>
-                <form class="coupon" @submit.prevent="checkCoupon"><p>쿠폰</p><input type="text" v-model="couponCode"><button type="submit">코드입력</button></form>
-                <!--<input type="text" @change="checkPromo">-->
-                <div class="Mileage"><p>내 마일리지</p><id class="num">{{point}}</id></div>
-                <div class="m_Mileage"><p>사용할 마일리지</p><input type="number" min=0 :max="point" v-model="usePoint" @input="changePoint"></div>
-                <!--{{point}}-->
-            </div>
-            <div class="promo_right">
-                <h3>금액</h3>
-                <table>
-                    <tr>
-                        <td>총금액</td>
-                        <td>{{totalAmount}}</td>
-                    </tr>
-                 
-                    <tr>
-                        <td>배송비</td>
-                        <td>{{deliveryPrice}}</td>
-                    </tr>
-                    <tr>
-                        <td>할인 금액</td>
-                        <td>{{totalDiscountAmount+couponDiscount+usePoint}}</td>
-                    </tr>
-                    <!--<p>{{salePrice}}</p>-->
-                    <tr>
-                        <td>결제 금액</td>
-                        <td>{{fullPrice}}</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div class="agreementBody">
-            <div class="agreement">
-                <agreement/>
-            </div>
-            <p class="c9">
-                <span class="c4">
-                    <input type="checkbox" class="checked" @click="checkboxEvent">개인정보 수집 및 이용에 동의합니다.
-                </span>
-            </p>
-            <div class="package">
-                <h5 class="c6" id="h.9c8ckh7l0dgg">
-                    <span class="c5">
-                        주문 상품정보에 동의
-                    </span>
-                </h5>
+            <div class="agreementBody">
+                <div class="agreement">
+                    <agreement/>
+                </div>
                 <p class="c9">
                     <span class="c4">
-                        <input type="checkbox" class="checked" @click="checkboxEvent">주문 상품의 상품명, 가격, 배송정보, 환불규정에 동의합니다.
+                        <input type="checkbox" class="checked" @click="checkboxEvent">개인정보 수집 및 이용에 동의합니다.
                     </span>
                 </p>
-                <p class="c18">
-                    <span class="c17 c19">
-                    </span>
-                </p>
+                <div class="package">
+                    <h5 class="c6" id="h.9c8ckh7l0dgg">
+                        <span class="c5">
+                            주문 상품정보에 동의
+                        </span>
+                    </h5>
+                    <p class="c9">
+                        <span class="c4">
+                            <input type="checkbox" class="checked" @click="checkboxEvent">주문 상품의 상품명, 가격, 배송정보, 환불규정에 동의합니다.
+                        </span>
+                    </p>
+                    <p class="c18">
+                        <span class="c17 c19">
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class = "payment">
+                <h3> 결제 방식 </h3>
+                <label><input type="radio" id = "card" value="card" v-model="paymentType">카드결제</label>
+                <label><input type="radio" id = "cash" value="vbank" v-model="paymentType">현금결제</label>
+            </div>
+            <div class="confirm">
+                <div class="confirmBtn" style="filter:opacity(30%)" @click="checkout">결제</div>
             </div>
         </div>
-        <div class = "payment"  v-if="agreeChecked">
-            <h3> 결제 방식 </h3>
-            <label><input type="radio" id = "card" value="card" v-model="paymentType">카드결제</label>
-            <label><input type="radio" id = "cash" value="vbank" v-model="paymentType">현금결제</label>
-            <label><input type="radio" id = "free" value="free" v-model="paymentType">무료구매</label>
-        </div>
-        <div class="confirm" v-if="agreeChecked">
-            <div class="confirmBtn" @click="checkout">결제</div>
-        </div>
-        </div>
-            
     </div>
 </template>
 
@@ -308,13 +306,15 @@ export default {
     },
     methods:{
 		checkboxEvent(){
-			let checkbox = document.getElementsByClassName('checked');
-			console.log(checkbox)
-			if(!checkbox[0].checked && !checkbox[1].checked){
-				this.agreeChecked = false
+            let checkbox = document.getElementsByClassName('checked');
+            let confirmBtn = document.getElementsByClassName('confirmBtn')
+			if(!checkbox[0].checked ^ !checkbox[1].checked){
+                this.agreeChecked = false
+                confirmBtn[0].style = "filter:opacity(30%)"
 			}
 			else if(checkbox[0].checked && checkbox[1].checked){
-				this.agreeChecked = true
+                this.agreeChecked = true
+                confirmBtn[0].style = "filter:opacity(100%)"
 			}
 		},
         async changePoint(){
@@ -370,135 +370,133 @@ export default {
             })
         },
         async checkout(){
+            if(!this.agreeChecked){
+                alert("개인정보 수집 약관과 상품정보 확인에 동의 해주십시오.")
+            }
+            else if(this.agreeChecked==true){
+                let url;
+                //console.log(this.cart)
+                if(this.isLogin==null){
+                    //console.log("비로그인 감지");
+                    //let tempid = "DN"+Date.now;
+                    url = '/api/purchase/noSign'
+                }// 비로그인 주문 코드. DN + 현재 시간.
+                else{
+                    url = '/api/purchase'
+                }
+                let buyerAddress = ''
+                let amount = this.fullPrice;
+                let name = this.userName
+                let phone = this.phoneNumber
+                let mail = this.email
+                let pCode = ''
+                let adsData = ''
+                let adsDetail = ''
+                
+                if(this.deliveryType == 'newAddress'){
+                    pCode = this.dPostCode;
+                    buyerAddress = this.dAddressData +' '+ this.dAddressDetail
+                }
+                else if(this.deliveryType == 'userAddress'){
+                    pCode = this.postCode;
+                    buyerAddress = this.addressData +' '+ this.addressDetail;
+                }
+
+                const orderData = {
+                    orderName:name,
+                    phoneNumber:this.phoneNumber,
+                    dName:this.dName,
+                    postCode:pCode,
+                    address:buyerAddress,
+                    cart:this.cart,
+                    price:this.totalAmount,
+                    deliveryPrice:this.deliveryPrice,
+                    totalAmount:amount,
+                    usePoint:this.usePoint,
+                    couponCode:this.couponCode,
+                    totalDiscountAmount:this.totalDiscountAmount+this.couponDiscount+this.usePoint,
+                }
+                //console.log(this.paymentType)
+                let paymentType = this.paymentType
+                IMP.request_pay({
+                    pg:'html5_inicis.INIpayTest',
+                    pay_method:paymentType,
+                    merchant_uid:'merchant_'+ Date.now(),
+                    name:'주문명:결제테스트',
+                    amount:amount,
+                    buyer_email:mail,
+                    buyer_name:name,
+                    buyer_tel:phone,
+                    buyer_address:buyerAddress,
+                    buyer_postcode:pCode,
+                    custom_data:orderData
+                }, async function(res){
+                    if(res.success){
+                        let postData = await axios.post(url, {
+                            imp_uid:res.imp_uid,
+                            totalAmount:amount
+                        });
+                        if(postData.status == 201){
+                            url = '/api/purchase/save'
+                            let saveData = await axios.post(url, {
+                                orderName:res.custom_data.orderName,
+                                dName:res.custom_data.dName,
+                                postCode:res.custom_data.postCode,
+                                address:res.custom_data.address,
+                                cart:res.custom_data.cart,
+                                price:res.custom_data.price,
+                                couponCode:res.custom_data.couponCode,
+                                totalAmount:res.custom_data.totalAmount,
+                                deliveryPrice:res.custom_data.deliveryPrice,
+                                usePoint:res.custom_data.usePoint,
+                                totalDiscountAmount:res.custom_data.totalDiscountAmount,
+                                purchaseId:postData.data.purchase._id,
+                                orderId:postData.data.purchase.orderId,
+                                phoneNumber:res.custom_data.phoneNumber
+                            })
+                            let cart = res.custom_data.cart;
+                            if(saveData.status == 200){
+                                alert("구매 하였습니다.")
+                                location.replace("/checkConfirm/"+postData.data.purchase._id)
+                            }
+                            else if(saveData.status == 201){
+                                alert("VIP가 되었습니다.");
+                                location.replace("/checkConfirm/"+postData.data.purchase._id)
+                            }
+                            else if(saveData.status == 202){
+                                alert("VVIP가 되었습니다.")
+                                location.replace("/checkConfirm/"+postData.data.purchase._id)
+                            }
+                            else if(saveData.status == 300){
+                                alert("VIP에서 VVIP가 되었습니다.")
+                                location.replace("/checkConfirm/"+postData.data.purchase._id)
+                            }
+                            else if(saveData.status == 301){
+                                alert("VIP를 3개월 더 유지합니다.")
+                                location.replace("/checkConfirm/"+postData.data.purchase._id)
+                            }
+                            else if(saveData.status == 302){
+                                alert("VVIP를 3개월 더 유지합니다.");
+                                location.replace("/checkConfirm/"+postData.data.purchase._id)
+                            }
+                            else if(saveData.status == 304){
+                                alert("VIP를 유지하려면 "+saveData.data.targetPrice+"원 만큼 더 주문해야 합니다.")
+                                location.replace("/checkConfirm/"+postData.data.purchase._id)
+                            }
+                        }else if(postData.status == 204){
+                            alert('잘못된 정보입니다.');
+                        }else if(postData.status == 206){
+                            alert('error');
+                        }else if(postData.status == 209){
+                            alert('클라이언트 변조가 감지되었습니다. 결제를 취소합니다.')
+                        }
+                    }else{
+                        alert("구매 실패");
+                    }
+                })
+            }
             //console.log(this.totalAmount)
 //order 정보 post -> purchase
-            let url;
-            //console.log(this.cart)
-            if(this.isLogin==null){
-                //console.log("비로그인 감지");
-                //let tempid = "DN"+Date.now;
-                url = '/api/purchase/noSign'
-            }// 비로그인 주문 코드. DN + 현재 시간.
-            else{
-                url = '/api/purchase'
-            }
-            let buyerAddress = ''
-            let amount = this.fullPrice;
-            let name = this.userName
-            let phone = this.phoneNumber
-            let mail = this.email
-            let pCode = ''
-            let adsData = ''
-            let adsDetail = ''
-            
-            if(this.deliveryType == 'newAddress'){
-                pCode = this.dPostCode;
-                buyerAddress = this.dAddressData +' '+ this.dAddressDetail
-            }
-            else if(this.deliveryType == 'userAddress'){
-                pCode = this.postCode;
-                buyerAddress = this.addressData +' '+ this.addressDetail;
-            }
-
-            const orderData = {
-                orderName:name,
-                phoneNumber:this.phoneNumber,
-                dName:this.dName,
-                postCode:pCode,
-                address:buyerAddress,
-                cart:this.cart,
-                price:this.totalAmount,
-                deliveryPrice:this.deliveryPrice,
-                totalAmount:amount,
-                usePoint:this.usePoint,
-                couponCode:this.couponCode,
-                totalDiscountAmount:this.totalDiscountAmount+this.couponDiscount+this.usePoint,
-            }
-            let paymentType = ''
-            //console.log(this.paymentType)
-            if(this.paymentType == "free"){
-                paymentType = 'vbank'
-                amount = 10;
-                //console.log("changed")
-            }else{
-                paymentType = this.paymentType
-            }
-            IMP.request_pay({
-                pg:'html5_inicis.INIpayTest',
-                pay_method:paymentType,
-                merchant_uid:'merchant_'+ Date.now(),
-                name:'주문명:결제테스트',
-                amount:amount,
-                buyer_email:mail,
-                buyer_name:name,
-                buyer_tel:phone,
-                buyer_address:buyerAddress,
-                buyer_postcode:pCode,
-                custom_data:orderData
-            }, async function(res){
-                if(res.success){
-                    let postData = await axios.post(url, {
-                        imp_uid:res.imp_uid,
-                        totalAmount:amount
-                    });
-                    if(postData.status == 201){
-                        url = '/api/purchase/save'
-                        let saveData = await axios.post(url, {
-                            orderName:res.custom_data.orderName,
-                            dName:res.custom_data.dName,
-                            postCode:res.custom_data.postCode,
-                            address:res.custom_data.address,
-                            cart:res.custom_data.cart,
-                            price:res.custom_data.price,
-                            couponCode:res.custom_data.couponCode,
-                            totalAmount:res.custom_data.totalAmount,
-                            deliveryPrice:res.custom_data.deliveryPrice,
-                            usePoint:res.custom_data.usePoint,
-                            totalDiscountAmount:res.custom_data.totalDiscountAmount,
-                            purchaseId:postData.data.purchase._id,
-                            orderId:postData.data.purchase.orderId,
-                            phoneNumber:res.custom_data.phoneNumber
-                        })
-                        let cart = res.custom_data.cart;
-                        if(saveData.status == 200){
-                            alert("구매 하였습니다.")
-                            location.replace("/checkConfirm/"+postData.data.purchase._id)
-                        }
-                        else if(saveData.status == 201){
-                            alert("VIP가 되었습니다.");
-                            location.replace("/checkConfirm/"+postData.data.purchase._id)
-                        }
-                        else if(saveData.status == 202){
-                            alert("VVIP가 되었습니다.")
-                            location.replace("/checkConfirm/"+postData.data.purchase._id)
-                        }
-                        else if(saveData.status == 300){
-                            alert("VIP에서 VVIP가 되었습니다.")
-                            location.replace("/checkConfirm/"+postData.data.purchase._id)
-                        }
-                        else if(saveData.status == 301){
-                            alert("VIP를 3개월 더 유지합니다.")
-                            location.replace("/checkConfirm/"+postData.data.purchase._id)
-                        }
-                        else if(saveData.status == 302){
-                            alert("VVIP를 3개월 더 유지합니다.");
-                            location.replace("/checkConfirm/"+postData.data.purchase._id)
-                        }
-                        else if(saveData.status == 304){
-                            alert("VIP를 유지하려면 "+saveData.data.targetPrice+"원 만큼 더 주문해야 합니다.")
-                            location.replace("/checkConfirm/"+postData.data.purchase._id)
-                        }
-                    }else if(postData.status == 204){
-                        alert('잘못된 정보입니다.');
-                    }else if(postData.status == 206){
-                        alert('error');
-                    }else if(postData.status == 209){
-                        alert('클라이언트 변조가 감지되었습니다. 결제를 취소합니다.')
-                    }
-                }else{
-                    alert("구매 실패");
-                }
-            })
 /*
             //console.log("post 시작");
             */
@@ -632,8 +630,9 @@ export default {
     width: 20px; 
 }
 
+
 .delivery { width:100%; height:280px;
-    border-bottom:1px solid #000; }
+    border-bottom:1px solid #000;}
 .delivery .header { width:100%; }
 .delivery .header h3 { 
     padding:10px 10px 7px; 
@@ -641,14 +640,14 @@ export default {
     font-size:20px;
     height:35px;}
 .delivery .header #loadUser { margin-top:15px; }
-.delivery .header label { margin-top:15px; margin-right:10px; font-size:14px; }
+.delivery .header label { margin-top:15px; margin-right:10px; font-size:14px;  }
 .delivery .body { width:100%; height:30px; clear: both; margin-left:15px;}
 .delivery .body label:nth-child(2) { margin-left: 20px; }
 .delivery .address input{
     margin-left:20px
 }
 .promotion { width:100%; height:150px;
-    border-bottom:1px solid #000; }
+    border-bottom:1px solid #000;  }
 .promotion .promo_left { width:50%; height:100%; float:left; text-align: left;}
 .promotion .promo_left h3 { 
     padding:10px 10px 7px; 
@@ -701,7 +700,7 @@ export default {
     width:100px; height:30px; background-color:#000; color:#fff; font-size:14px; text-align:center; line-height:30px; margin:15px auto 0; cursor:pointer;
 }
 
-.address{width:100%; height: 100px; margin-left: 30px;}
+.address{width:100%; height: 100px; margin-left: 30px; }
 .agreementBody{
     text-align: center;
     padding-bottom:5pt;
@@ -710,14 +709,13 @@ export default {
 .agreement{
     overflow: auto;
     display: inline-block;
-    border: solid 3px #b3b3b3;
 	border-radius: 9px;
     margin-top:5pt;
     margin-right:5pt;
     margin-left:5pt;
     background-color: white;
     width: 100%;
-    height:100pt;
+    height:415px;
 }
 .c6{
     margin-left:15pt;
@@ -730,7 +728,7 @@ export default {
     text-decoration:none;
     vertical-align:baseline;
     font-size:9pt;
-    font-family:"Dotum";
+    font-family:Arial, Helvetica, sans-serif;
     font-style:normal}
     .c4{background-color:#ffffff;
     color:#666666;
@@ -738,7 +736,7 @@ export default {
     text-decoration:none;
     vertical-align:baseline;
     font-size:9pt;
-    font-family:"Dotum";
+    font-family:Arial, Helvetica, sans-serif;
     font-style:normal}
     
     .c9{margin-left:15pt;

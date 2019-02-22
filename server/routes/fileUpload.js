@@ -11,7 +11,7 @@ async function sheetPost(target, values){
     let token = await auth()
     let accessToken = token.access_token;
     let tokenType = token.token_type;
-    let spreadsheetId = '1s28fRvlw6YHL6nWtcmA3UZ3gTmhEBBtgek4we2XBGYc';
+    let spreadsheetId = '1fssu51C4N-0gYkNgM-87DgeM2gVv024Zaws-XS5EnrU';
     let range = "SS2018:T1"
     let batchUpdateUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`
     let tokenData = `${tokenType} ${accessToken}`
@@ -50,7 +50,6 @@ router.post('/order', file.single('img'), async(req,res)=>{
     let imgName = "+domain+" + req.file.filename;
     try{
         let orderData = await orders.findOne({"purchaseId":purchaseId})
-        //console.log(orderData)
         let targetValues = '';
         if(orderData.count==3){
             targetValues = orderData.orderId + "-DesignFile"
@@ -67,8 +66,7 @@ router.post('/order', file.single('img'), async(req,res)=>{
         let updateData = await orderData.save();
         let updateCount = await orders.findOneAndUpdate({"purchaseId":purchaseId},{$inc:{count:-1}})
         //console.log(updateCount)
-        let count = updateCount.count
-        res.status(200).json({count})
+        res.status(200).json({})
     }
     catch(err){
         console.error(err)

@@ -174,8 +174,8 @@ export default {
             orderid:this.$route.params.id,
         }
     },
-    async created (){
-        let url = `/api/purchase/checkOrder?id=${this.orderid}`
+    async asyncData (route){
+        let url = `/api/purchase/checkOrder?id=${route.params.id}`
         const checkData = await axios.get(url)
         let orderData = checkData.data.orderData
         //console.log(orderData)
@@ -189,50 +189,58 @@ export default {
             goodsName = orderData.orderDetail[0].goodsType
         }
         orderData.goodsName = goodsName;
-        let status = orderData.status
-
         let date = new Date(orderData.orderDate)
         let time = date.getFullYear()+'-' + (date.getMonth()+1) + '-'+date.getDate();
         orderData.orderDate = time
-
-        if(status=="결제대기"){
+        
+        if(checkData.status == 200){
+            return {
+                putchase : checkData.data.purchase,
+                order : orderData,
+                point : Math.ceil(orderData.totalAmount*0.03)
+            }
+        }
+    },
+    async mounted() {
+        let status = this.order.status
+        let orderData = this.order
+        if(status=="ready"){
             let statusDetail = document.getElementsByClassName("step1");
             statusDetail[0].style = "color:blue"
+            orderData.status = "결제대기"
         }
-        if(status=="주문접수"){
+        if(status=="paid"){
             let statusDetail = document.getElementsByClassName("step2");
             statusDetail[0].style = "color:blue"
+            orderData.status="도안 업로드 대기"
         }
-        if (status=="도안 수정 필요"){
+        if (status=="file-confirm"){
             let statusDetail = document.getElementsByClassName("step3");
             statusDetail[0].style = "color:red"
+            orderData.status = "도안 수정 필요"
         }
-        if(status=="도안검수"){
+        if(status=="confirming"){
             let statusDetail = document.getElementsByClassName("step3");
             statusDetail[0].style = "color:blue"
+            orderData.status = "도안 검수"
         }
-        if(status=="제작중"){
+        if(status=="in-progress"){
             let statusDetail = document.getElementsByClassName("step4");
             statusDetail[0].style = "color:blue"
+            orderData.status = "제작중"
         }
-        if(status=="배송중"){
+        if(status=="in-delivary"){
             let statusDetail = document.getElementsByClassName("step5");
             statusDetail[0].style = "color:blue"
+            orderData.status = "배송중"
         }
-        if(status=="주문완료"){
+        if(status=="order-done"){
             let statusDetail = document.getElementsByClassName("step6");
             statusDetail[0].style = "color:blue"
+            orderData.status = "주문완료"
         }
         let statusTitle = document.getElementsByClassName("quest");
-        
-        let price = 0;
-        let quantity = 0;
-        let design = 0;
-        if(checkData.status == 201){
-            this.purchase = checkData.data.purchase
-            this.order = orderData
-            this.point = Math.ceil(orderData.totalAmount*0.03)
-        }
+        this.order = orderData
     },
     methods:{
         detail(index){
@@ -255,7 +263,7 @@ export default {
             //console.log("modalCheck")
             if (this.order.status == "결제대기" || this.order.status == "도안 업로드 대기"){
                 this.$modal.show(fileUpload,{
-                    purchaseId:this.orderid,
+                    purchaseId:$nuxt.$route.params.id,
                     count:this.order.count
                 },{
                     height:'auto',

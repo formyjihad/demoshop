@@ -50,11 +50,11 @@
                     </thead>
                     <tbody>
                         <tr class="t_body" v-for="order in orders" :key="order['_id']">
-                            <td class="bodyNum"><nuxt-link :to='{path:"/orders/"+order["purchaseId"]}'>{{order['orderId']}}</nuxt-link></td>
-                            <td class="cols"><nuxt-link :to='{path:"/orders/"+order["purchaseId"]}'>{{order['orderDate']}}</nuxt-link></td>
-                            <td class="bodyName"><nuxt-link :to='{path:"/orders/"+order["purchaseId"]}'>{{order['goodsName']}}</nuxt-link></td>
-                            <td class="cols"><nuxt-link :to='{path:"/orders/"+order["purchaseId"]}'>{{order['status']}}</nuxt-link></td>
-                            <td class="cols"><nuxt-link :to='{path:"/orders/"+order["purchaseId"]}'>{{order['totalAmount']}} 원</nuxt-link></td>
+                            <td class="bodyNum"><nuxt-link :to='{path:"/orders/"+order["purchaseId"], params:{id:order["purchaseId"]}}'>{{order['orderId']}}</nuxt-link></td>
+                            <td class="cols"><nuxt-link :to='{path:"/orders/"+order["purchaseId"], params:{id:order["purchaseId"]}}'>{{order['orderDate']}}</nuxt-link></td>
+                            <td class="bodyName"><nuxt-link :to='{path:"/orders/"+order["purchaseId"], params:{id:order["purchaseId"]}}'>{{order['goodsName']}}</nuxt-link></td>
+                            <td class="cols"><nuxt-link :to='{path:"/orders/"+order["purchaseId"], params:{id:order["purchaseId"]}}'>{{order['status']}}</nuxt-link></td>
+                            <td class="cols"><nuxt-link :to='{path:"/orders/"+order["purchaseId"], params:{id:order["purchaseId"]}}'>{{order['totalAmount']}} 원</nuxt-link></td>
                         </tr>
                     </tbody>
                 </table>

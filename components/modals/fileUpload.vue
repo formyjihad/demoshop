@@ -4,14 +4,14 @@
             <p>앞으로 {{count}}번 업로드 가능</p>
             <input type="file" id="img"/>
             <div class="uprd">
-                <button type="submit">업로드</button>
+                <button type="submit" id="uprdBtn">업로드</button>
             </div>
         </form>
         <form @submit.prevent="uploadImg" v-else>
             <p>앞으로 {{count}}번 업로드 가능</p>
             <input type="file" id="img" disabled/>
             <div class="uprd">
-                <button type="submit" disabled>업로드</button>
+                <button type="submit" id="uprdBtn" disabled>업로드</button>
             </div>
         </form>
     </div>  
@@ -33,7 +33,8 @@ export default {
             let fileDom = document.querySelector('#img');
             formData.append("img", fileDom.files[0]);
             formData.append("purchaseId",this.purchaseId);
-        
+            let target = document.getElementById("uprdBtn")
+            target.innerHTML = "업로드 중"
             let data = await axios.post('/api/fileUpload/order',formData,{
                 headers:{
                     'Content-Type':'multipart/form-data'

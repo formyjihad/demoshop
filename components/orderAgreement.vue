@@ -78,6 +78,7 @@
         </p>
     </div>
 </template>
+
 <style scoped>
     .lst-kix_list_2-6>li:before{content:"\0025a0  "}
     .lst-kix_list_2-7>li:before{content:"\0025a0  "}
@@ -215,7 +216,7 @@
     text-decoration:none;
     vertical-align:baseline;
     font-size:9pt;
-    font-family:"Dotum";
+    font-family:"Arial", "Helvetica", "sans-serif;";
     font-style:normal}
     .c1{background-color:#ffffff;
     color:#4d4d4d;
@@ -223,14 +224,14 @@
     text-decoration:none;
     vertical-align:baseline;
     font-size:9pt;
-    font-family:"Dotum";
+    font-family:"Arial", "Helvetica", "sans-serif;";
     font-style:normal}
     .c5{color:#111111;
     font-weight:700;
     text-decoration:none;
     vertical-align:baseline;
     font-size:9pt;
-    font-family:"Dotum";
+    font-family:"Arial", "Helvetica", "sans-serif;";
     font-style:normal}
     .c9{margin-left:15pt;
     padding-top:6pt;
@@ -252,7 +253,7 @@
     margin-right:15pt}
     .c14{background-color:#ffffff;
     font-size:11.5pt;
-    font-family:"Dotum";
+    font-family:"Arial", "Helvetica", "sans-serif;";
     color:#4d4d4d;
     font-weight:700}
     .c18{
@@ -264,7 +265,7 @@
     .c19{color:#666666;
     font-weight:400;
     font-size:9pt;
-    font-family:"Dotum"}
+    font-family:"Arial", "Helvetica", "sans-serif;"}
     .c13{border-spacing:0;
     border-collapse:collapse;
     margin-right:auto}
@@ -280,7 +281,7 @@
     font-weight:700;
     font-size:36pt;
     padding-bottom:6pt;
-    font-family:"Arial";
+    font-family:"Arial", "Helvetica", "sans-serif;";
     line-height:1.0;
     page-break-after:avoid;
     text-align:left}
@@ -288,24 +289,24 @@
     color:#666666;
     font-size:24pt;
     padding-bottom:4pt;
-    font-family:"Georgia";
+    font-family:"Arial", "Helvetica", "sans-serif;";
     line-height:1.0;
     page-break-after:avoid;
     font-style:italic;
     text-align:left}
     li{color:#000000;
     font-size:11pt;
-    font-family:"Arial"}
+    font-family:"Arial", "Helvetica", "sans-serif;"}
     p{margin:0;
     color:#000000;
     font-size:11pt;
-    font-family:"Arial"}
+    font-family:"Arial", "Helvetica", "sans-serif;"}
     h1{padding-top:12pt;
     color:#000000;
     font-weight:700;
     font-size:24pt;
     padding-bottom:12pt;
-    font-family:"Arial";
+    font-family:"Arial", "Helvetica", "sans-serif;";
     line-height:1.0;
     text-align:left}
     h2{padding-top:11.2pt;
@@ -313,7 +314,7 @@
     font-weight:700;
     font-size:18pt;
     padding-bottom:11.2pt;
-    font-family:"Arial";
+    font-family:"Arial", "Helvetica", "sans-serif;";
     line-height:1.0;
     text-align:left}
     h3{padding-top:12pt;
@@ -321,7 +322,7 @@
     font-weight:700;
     font-size:14pt;
     padding-bottom:12pt;
-    font-family:"Arial";
+    font-family:"Arial", "Helvetica", "sans-serif;";
     line-height:1.0;
     text-align:left}
     h4{padding-top:12.8pt;
@@ -329,7 +330,7 @@
     font-weight:700;
     font-size:12pt;
     padding-bottom:12.8pt;
-    font-family:"Arial";
+    font-family:"Arial", "Helvetica", "sans-serif;";
     line-height:1.0;
     text-align:left}
     h5{padding-top:12.8pt;
@@ -337,7 +338,7 @@
     font-weight:700;
     font-size:9pt;
     padding-bottom:12.8pt;
-    font-family:"Arial";
+    font-family:"Arial", "Helvetica", "sans-serif;";
     line-height:1.0;
     text-align:left}
     h6{padding-top:18pt;
@@ -345,7 +346,7 @@
     font-weight:700;
     font-size:8pt;
     padding-bottom:18pt;
-    font-family:"Arial";
+    font-family:"Arial", "Helvetica", "sans-serif;";
     line-height:1.0;
     text-align:left}
 </style>

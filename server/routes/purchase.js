@@ -472,24 +472,14 @@ router.post('/updateStatus', async(req,res)=>{
 
 router.get('/checkOrder', async (req, res)=>{
     let purchaseId = req.query.id;  //5bb6e96ed3476b1b8cb70833
-    //console.log(purchaseId);
+    console.log(purchaseId)
     try{
         let purchase = await purchases.findOne({"_id":purchaseId})
         console.log("checking")
         if(req.user.uid == purchase.uid){
             //console.log(purchase);
             let orderData = await orders.findOne({"purchaseId":purchaseId})
-            //console.log(orderData);
-            if(orderData.status == 'ready'){
-                let status = '결제대기'
-                orderData.status = status
-                res.status(201).json({orderData, purchase})
-            }
-            else if(orderData = 'paid'){
-                let status = '도안 업로드 대기'
-                orderData.status = status
-                res.status(201).json({orderData, purchase})
-            }
+            res.status(200).json({orderData, purchase})
         }
     }
     catch(err){

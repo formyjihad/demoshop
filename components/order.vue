@@ -19,35 +19,35 @@
 			<div class="slots" slot="slot3">
 				<p>원하시는 아크릴의 두께를 선택하세요</p>
 				<thickness :thick="thick" @emited_thick="data =>{thick=data}"/>
-				<span>선택:{{thick}}</span>
+				<span>{{thick}}</span>
 			</div>
 			<div class="slots" slot="slot4">
 				<p>원하시는 아크릴 바닥 부품의 크기를 선택하세요.</p>
 				<standsize :stand="stand" @emited_stand="data =>{stand=data}"/>
-				<span>선택:{{stand}}</span>
+				<span>{{stand}}</span>
 			</div>
 			<div class="slots" slot="slot5">
 				<p>원하시는 부자재 옵션을 선택하세요</p>
 				<itemkind :subitem="subitem" @emited_item="data=>{subitem=data}"/>
-				<span>선택 : {{ subitem }}</span>
+				<span>{{ subitem }}</span>
 			</div>
 			<div class="slots" slot="slot6">
 				<p>원하시는 포장 옵션을 선택하세요</p>
 				<packingkind :packing="packing" @emited_packing="data=>{packing=data}"/>
-				<span>선택 : {{ packing }}</span>
+				<span>{{ packing }}</span>
 			</div>
 			<div class="slots" slot="slot7">
 				<p>제작하는 제품의 인쇄면을 선택하세요</p>
 				<sidekind :printside="printside" @emited_side="data=>{printside=data}"/> 
-				<span>선택 : {{ printside }}</span>
+				<span>{{ printside }}</span>
 			</div>
 			<div class="slots" slot="slot8">
 				<p>제작하는 제품의 도안 갯수와 수량을 입력하세요</p>
 				<div class="table-body">
 					<label for="design" style="margin-right: 10px; font-weight: bold; color:#565656"> 도안 갯수  </label>
-					<input type="number" id="design" v-model="design" min="1" step="1"><br>
+					<input type="number" id="design" v-model="design" min="1" step="1">개<br>
 					<label for="quantity" style="margin-right: 10px; font-weight: bold;color:#565656" >주문 갯수  </label>
-					<input type="number" id="quantity" v-model="quantity" min="1" step="1">
+					<input type="number" id="quantity" v-model="quantity" min="1" step="1">개
 				</div>
 			</div>
 			<div class="slots8" slot="slot9">
@@ -488,7 +488,6 @@ export default {
 	border-radius: 9px;
 	margin: 0 auto;
 }
-
 .slots8  p{
 	border-bottom: 4px solid #bcbcbc;
 	width: 160px;
@@ -505,32 +504,40 @@ export default {
 #design {
 	width: 60px;
 	height: 30px;
-	text-align: center;
+	text-align: right;
+	
+	background-color: white;
+    border: 1px solid #fff;
+    box-shadow: 0 1px 2px #fff;
 }
 #quantity{
 	width: 60px;
 	height: 30px;
-	text-align: center;
+	text-align: right;
 	margin-top: 7px;
+
+	
+	background-color: white;
+    border: 1px solid #fff;
+    box-shadow: 0 1px 2px #fff;
 }
 
 .table-body{
 	width:100%;
 	margin-top:20px;
 	text-align:center;
-	color:#525252;
 }
 
 .table-body table{
-	display:inline-block
+	display:inline-block;
 }
 
 .orderDetail{
 	height: 300px;
 	width:700px;
-	margin-top:20px;
-	margin-right: auto;
-	margin-left: auto;
+	margin-top:30px;
+	margin-right: 400px;
+	margin-left: 400px;
 	text-align:center;
 }
 
@@ -595,5 +602,6 @@ p {
 	color: #454545;
 	font-weight: bold;
 	font-size: x-large;
+	margin-bottom: 40px;
 }
 </style>
