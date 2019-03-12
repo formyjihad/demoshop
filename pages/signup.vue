@@ -165,7 +165,7 @@ export default {
 					password:password,
 				})
 				//console.log(data)
-				if(signData.status == 200){
+				if(signData.status == 201){
 					alert('해당 아이디는 이미 존재합니다.');
 				}else if(signData.status == 200){
 					alert('회원가입에 성공하였습니다. \n메인 페이지로 이동합니다.');
