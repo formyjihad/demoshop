@@ -3,7 +3,7 @@ let router = express.Router();
 const file = require('../utils/fileUpload');
 const coupons = require('../models/coupon.js');
 
-router.post('/', async (req,res)=>{
+router.post('/', async (req,res)=>{                                 //api/coupon. mypage 쿠폰 asyncData
     let couponCode = req.body.code;
     let targetAmount = req.body.totalAmount;
     //console.log(req.body)
