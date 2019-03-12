@@ -345,8 +345,6 @@ export default {
 }
 
 .wizard__body__actions .leftBtn{
-	width:400px;
-	height:150px;
 	pointer-events:auto;        
 	float:left !important
 }
@@ -356,10 +354,11 @@ export default {
 	pointer-events:auto;
 }
 .wizard__body__actions .finalBtn{
-	width:800px;
+	max-width:400px;
 	pointer-events:auto;
-	float:right !important;
-	margin-top: 70px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top: 230px;
 }
 .wizard__body__actions .finalBtn a{
 	backface-visibility: hidden;
