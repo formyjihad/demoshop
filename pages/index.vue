@@ -5,7 +5,7 @@
         </div>
         <section class = "container">
             <div class="pi_imgs">
-                <nuxt-link :to='{path:"/goods/acrylic"}'>
+                <nuxt-link :to='{path:"/goods/acrylic"}'>       <!-- a href="goods/acrylic"-->
                     <img :src="'/uploads/' + acrylic.img">
                     <div class="item">{{acrylic.name}}</div>
                     제작하기

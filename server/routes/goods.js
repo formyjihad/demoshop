@@ -2,7 +2,7 @@ const express = require('express');
 let router = express.Router();
 const goods = require('../models/good.js');
 
-router.get('/', (req,res,next)=>{
+router.get('/', (req,res,next)=>{           // /api/goods/
     let page = req.query.page || 0
     let limit = 5;
     let offset = page * limit

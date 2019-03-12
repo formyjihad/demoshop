@@ -20,11 +20,14 @@ module.exports = {
     ]
   },
   
-  css: ['~/assets/css/main.css'],
+  //css: ['~/assets/css/main.css'],
   plugins: [
     { src: '~/plugins/modal.js', ssr: false},
+    { src: '~/plugins/bootstrap-vue.js', ssr:false}
     //'~/plugins/axios',
   ],
+  
+  modules: [ '@nuxtjs/bootstrap-vue'],
   /*
   ** Customize the progress bar color
   */
@@ -47,13 +50,6 @@ module.exports = {
     */
     vendor:['jquery','vue-js-modal'],
       
-    modules: [
-      'bootstrap-vue/nuxt'
-    ],
-    bootstrapVue: {
-      bootstrapCSS: false, // or `css`
-      bootstrapVueCSS: false // or `bvCSS`
-    },
     plugins:[
       new webpack.ProvidePlugin({
         $: 'jquery'

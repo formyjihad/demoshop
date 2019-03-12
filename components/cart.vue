@@ -5,16 +5,16 @@
                 <h1>장바구니</h1>
             </div>
             <div class="section1_table">
-                <table class="t_wrap">
+                <table class="table t_wrap">
                     <thead>
                         <tr class="t_head">
-                            <th class="headCheck"><input type="checkbox" id="allBox" @click="allCheck()"></th>
-                            <th class="headName">상품</th>
-                            <th class="cols">도안수량</th>
-                            <th class="cols">주문수량</th>
-                            <th class="headPrice">가격</th>
-                            <th class="cols">할인</th>
-                            <th class="cols">총계</th>
+                            <th class="col headCheck"><input type="checkbox" id="allBox" @click="allCheck()"></th>
+                            <th class="col headName">상품</th>
+                            <th class="col cols">도안수량</th>
+                            <th class="col cols">주문수량</th>
+                            <th class="col headPrice">가격</th>
+                            <th class="col cols">할인</th>
+                            <th class="col cols">총계</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,6 +92,9 @@ export default {
             return parseInt(this.totalAmount)-(parseInt(this.totalDiscountAmount))
         },
         totalDiscountAmount(){
+            /*if(this.totalDiscountAmount < 0){
+                //~~~~
+            }*/
             return parseInt(this.totalDiscountAmount())
         },
         ...mapGetters({

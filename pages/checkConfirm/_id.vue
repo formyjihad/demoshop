@@ -109,7 +109,6 @@ export default {
     data(){
         return {
             order:[],
-            orderId:this.$route.params.id,
             purchase:[],
             status:''
         }
@@ -124,7 +123,9 @@ export default {
     },
     async created (){
         this.$store.dispatch('carts/discard')
-        let url = `/api/purchase/checkOrder?id=${this.orderId}`
+    },
+    async asyncData(route){
+        let url = `/api/purchase/checkOrder?id=${route.params.id}`
         const checkData = await axios.get(url)
         //console.log("break")
         let paymentType = ''
@@ -144,15 +145,18 @@ export default {
         }
         
         if(checkData.status == 201){
-            this.purchase = checkData.data.purchase
-            this.order = orderData
-            this.orderDetail = orderData.orderDetail
-            this.status = orderData.status
-            this.paymentType = paymentType
-            this.price = total;
-            this.deliveryPrice = orderData.deliveryPrice
+            return{
+                purchase : checkData.data.purchase,
+                order : orderData,
+                orderDetail : orderData.orderDetail,
+                status : orderData.status,
+                paymentType : paymentType,
+                price : total,
+                deliveryPrice : orderData.deliveryPrice,
+            }
+            
         }
-    },
+    }
 }
 </script>
 

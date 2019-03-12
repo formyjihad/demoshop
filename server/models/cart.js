@@ -66,7 +66,7 @@ let cartSchema = new Schema({
     },
     address:String,
     discountRate:Number,
-    orderDetail:{type:[orderDetailSchema], default:[]},
+    orderDetail:{type:[cartDetailSchema], default:[]},
     dName:String,
     postCode:String,
     status: String,

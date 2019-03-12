@@ -6,7 +6,7 @@
                 <div class = "vipSection">
                     <p>회원등급</p>
                     <div class = "vipSection_1">
-                        <h5 id="statusTitle">{{status}}</h5>
+                        <p class="statusTitle">{{status}}</p>
                     </div>
                 </div>
                 <div class = "couponSection">
@@ -128,19 +128,19 @@ export default {
             else if(couponData.status == 200){
                 const coupon = couponData.data.coupon
                 this.coupons = coupon
-                let target = document.getElementById("statusTitle")
+                let target = document.getElementsByClassName("statusTitle")
                 
                 if(couponData.data.status == 1){
                     this.status = "일반"
-                    target.title = ""
+                    target[0].title = " "
                 }
                 else if(couponData.data.status == 2){
                     this.status = "VIP"
-                    target.title = ""
+                    target[0].title = " "
                 }
                 else if(couponData.data.status == 3){
                     this.status = "VVIP"
-                    target.title = ""
+                    target[0].title = " "
                 }
                 for(let i=0; i<coupon.length;i++){
                     let couponDate = new Date(coupon[i].date);
@@ -320,23 +320,24 @@ export default {
     text-align: center;
 }
 
-.vipSection{
+.section1 .sec1_1 .vipSection{
     text-align: left;
-    width:50%;
+    width:49%;
     height: 90%;
     float: left;
     
 }
 
-.vipSection p{
+.section1 .sec1_1 .vipSection p{
     margin-left:10%;
     font-weight: bold;
 }
 .vipSection .vipSection_1{
     text-align: center;
 }
-.vipSection .vipSection_1 h5{
+.vipSection .vipSection_1 .statusTitle{
     font-size:40px;
+    margin:0;
 }
 .couponSection{
     text-align: left;

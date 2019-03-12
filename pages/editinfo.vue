@@ -39,6 +39,7 @@
 
 <script>
 import axios from 'axios'
+import sha256 from 'js-sha256'
 import {mapGetters} from 'vuex'
 export default {
     data(){
@@ -90,6 +91,7 @@ export default {
             })
             if(editData.status=200){
                 alert("회원정보가 성공적으로 수정되었습니다.");
+                this.$nuxt.$router.replace({path:'/'})
             }
             else if(editData.status=204){
                 alert("잘못된 정보가 있습니다.");;
@@ -97,7 +99,7 @@ export default {
         },
         async reCheck(){
             let url = '/api/users/checkPass'
-            let target = this.targetPass
+            let target = sha256(this.targetPass)
             let checkData = await axios.post(url, {target:target})
             if(checkData.status==204){
                 alert("틀린 비밀번호 입니다. 다시 입력해주세요")
@@ -123,7 +125,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.container{
+    height:80vh
+}
 .info{
     max-width: 1000px;
     height: 460px;

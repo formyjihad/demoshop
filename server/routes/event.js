@@ -12,6 +12,7 @@ router.get('/', (req,res,next)=>{
     .select({})
     .limit(limit)
     .skip(offset)
+    .sort({"num":"desc"})
     .exec(function(err, event){
         events.countDocuments().exec(function(err, count){
             res.json({

@@ -4,14 +4,14 @@ let router = express.Router();
 const goods = require('../models/good.js');
 const file = require('../utils/fileUpload');
 const users = require('../models/user.js');
-const orders = require('../models/order.js');
+const orders = require('../models/order.js');       //ORDER db
 const auth = require('../utils/auth')
 const {google} = require('googleapis');
 const axios = require('axios')
 const purchases = require('../models/purchase.js')
 const vips = require('../models/vip.js')
 
-router.get('/', (req,res,next)=>{
+router.get('/', (req,res,next)=>{                   // /api/admin
     if(req.user.status){
         res.status(200).json();
     }else{
@@ -20,7 +20,7 @@ router.get('/', (req,res,next)=>{
 });
 
 
-router.get('/purchase', (req, res) => {
+router.get('/purchase', (req, res) => {             // /api/admin/purchase
     let page = req.query.page || 0;
     let limit = 5;
     let offset = page * limit

@@ -69,7 +69,7 @@ let orderSchema = new Schema({
     dName:String,
     postCode:String,
     status: String,
-    purchaseId:String,
+    purchaseId:[{type:mongoose.Schema.Types.ObjectId, ref: 'purchase'}],
     orderName:String,
     imgName:String,
     count:Number,

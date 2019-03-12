@@ -3,7 +3,6 @@ let router = express.Router();
 const users = require('../models/user.js')
 const orders = require('../models/order.js');
 const purchases = require('../models/purchase.js');
-const counts = require('../models/count.js');
 const file = require('../utils/fileUpload');
 const { IMP_KEY, IMP_SECRET } = require('../../config/constants');
 const axios = require('axios');
@@ -60,7 +59,7 @@ router.post('/', (req, res)=>{
             purchase.price = result.data.response.amount;
             purchase.impUid = result.data.response.imp_uid;
             try{
-                let count = await purchases.find().select("orderId").limit(1).sort({"orderId":"desc"})
+                let count = await purchases.find().select("orderId").limit(1).sort({"orderId":"desc"})      //주문번호 +1을 위해서 가장 마지막 주문번호를 읽어옴
                 if(!count[0].orderId){
                     purchase.orderId = 1;
                 }
@@ -471,11 +470,12 @@ router.post('/updateStatus', async(req,res)=>{
 })
 
 router.get('/checkOrder', async (req, res)=>{
-    let purchaseId = req.query.id;  //5bb6e96ed3476b1b8cb70833
+    let purchaseId = req.query.id;
     console.log(purchaseId)
     try{
         let purchase = await purchases.findOne({"_id":purchaseId})
         console.log("checking")
+        console.log(req.user.uid)
         if(req.user.uid == purchase.uid){
             //console.log(purchase);
             let orderData = await orders.findOne({"purchaseId":purchaseId})
@@ -483,6 +483,7 @@ router.get('/checkOrder', async (req, res)=>{
         }
     }
     catch(err){
+        console.error(err);
         res.status(500).send(err);
     }
 })
