@@ -80,6 +80,10 @@
 <script>
 import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex';
+function reroll(cart) {
+    console.log(cart.price)
+    
+}
 export default {
     computed:{
         cart(){
@@ -188,6 +192,7 @@ export default {
                 unit:1,
                 cart:this.cart
             })
+            reroll(this.cart[index]);
         },
         onDesignDecrement(index, design){
             //console.log(this)
@@ -198,6 +203,7 @@ export default {
                     cart:this.cart
                 })
             }
+            reroll(this.cart[index]);
         },
         onIncrement(index){
             this.updateCart({
