@@ -11,8 +11,7 @@ npm-debug.log
 dist
 
 # Upload
-server/utils/auth/service.json
-config/
+server/uploads
 build/
 build/main.js
 build/main.map

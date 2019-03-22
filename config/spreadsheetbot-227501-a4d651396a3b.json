@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "winter-agility-227501",
+  "private_key_id": "a4d651396a3b351349b9801c02b1dbe6833a3962",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCucnlcPtchWXNn\nrSxl4oAmAAI28P8oow+nsLUSn4DpLnYD7mPbqddjZGHuY1AY0PbSH4wyKvThBirb\nohOGkl1ulBfNZ8h5meiA+Oy5vAtild+63gYQGQE4OS8i1UeyTnVVGVLuVPFcrSWM\nst1DZ23ulfgmoncpkdSNuME+OmRJ6bqrX7m22qhMHYe6KDGjPPhtUYvCfwZN3CjA\n8lXDo9EcgGFOdNCwW3NEU6L75cODmg7uG0TE5YQMT3GJCT++8F6EEPhtmvK36P+z\nS8m72r00jNk3dSYVChFBR9JgRREB2Ah22Min4sucLpRCUFQnnn0n4SQFCkkWCLI5\nwAHTQEZ3AgMBAAECggEABFUEbYWD+yiJBKSYyyjuTMNISsv+UiiGfYAWZxF99ox4\nUs2rPivAFRBLnEtsFEmwL3SoGyDU9vebvduPB5L/7fyQgMHYiSiIzRchbdVdJQQa\ny72ywdiVHqvQ31kTkDqBkGzyEcgbPFVybsWMWB2r7bZctLzpH6em8yQI7H4vumQg\neneJUIBWJmNrnQoOlPk606Ge5fUkDYl8HqPT5/eg8gL+rwZ/8mYR3Quo807Fx36N\nq3s3dIhGZM3kyJP7Kn0GKh76GcKX5+r9rNXtlH1mGTXo+BhaTZs3K8iiMVwpNxVN\nQFZP5Ym6J8Vh387wwc3p+xdChbNhjMcDbeapewOM2QKBgQDo3qklGK5mk/VNMqyg\n+CK4E+bXZ74ZvYnKoWkZ48kQBcyxtB4Di3zsMHjov3ERoiwFCo4xHDO/6N/1RZUR\nEkJ8/X3PMXEc37YcoRuDSqFfOL2VaFn7MegJGA+M+9Gu76TVhrnTZJPiQM1r8md+\nzq12NHUcCR+FBd74KUawiVyd2QKBgQC/xkMAhG5gRzUMSligUIeGcltI6KD9wn5O\nsEHQZQAgOyAccuhOEH8qLQSlyu5tuq69hBcJKNrVCQsJrW4WiMkl2SIb09hohY5C\n+HRRs69ne5yWT2jPMJk4DtMiFJEtz2zLpqdMHTkYd6/ciz1Kksy5t7CsXXTBDLFI\nqsRx+odEzwKBgGrErAi2KEAf1nhuo3eqTUDY3x4kEqT6ohKlruqP5b/S6OcRDjHR\n4pToJIeSPuU21bf5/vfFVnTG8Ogj3xTUqmdkUiqNIK98YqL9uv+XWCWwfjvifF8P\norOItJiPXLQ4a/r6qnihxKwXyheULJ+XYzCvHIKeLDVxW6msQxzt3ekBAoGAGu4J\nbKIsKcL2FRK/nUuRrHSUkwlvyhKsz/n6U/xK5zvGR5hvPL8eTFrkAzAbCTek4CIT\nZgrhp/bMIQDEq89rh7AVFRlLk2nlz0u6cdqsr/hwxb7C9g1aBsA2L9v5gxhUq8hs\nR8j2wpPUE0FOSxGQRCgiXCIHijBxGMY6LdNDeYsCgYBemjOBH0WIy5iwynr+9nfT\nkogn19IBN8VQOdJuJ9LeltKHliDCd8VDvlAwx3/FQrV+125SKkuz8qyGYvctWnS6\nMP+mVO+opxQxa8IZTphcjGSQYqJWaTvRu2otGqPJkiRYq7Q1GcDsjGRr3zjQu6Ht\nvPEcTGRza61Nnb2c3ZHmKQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "spreadsheetbot@winter-agility-227501.iam.gserviceaccount.com",
+  "client_id": "109242100654393829404",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/spreadsheetbot%40winter-agility-227501.iam.gserviceaccount.com"
+}
