@@ -12,7 +12,6 @@ dist
 
 # Upload
 server/utils/auth/service.json
-server/uploads
 config/
 build/
 build/main.js

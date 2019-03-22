@@ -43,11 +43,12 @@
 				<span class="wizard__step__label" @click="goTo(index)">{{step.label}}</span>
 				<span class="wizard__step__indicator" @click="goTo(index)"></span>
 			</li>
+			
+			<span 
+			class="wizard__arrow" 
+			:style="{ left: arrowPosition }">
+			</span>
 		</ul>
-		<span 
-		class="wizard__arrow" 
-		:style="{ left: arrowPosition }">
-		</span>
 	</div>
 </template>
 

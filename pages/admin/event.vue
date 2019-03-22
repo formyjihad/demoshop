@@ -1,6 +1,6 @@
 <template>
     <div class= "container">
-        <p> 공지사항 </p>
+        <p> 이벤트 </p>
         <form @submit.prevent="event">
             <label for="title">제목</label>
             <input type="text" v-model="title"/><br>

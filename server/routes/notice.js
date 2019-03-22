@@ -25,6 +25,33 @@ router.get('/', (req,res,next)=>{
     });
 });
 
+router.get('/noticeDelete', async(req, res)=>{      // function (req, res){}
+    try{
+        let notice = await notices.find()            //notices DB에서 찾는다.
+        res.status(200).json({notice})
+    }catch(err){
+        console.error(err)
+        res.status(201).json()
+    }
+})
+
+router.post('/noticeDelete', async(req, res)=>{
+    let targetArray = req.body.targetArray
+    let targetDB = await notices.find()
+    //targetArray = [0 || 1 || 0,1]
+    try{
+        for(let i =0;i<targetArray.length;i++){
+            let target = targetArray[i]
+            let deleteTarget = targetDB[target].num
+            await notices.deleteOne({num:deleteTarget})
+        }
+        res.status(200).json()
+    }catch(err){
+        console.error(err)
+        res.status(201).json()
+    }
+})
+
 router.post('/', file.single('img'), async (req,res)=>{
     let notice = new notices()
     //console.log(req.body.name)
