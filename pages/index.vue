@@ -10,14 +10,14 @@
                     <div class="item">{{acrylic.name}}</div>
                     제작하기
                 </nuxt-link>
-            </div>
+            </div><!--
             <div class="pi_imgs">
                 <nuxt-link :to='{path:"/goods/canvas"}'>
                     <img :src="'/uploads/' + canvas.img">
                     <div class="item">{{canvas.name}}</div>
                     제작하기
                 </nuxt-link>
-            </div>
+            </div>-->
         </section>
             
     </div>

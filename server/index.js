@@ -8,6 +8,7 @@ const {Nuxt, Builder} = require('nuxt');        //NUXT
 let config = require('../nuxt.config.js');      //NUXT config
 const routes = require('./routes');             //라우터 파일
 const fs = require('fs');                       //File system. == file upload
+const SESSION_SECRET_KEY = require('../config/constants.js')
 
 const session = require('express-session');     //세션
 const passport = require('./utils/passport');                   //로그인 인증 passport.js
@@ -21,7 +22,7 @@ app.set('port', port)                                           //app 포트 설
 app.use(bodyParser.json());                                     //라우터 확인용 바디파서 사용
 app.use(bodyParser.urlencoded({extended:false}));               //url 인코딩 기능
 app.use(session({
-    secret : '#DNCRAFT$NUMBER@SECRET!GIRLSFRONTLINE^AZURLANE&', 
+    secret : SESSION_SECRET_KEY, 
     resave: false,
     saveUninitialized: false,
     cookie:{ maxAge: 1000*60*60*24*7 },
